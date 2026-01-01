@@ -1,0 +1,67 @@
+{
+  "version": "v1.0.0",
+  "released_at": "2025-12-30T00:00:00.000Z",
+  "status": "active",
+  "author": {
+    "name": "Trust Architecture Team",
+    "role": "Trust Committee"
+  },
+  "summary": "Initial release of Trust documentation establishing core principles and commitments.",
+  "sections": [
+    {
+      "id": "core-principles",
+      "title": "Core Trust Principles",
+      "lines": [
+        "Trust is preparation, not observation.",
+        "We do not track buyer behavior with Trust Bundles.",
+        "We do not link token access to buyer identity.",
+        "We do not use engagement data to inform pricing or commercial decisions.",
+        "All trust content is versioned, immutable, and publicly auditable."
+      ]
+    },
+    {
+      "id": "data-collection",
+      "title": "Data Collection Statement",
+      "lines": [
+        "Trust Bundles use bearer tokens that do not require authentication.",
+        "No personally identifiable information (PII) is collected during bundle access.",
+        "Aggregate telemetry is collected for product improvement only.",
+        "Individual access patterns are not stored, analyzed, or shared.",
+        "Rate limiting counters exist for abuse prevention but are not exposed."
+      ]
+    },
+    {
+      "id": "customer-rights",
+      "title": "Customer Rights",
+      "lines": [
+        "Customers have the right to access Trust Bundles without surveillance.",
+        "Customers have the right to view this changelog and all historical versions.",
+        "Customers have the right to verify our claims through independent audit.",
+        "Customers have the right to revoke bundle access at any time.",
+        "Customers have the right to request attestation reports."
+      ]
+    },
+    {
+      "id": "our-commitments",
+      "title": "Our Commitments",
+      "lines": [
+        "We commit to transparent versioning of all trust documentation.",
+        "We commit to public changelog with customer-safe explanations.",
+        "We commit to no silent changes to trust content.",
+        "We commit to rollback capability for any trust version.",
+        "We commit to full audit logging of trust operations."
+      ]
+    },
+    {
+      "id": "governance",
+      "title": "Trust Governance",
+      "lines": [
+        "Trust content changes require explicit version bumps.",
+        "Major changes are reviewed by Trust Architecture Authority.",
+        "All changes are logged with author, timestamp, and reason.",
+        "Historical versions are never deleted.",
+        "Deploy gates prevent trust content drift."
+      ]
+    }
+  ]
+}

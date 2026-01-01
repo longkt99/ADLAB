@@ -1,0 +1,692 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   WARM PROFESSIONAL Design System
+   ============================================
+   Cream/beige backgrounds, white panels,
+   warm accents, refined typography, spacious.
+   ============================================ */
+
+/* ============================================
+   NOVERA MOTION TOKENS
+   ============================================
+   Intentional, calm micro-interactions.
+   Motion hierarchy: Primary > Secondary > Passive
+   Micro-presence: anchored feel, not floating
+   ============================================ */
+:root {
+  /* Motion durations - hierarchical */
+  --motion-instant: 80ms;   /* Color-only, secondary hover */
+  --motion-fast: 120ms;     /* Secondary actions, light feedback */
+  --motion-base: 180ms;     /* Standard transitions */
+  --motion-slow: 240ms;     /* Primary actions, modal open */
+  --motion-exit: 150ms;     /* Modal/overlay close - quick dismissal */
+
+  /* Premium easing curves */
+  --ease-out-premium: cubic-bezier(0.16, 1, 0.3, 1);  /* Snappy settle */
+  --ease-in-premium: cubic-bezier(0.7, 0, 0.84, 0);   /* Exit acceleration */
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);        /* General purpose */
+
+  /* AI Intent - subtle glow for processing states */
+  --ai-glow: 0 0 0 2px hsl(var(--ring) / 0.15);
+}
+
+@layer base {
+  :root {
+    /* Warm Professional - Light Theme (Default) */
+    /* Novera-inspired warm cream palette */
+
+    /* Backgrounds - warm cream, not cold gray */
+    --background: 38 25% 96%;          /* #F9F7F4 warm cream */
+    --foreground: 25 15% 15%;          /* #2A2622 warm near-black */
+    --card: 40 30% 99%;                /* #FEFDFB warm white */
+    --card-foreground: 25 15% 15%;     /* #2A2622 */
+    --popover: 40 30% 99%;             /* match card */
+    --popover-foreground: 25 15% 15%;
+
+    /* Warm surface for hovers & inputs */
+    --secondary: 38 18% 92%;           /* #EDE9E4 warm tint */
+    --secondary-foreground: 25 12% 30%; /* #504A44 warm gray */
+    --muted: 38 15% 92%;               /* slightly warmer muted */
+    --muted-foreground: 25 8% 45%;     /* #766F68 warm mid-gray, readable */
+    --accent: 38 18% 92%;
+    --accent-foreground: 25 15% 15%;
+
+    /* Primary - warm dark buttons (premium) */
+    --primary: 25 15% 15%;             /* #2A2622 warm black */
+    --primary-foreground: 40 30% 99%;  /* warm white */
+
+    /* Warm amber accent */
+    --warm-accent: 37 91% 55%;         /* #F5A623 */
+    --warm-accent-hover: 37 81% 50%;   /* #E09520 */
+    --warm-accent-light: 37 100% 85%;  /* #FFE4B5 */
+
+    /* Status colors */
+    --destructive: 0 84% 50%;          /* #ED4337 */
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 71% 40%;            /* slightly darker green */
+    --warning: 48 96% 48%;             /* #F5A623 */
+    --info: 211 100% 50%;              /* #007AFF */
+
+    /* Borders - warm, visible but soft */
+    --border: 35 12% 82%;              /* #D6D2CC warm gray border */
+    --border-medium: 35 10% 72%;       /* #BAB5AE warmer, more visible */
+    --input: 35 12% 82%;               /* match border */
+    --ring: 37 91% 55%;                /* warm accent for focus */
+
+    /* Radius */
+    --radius: 0.5rem;
+    --radius-sm: 0.25rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+
+    /* Shadows - very subtle */
+    --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-dropdown: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-modal: 0 20px 40px rgba(0,0,0,0.12);
+  }
+
+  .dark {
+    /* Dark mode - warm dark theme, no white surfaces */
+    --background: 30 8% 7%;            /* #121110 warm near-black */
+    --foreground: 40 15% 90%;          /* #E8E5E0 warm white */
+    --card: 30 8% 10%;                 /* #1A1918 dark card */
+    --card-foreground: 40 15% 90%;
+    --popover: 30 8% 12%;              /* slightly lighter for popovers */
+    --popover-foreground: 40 15% 90%;
+    --primary: 40 15% 90%;             /* inverted for dark - light text on dark */
+    --primary-foreground: 30 8% 7%;    /* dark bg for primary buttons */
+    --secondary: 30 8% 15%;            /* #262422 */
+    --secondary-foreground: 40 12% 75%; /* #C4BFB8 readable */
+    --muted: 30 8% 15%;
+    --muted-foreground: 40 8% 55%;     /* #918A80 - readable meta text */
+    --accent: 30 8% 18%;               /* #2E2B28 */
+    --accent-foreground: 40 12% 88%;
+    --destructive: 0 62% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 30 6% 22%;               /* #3A3734 visible but subtle */
+    --border-medium: 30 6% 30%;        /* #4D4944 */
+    --input: 30 8% 15%;                /* match secondary for inputs */
+    --ring: 37 91% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-size: 15px; /* Increased from 14px for better readability */
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+  }
+
+  /* ============================================
+     NOVERA TYPOGRAPHY - DEPTH THROUGH SPACING
+     ============================================
+     Generous margins create visual breathing room.
+     Tighter tracking for headings = density/weight.
+     Slightly more line-height = calm, held feel.
+     ============================================ */
+
+  h1 {
+    @apply text-foreground font-semibold text-2xl;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.75em;
+  }
+
+  h2 {
+    @apply text-foreground font-semibold text-xl;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+  }
+
+  h3 {
+    @apply text-foreground font-medium text-lg;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    margin-top: 1.25em;
+    margin-bottom: 0.4em;
+  }
+
+  h4, h5, h6 {
+    @apply text-foreground font-medium;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    margin-top: 1em;
+    margin-bottom: 0.35em;
+  }
+
+  /* Comfortable reading for paragraphs - generous line-height */
+  p {
+    line-height: 1.7;
+    margin-bottom: 0.75em;
+  }
+
+  /* Last child in containers - no trailing margin */
+  h1:last-child, h2:last-child, h3:last-child, h4:last-child, h5:last-child, h6:last-child, p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* First child in containers - no leading margin */
+  h2:first-child, h3:first-child, h4:first-child, h5:first-child, h6:first-child {
+    margin-top: 0;
+  }
+
+  /* Transitions only where intentional - not global blanket */
+  /* Removed: button, a get transitions via btn-* classes */
+  /* Inputs get focused transitions via input-base */
+
+  /* Global form control fixes - prevent white blocks in dark mode */
+  input, textarea, select {
+    background-color: hsl(var(--card));
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+    color-scheme: light;
+  }
+
+  .dark input, .dark textarea, .dark select {
+    background-color: hsl(var(--secondary));
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--border));
+    color-scheme: dark;
+  }
+
+  /* Placeholder text - readable in both themes */
+  input::placeholder, textarea::placeholder {
+    color: hsl(var(--muted-foreground));
+    opacity: 1;
+  }
+
+  /* Minimal warm scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border-medium));
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.4);
+  }
+
+  /* Selection with warm accent */
+  ::selection {
+    background: hsl(var(--warm-accent) / 0.2);
+  }
+}
+
+@layer components {
+  /* Skeleton Loader */
+  .skeleton {
+    @apply animate-pulse bg-muted rounded;
+  }
+
+  .skeleton-text {
+    @apply skeleton h-4 w-full;
+  }
+
+  .skeleton-title {
+    @apply skeleton h-5 w-3/4;
+  }
+
+  .skeleton-avatar {
+    @apply skeleton h-9 w-9 rounded-full;
+  }
+
+  /* Scroll Shadow Indicators - subtle warm */
+  .scroll-shadows {
+    background:
+      linear-gradient(hsl(var(--background)) 30%, transparent),
+      linear-gradient(transparent, hsl(var(--background)) 70%) 0 100%,
+      radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, 0.04), transparent),
+      radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, 0.04), transparent) 0 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 40px, 100% 40px, 100% 12px, 100% 12px;
+    background-attachment: local, local, scroll, scroll;
+  }
+
+  /* ============================================
+     NOVERA BUTTON SYSTEM
+     ============================================
+     Motion hierarchy:
+     - Primary: slower, opacity + translateY
+     - Secondary: faster, color-only
+     - Ghost: instant color change
+
+     Micro-presence:
+     - Rest state: full opacity, translateY(0) explicit
+     - Elements feel anchored, not floating
+     ============================================ */
+
+  /* PRIMARY - Important actions, anchored presence */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground rounded-lg px-4 py-2.5 text-sm font-medium;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none;
+    /* Rest state: explicitly anchored */
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity var(--motion-slow) var(--ease-out-premium),
+                transform var(--motion-slow) var(--ease-out-premium),
+                box-shadow var(--motion-slow) var(--ease-out-premium);
+  }
+
+  .btn-primary:hover {
+    opacity: 0.92;
+  }
+
+  .btn-primary:active {
+    opacity: 0.95;
+    transform: translateY(1px);
+  }
+
+  /* AI Intent: processing-ready state - interface holds still */
+  .btn-primary.ai-pending,
+  .btn-primary[data-pending="true"] {
+    opacity: 0.88;
+    cursor: default;
+    box-shadow: var(--ai-glow);
+    /* Slight emphasis - attention narrows here */
+    transform: translateY(0);
+  }
+
+  /* SECONDARY - Supporting actions, lighter motion */
+  .btn-secondary {
+    @apply rounded-lg px-4 py-2.5 text-sm font-medium;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none;
+    background-color: hsl(var(--card));
+    color: hsl(var(--foreground));
+    border: 1px solid hsl(var(--border));
+    --tw-ring-color: hsl(var(--ring) / 0.3);
+    --tw-ring-offset-color: hsl(var(--background));
+    /* Faster, color-only - no transform on hover */
+    transition: background-color var(--motion-instant) var(--ease-out-premium),
+                border-color var(--motion-instant) var(--ease-out-premium);
+  }
+
+  .btn-secondary:hover {
+    background-color: hsl(var(--secondary) / 0.7);
+  }
+
+  .btn-secondary:active {
+    background-color: hsl(var(--secondary));
+  }
+
+  /* GHOST - Minimal, instant feedback */
+  .btn-ghost {
+    @apply text-muted-foreground rounded-lg px-3 py-2 text-sm;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none;
+    /* Instant color change only */
+    transition: color var(--motion-instant) var(--ease-out-premium),
+                background-color var(--motion-instant) var(--ease-out-premium);
+  }
+
+  .btn-ghost:hover {
+    color: hsl(var(--foreground));
+    background-color: hsl(var(--secondary) / 0.6);
+  }
+
+  .btn-ghost:active {
+    background-color: hsl(var(--secondary));
+  }
+
+  /* DESTRUCTIVE - Important but dangerous, similar to primary */
+  .btn-destructive {
+    @apply bg-destructive text-destructive-foreground rounded-lg px-4 py-2.5 text-sm font-medium;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-destructive/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none;
+    transition: opacity var(--motion-slow) var(--ease-out-premium),
+                transform var(--motion-slow) var(--ease-out-premium);
+  }
+
+  .btn-destructive:hover {
+    opacity: 0.92;
+  }
+
+  .btn-destructive:active {
+    opacity: 0.95;
+    transform: translateY(1px);
+  }
+
+  /* OUTLINE DESTRUCTIVE - Secondary weight */
+  .btn-outline-destructive {
+    @apply rounded-lg px-4 py-2.5 text-sm font-medium;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none;
+    background-color: hsl(var(--card));
+    color: hsl(var(--destructive));
+    border: 1px solid hsl(var(--destructive) / 0.3);
+    --tw-ring-color: hsl(var(--destructive) / 0.3);
+    --tw-ring-offset-color: hsl(var(--background));
+    /* Color-only, no transform */
+    transition: background-color var(--motion-instant) var(--ease-out-premium);
+  }
+
+  .btn-outline-destructive:hover {
+    background-color: hsl(var(--destructive) / 0.1);
+  }
+
+  /* ============================================
+     NOVERA INPUT SYSTEM
+     ============================================
+     Focus transitions only - no hover motion.
+     Inputs should feel stable, not reactive.
+     ============================================ */
+
+  .input-base {
+    @apply w-full px-3.5 py-2.5 bg-card text-foreground border border-border rounded-lg;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/20;
+    @apply placeholder:text-muted-foreground;
+    /* Only focus state gets motion - no hover noise */
+    transition: box-shadow var(--motion-base) var(--ease-out-premium);
+  }
+
+  .dark .input-base {
+    @apply bg-secondary;
+  }
+
+  /* ============================================
+     NOVERA CARD SYSTEM
+     ============================================
+     Interactive cards: minimal hover feedback
+     Static cards: no motion at all
+     ============================================ */
+
+  /* Interactive cards - subtle, immediate feedback */
+  .card-interactive {
+    @apply rounded-xl;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1;
+    background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    --tw-ring-color: hsl(var(--ring) / 0.3);
+    /* No transition - instant feedback feels more responsive */
+  }
+
+  .card-interactive:hover {
+    background-color: hsl(var(--secondary) / 0.4);
+    border-color: hsl(var(--border-medium));
+  }
+
+  /* Static card - no motion, pure styling */
+  .card-static {
+    @apply rounded-xl;
+    background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+  }
+
+
+  /* Warm accent - used sparingly for tiny indicators only */
+  .warm-accent-dot {
+    @apply w-1.5 h-1.5 rounded-full;
+    background: hsl(var(--warm-accent));
+  }
+
+  /* ============================================
+     NOVERA NAVIGATION
+     ============================================
+     No motion - instant state changes.
+     Navigation should feel direct, not animated.
+     ============================================ */
+
+  .nav-item {
+    @apply text-muted-foreground rounded-lg px-3 py-2;
+    /* No transition - instant feedback */
+  }
+
+  .nav-item:hover {
+    color: hsl(var(--foreground));
+    background-color: hsl(var(--secondary) / 0.6);
+  }
+
+  .nav-item-active {
+    @apply bg-secondary/80 text-foreground;
+  }
+
+  /* Table rows - instant feedback */
+  .table-row-hover:hover {
+    background-color: hsl(var(--secondary) / 0.4);
+  }
+}
+
+@layer utilities {
+  /* ============================================
+     NOVERA ANIMATION UTILITIES
+     ============================================
+     Modal lifecycle: open = calm, close = quick
+     ============================================ */
+
+  .animate-fade-in {
+    animation: fadeIn var(--motion-base) var(--ease-out-premium);
+  }
+
+  .animate-slide-up {
+    animation: slideUp var(--motion-slow) var(--ease-out-premium);
+  }
+
+  .animate-scale-in {
+    animation: scaleIn var(--motion-slow) var(--ease-out-premium);
+  }
+
+  /* Exit animations - faster for quick dismissal */
+  .animate-fade-out {
+    animation: fadeOut var(--motion-exit) var(--ease-in-premium);
+  }
+
+  .animate-scale-out {
+    animation: scaleOut var(--motion-exit) var(--ease-in-premium);
+  }
+
+  /* ============================================
+     AI STATE LANGUAGE
+     ============================================
+     No spinners. No loaders. No animation.
+     States communicated through:
+     - Layout emphasis
+     - Opacity hierarchy
+     - Visual weight shifts
+
+     States:
+     1. ai-listening  - User typing, input is center
+     2. ai-thinking   - AI processing, interface holds
+     3. ai-delivered  - Result arrived, stable
+     ============================================ */
+
+  /* ----------------------------------------
+     STATE 1: LISTENING
+     ----------------------------------------
+     User is typing. Interface "leans in".
+     Input area becomes center of gravity.
+     Suggestions and secondary UI recede.
+     ---------------------------------------- */
+
+  .ai-listening {
+    /* Container state - input is focal point */
+  }
+
+  /* Suggestions fade back - not distracting */
+  .ai-listening .card-interactive {
+    opacity: 0.5;
+  }
+
+  /* Secondary actions recede */
+  .ai-listening .btn-secondary,
+  .ai-listening .btn-ghost {
+    opacity: 0.6;
+  }
+
+  /* Primary action stays ready but not dominant */
+  .ai-listening .btn-primary {
+    opacity: 0.85;
+  }
+
+  /* Input area emphasized - tighter border */
+  .ai-listening textarea:focus,
+  .ai-listening input:focus {
+    border-color: hsl(var(--border-medium));
+  }
+
+  /* ----------------------------------------
+     STATE 2: THINKING
+     ----------------------------------------
+     AI is processing. Interface holds still.
+     Everything except pending action dims.
+     User feels: "work is happening".
+     ---------------------------------------- */
+
+  .ai-thinking {
+    /* Container state - stillness */
+  }
+
+  /* All interactive elements pause */
+  .ai-thinking .btn-secondary,
+  .ai-thinking .btn-ghost,
+  .ai-thinking .card-interactive {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* Non-pending primary buttons dim */
+  .ai-thinking .btn-primary:not(.ai-pending):not([data-pending="true"]) {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* Pending button: subtle emphasis, still */
+  .ai-thinking .btn-primary.ai-pending,
+  .ai-thinking .btn-primary[data-pending="true"] {
+    opacity: 0.9;
+    pointer-events: none;
+    box-shadow: var(--ai-glow);
+  }
+
+  /* Input locked - user waits */
+  .ai-thinking textarea,
+  .ai-thinking input {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  /* ----------------------------------------
+     STATE 3: DELIVERED
+     ----------------------------------------
+     Result has arrived. Interface is stable.
+     Full opacity restored. No lingering motion.
+     User feels: "I can read, copy, act now".
+     ---------------------------------------- */
+
+  .ai-delivered {
+    /* Container state - stability restored */
+  }
+
+  /* Result area: full presence, grounded */
+  .ai-delivered .ai-result {
+    opacity: 1;
+    /* Subtle visual weight - this is what arrived */
+    border-left: 2px solid hsl(var(--border-medium));
+    padding-left: 1rem;
+  }
+
+  /* All controls fully restored */
+  .ai-delivered .btn-primary,
+  .ai-delivered .btn-secondary,
+  .ai-delivered .btn-ghost {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Suggestions can return, but lighter */
+  .ai-delivered .card-interactive {
+    opacity: 0.8;
+  }
+
+  /* ----------------------------------------
+     RESULT CONTAINER
+     ----------------------------------------
+     The actual AI output. Stable, readable.
+     No motion. Just clarity.
+     ---------------------------------------- */
+
+  .ai-result {
+    /* Grounded, stable presence */
+    opacity: 1;
+  }
+
+  /* Result text: comfortable reading */
+  .ai-result-text {
+    line-height: 1.7;
+    color: hsl(var(--foreground));
+  }
+
+  /* Result actions: ready but not pushy */
+  .ai-result-actions {
+    opacity: 0.9;
+  }
+
+  .ai-result-actions:hover {
+    opacity: 1;
+  }
+}
+
+/* Enter animations - calm arrival */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Exit animations - quick dismissal */
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes scaleOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
