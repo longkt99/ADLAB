@@ -7,6 +7,8 @@
 # Real secrets (if configured) will override these fallbacks.
 # The app code uses LAZY initialization so build succeeds without
 # real Supabase credentials - errors only occur at runtime.
+#
+# See docs/ci.md for details.
 # ============================================
 
 name: CI
@@ -16,9 +18,21 @@ on:
   push:
     branches: [main]
 
+# Cancel in-progress runs when a new commit is pushed to the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Minimal permissions for security
+permissions:
+  contents: read
+
 jobs:
   quality:
+    name: Lint, Typecheck & Build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
     env:
       # Use secrets if available, otherwise use CI-safe fallback values.
       # These fallbacks allow build to succeed; runtime will fail gracefully
@@ -28,16 +42,20 @@ jobs:
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || 'ci_dummy_service_role_key' }}
       # Allow remote Supabase URL in CI (bypasses dev safety guard)
       SUPABASE_ALLOW_REMOTE_IN_DEV: 'true'
+      # Disable Next.js telemetry for faster builds
       NEXT_TELEMETRY_DISABLED: '1'
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
-      - name: Install
+      - name: Install dependencies
         run: npm ci
 
       - name: Lint

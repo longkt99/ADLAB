@@ -116,6 +116,19 @@ export default tseslint.config(
   },
 
   // ============================================
+  // Exceptions: Plain JS scripts - relax TypeScript-specific rules
+  // ============================================
+  {
+    files: ['scripts/**/*.js'],
+    rules: {
+      // Allow CommonJS require in plain JS scripts
+      '@typescript-eslint/no-require-imports': 'off',
+      // Allow unused vars in scripts (utility functions)
+      '@typescript-eslint/no-unused-vars': 'off',
+    },
+  },
+
+  // ============================================
   // Global ignores
   // ============================================
   {

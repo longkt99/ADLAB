@@ -9,6 +9,8 @@
     "build:skip-check": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:eslint": "eslint . --max-warnings 0",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "check:llm-calls": "node scripts/check-llm-calls.js",
     "db:migrate": "npx supabase db push",
     "db:reset": "npx supabase db reset",
