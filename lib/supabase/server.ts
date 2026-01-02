@@ -4,6 +4,7 @@
 // Provides workspace resolution and authenticated queries.
 // Uses cookies for auth context in server components.
 
+import 'server-only';
 import { createClient } from '@supabase/supabase-js';
 import { log } from '@/lib/log';
 import {

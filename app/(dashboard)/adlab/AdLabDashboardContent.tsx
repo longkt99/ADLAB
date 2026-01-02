@@ -8,7 +8,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import type { AdLabAlert } from '@/lib/adlab/queries';
+import type { AdLabAlert } from '@/lib/adlab/types';
 
 interface PlatformBreakdown {
   platform: string;

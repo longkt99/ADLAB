@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useTransition } from 'react';
 import Link from 'next/link';
-import { type AdLabAlert } from '@/lib/adlab/queries';
+import { type AdLabAlert } from '@/lib/adlab/types';
 import {
   bulkMarkReadAction,
   bulkMarkUnreadAction,

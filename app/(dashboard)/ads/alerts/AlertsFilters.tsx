@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useCallback } from 'react';
-import type { AlertStatusFilter, AlertSeverityFilter, AlertPlatformFilter } from '@/lib/adlab/queries';
+import type { AlertStatusFilter, AlertSeverityFilter, AlertPlatformFilter } from '@/lib/adlab/types';
 
 // ============================================
 // Filter Options Configuration

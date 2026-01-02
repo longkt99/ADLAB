@@ -17,7 +17,7 @@ import {
   getPlatformLabel,
   getStatusColor,
   getStatusBgColor,
-} from '@/lib/adlab/ingestion';
+} from '@/lib/adlab/ingestion/validate';
 
 interface IngestionUploadClientProps {
   workspaceId: string;

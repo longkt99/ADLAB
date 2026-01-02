@@ -9,7 +9,7 @@
 // PHASE D21: Role is server-provided for visibility only.
 
 import { useState } from 'react';
-import { canPerform, type AdLabRole } from '@/lib/adlab/auth';
+import { canPerform, type AdLabRole } from '@/lib/adlab/auth/roles';
 
 interface PromotionPanelProps {
   logId: string;

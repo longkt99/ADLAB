@@ -15,7 +15,7 @@ import {
   type AuditLogEntry,
   getActionLabel,
   getActionSeverity,
-} from '@/lib/adlab/audit';
+} from '@/lib/adlab/audit/types';
 
 interface AuditTrailPanelProps {
   entries: AuditLogEntry[];

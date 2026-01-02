@@ -20,7 +20,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { canPerform, type AdLabRole } from '@/lib/adlab/auth';
+import { canPerform, type AdLabRole } from '@/lib/adlab/auth/roles';
 
 interface RollbackPanelProps {
   snapshotId: string;

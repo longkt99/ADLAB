@@ -3,7 +3,9 @@
 // ============================================
 // Shared utilities for AdLab pages.
 // Handles workspace resolution and filter parsing.
+// SERVER-ONLY: This file uses server-side Supabase client.
 
+import 'server-only';
 import { resolveWorkspace, getWorkspaceClients } from '@/lib/supabase/server';
 import { getDateRangeFromPreset, type AdLabFilters } from './queries';
 

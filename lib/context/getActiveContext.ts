@@ -6,8 +6,10 @@
 // Reads workspace and client context from cookies.
 // Provides fallback to first available workspace/client.
 // Never throws; always returns a usable context object.
+// SERVER-ONLY: Uses cookies and server Supabase client.
 // ============================================
 
+import 'server-only';
 import { cookies } from 'next/headers';
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import {
