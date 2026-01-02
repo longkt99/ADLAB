@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 
 interface ImageUploaderProps {
@@ -84,11 +85,13 @@ export default function ImageUploader({
       </label>
 
       {preview ? (
-        <div className="relative">
-          <img
+        <div className="relative h-48">
+          <Image
             src={preview}
             alt="Cover preview"
-            className="w-full h-48 object-cover rounded-lg border border-gray-300"
+            fill
+            className="object-cover rounded-lg border border-gray-300"
+            unoptimized
           />
           <button
             type="button"

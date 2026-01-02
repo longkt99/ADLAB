@@ -3,6 +3,7 @@
 // 1. Thêm import 'use'
 import { useEffect, useState, use, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { getPlatformDisplayName } from '@/lib/platforms';
 import { useTranslation, formatDate } from '@/lib/i18n';
@@ -177,11 +178,15 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
             {/* Cover Image - cleaner presentation */}
             {post.cover_image_url && (
               <div className="px-6 py-5 border-b border-border">
-                <img
-                  src={post.cover_image_url}
-                  alt={post.title}
-                  className="w-full max-h-[400px] object-cover rounded-lg"
-                />
+                <div className="relative w-full h-[400px]">
+                  <Image
+                    src={post.cover_image_url}
+                    alt={post.title}
+                    fill
+                    className="object-cover rounded-lg"
+                    unoptimized
+                  />
+                </div>
               </div>
             )}
 
