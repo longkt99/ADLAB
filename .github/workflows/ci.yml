@@ -5,6 +5,8 @@
 #   - NEXT_PUBLIC_SUPABASE_URL
 #   - NEXT_PUBLIC_SUPABASE_ANON_KEY
 #   - SUPABASE_SERVICE_ROLE_KEY
+#
+# To add secrets: Repo → Settings → Secrets and variables → Actions → New repository secret
 # ============================================
 
 name: CI
@@ -24,15 +26,39 @@ jobs:
       NEXT_TELEMETRY_DISABLED: "1"
     steps:
       - uses: actions/checkout@v4
+
+      - name: Validate required secrets
+        run: |
+          missing=""
+          if [ -z "$NEXT_PUBLIC_SUPABASE_URL" ]; then
+            missing="$missing NEXT_PUBLIC_SUPABASE_URL"
+          fi
+          if [ -z "$NEXT_PUBLIC_SUPABASE_ANON_KEY" ]; then
+            missing="$missing NEXT_PUBLIC_SUPABASE_ANON_KEY"
+          fi
+          if [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            missing="$missing SUPABASE_SERVICE_ROLE_KEY"
+          fi
+          if [ -n "$missing" ]; then
+            echo "::error::Missing required GitHub Secrets:$missing"
+            echo "Please add these secrets in: Settings → Secrets and variables → Actions → New repository secret"
+            exit 1
+          fi
+          echo "All required secrets are configured."
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
+
       - name: Install
         run: npm ci
+
       - name: Lint
         run: npm run lint
+
       - name: Typecheck
         run: npx tsc -p tsconfig.json --noEmit
+
       - name: Build
         run: npm run build
