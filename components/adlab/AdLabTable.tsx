@@ -20,6 +20,7 @@ interface AdLabTableProps<T> {
   emptyMessage?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- generic table accepts any object shape
 export function AdLabTable<T extends Record<string, any>>({
   columns,
   data,

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import ImageUploader from './ImageUploader';
+import _ImageUploader from './ImageUploader';
 import { PLATFORMS, getPlatformDisplayName } from '@/lib/platforms';
 import type { PostFormData, PostStatus, Platform } from '@/lib/types';
 import { useTranslation } from '@/lib/i18n';
@@ -102,9 +102,10 @@ export default function PostForm({ mode, initialData, postId }: PostFormProps) {
           router.push(`/posts/${postId}`);
         }
       }, 500);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Form submission error:', err);
-      setError(err.message || t('postForm.error.failedToSave'));
+      const errorMessage = err instanceof Error ? err.message : t('postForm.error.failedToSave');
+      setError(errorMessage);
       setSubmitting(false);
     }
   };

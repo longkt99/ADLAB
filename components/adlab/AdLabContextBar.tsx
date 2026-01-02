@@ -107,7 +107,7 @@ export function AdLabContextBar({ workspaceName, clients }: AdLabContextBarProps
       // Don't update URL yet - wait for custom dates
     } else {
       setShowCustom(false);
-      const { from, to } = getDateFromRange(range as DateRange);
+      const { from: _from, to: _to } = getDateFromRange(range as DateRange);
       updateParams({
         range: range === '7d' ? null : range,
         from: null, // Clear custom dates

@@ -68,7 +68,7 @@ const AUTO_RESPONSE_COOLDOWN = 5 * 60 * 1000; // 5 minutes
 // Supabase Client
 // ============================================
 
-function createAutoResponseClient() {
+function _createAutoResponseClient() {
   return createClient(supabaseUrl, supabaseServiceKey, {
     auth: {
       persistSession: false,

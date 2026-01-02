@@ -24,7 +24,7 @@ interface IntentDebugPanelProps {
  * DEV-ONLY component to display IntentSnapshot for debugging
  * Renders nothing in production
  */
-export function IntentDebugPanel({ snapshot, messageId }: IntentDebugPanelProps) {
+export function IntentDebugPanel({ snapshot, messageId: _messageId }: IntentDebugPanelProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // ============================================

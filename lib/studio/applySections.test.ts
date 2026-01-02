@@ -10,8 +10,8 @@ import {
   applySection,
   getSectionCharCounts,
   compareSections,
-  type SectionMap,
-  type ApplyMode,
+  
+  
 } from './applySections';
 
 // ============================================

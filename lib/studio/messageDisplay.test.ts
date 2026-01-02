@@ -176,9 +176,9 @@ describe('Legacy compatibility (deprecated userInstruction field)', () => {
   it('should read from legacy userInstruction if userTypedText missing', () => {
     // Old messages may have userInstruction instead of userTypedText
     const msg = createUserMessage('internal', {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       userInstruction: 'legacy instruction text',
       sourceMessageId: 'msg-123',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- legacy field test
     } as any);
     expect(getDisplayedUserMessageText(msg)).toBe('legacy instruction text');
   });
@@ -186,9 +186,9 @@ describe('Legacy compatibility (deprecated userInstruction field)', () => {
   it('should prefer userTypedText over userInstruction', () => {
     const msg = createUserMessage('internal', {
       userTypedText: 'new field',
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       userInstruction: 'legacy field',
       sourceMessageId: 'msg-123',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- legacy field test
     } as any);
     expect(getDisplayedUserMessageText(msg)).toBe('new field');
   });

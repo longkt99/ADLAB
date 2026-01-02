@@ -125,7 +125,7 @@ function shiftDateRange(range: { start: Date; end: Date }, direction: 'prev' | '
 // ============================================
 function StatusBadge({ status, t }: { status: string; t: (key: string) => string }) {
   // Use translation for status label
-  const statusLabel = t(`status.${status}` as any) || status;
+  const statusLabel = t(`status.${status}`) || status;
 
   return (
     <span className="inline-block px-2 py-0.5 text-xs bg-secondary text-foreground rounded">
@@ -300,7 +300,7 @@ export default function CalendarPage() {
     return new Date(year, month - 1, 1).getDay();
   };
 
-  const monthNames = [
+  const _monthNames = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];

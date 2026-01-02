@@ -264,14 +264,14 @@ export async function POST(request: NextRequest) {
       },
       { status: 200 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Studio AI API Error:', error);
 
     // Return error response
     return NextResponse.json(
       {
         success: false,
-        error: error.message || 'An unexpected error occurred',
+        error: error instanceof Error ? error.message : 'An unexpected error occurred',
       },
       { status: 500 }
     );
@@ -282,7 +282,7 @@ export async function POST(request: NextRequest) {
  * OPTIONS /api/studio/ai
  * CORS preflight handler (if needed for external clients)
  */
-export async function OPTIONS(request: NextRequest) {
+export async function OPTIONS(_request: NextRequest) {
   return NextResponse.json(
     {},
     {

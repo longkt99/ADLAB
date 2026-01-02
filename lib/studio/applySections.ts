@@ -9,7 +9,6 @@
 
 import {
   normalizeSections,
-  type NormalizedSections,
   type SectionType,
 } from '@/lib/quality/sectionParser';
 

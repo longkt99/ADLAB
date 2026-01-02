@@ -1177,6 +1177,7 @@ export type ViDictionary = typeof viDictionary;
  * Helper type: Preserves key structure but allows any string values
  * Used for EN dictionary to match VI structure without literal value constraints
  */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type DeepStringMap<T> = {
   [K in keyof T]: T[K] extends string
     ? string
@@ -1184,6 +1185,7 @@ export type DeepStringMap<T> = {
       ? DeepStringMap<T[K]>
       : T[K];
 };
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 /**
  * Flexible prompts type: allows any prompt templates with userTemplate string

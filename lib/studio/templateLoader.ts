@@ -122,7 +122,7 @@ export function getTemplatesByCategory(
  * @returns Array of templates supporting that platform
  */
 export function getTemplatesByPlatform(platform: string): ContentTemplate[] {
-  return TEMPLATE_REGISTRY.filter((t) => t.platforms.includes(platform as any));
+  return TEMPLATE_REGISTRY.filter((t) => (t.platforms as string[]).includes(platform));
 }
 
 /**
@@ -132,7 +132,7 @@ export function getTemplatesByPlatform(platform: string): ContentTemplate[] {
  * @returns Array of templates supporting that tone
  */
 export function getTemplatesByTone(tone: string): ContentTemplate[] {
-  return TEMPLATE_REGISTRY.filter((t) => t.toneSupport.includes(tone as any));
+  return TEMPLATE_REGISTRY.filter((t) => (t.toneSupport as string[]).includes(tone));
 }
 
 /**

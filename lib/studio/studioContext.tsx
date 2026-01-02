@@ -26,14 +26,14 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import type { UseCase, StudioContextType, PromptTemplate, ChatMessage, QualityLockMeta, AutoFixPreviewData, AutoFixToast, StudioToast, StudioSessionSnapshot, StudioSessionMeta } from '@/types/studio';
-import { TEMPLATE_CATEGORIES, getTemplateById as getOldTemplateById } from './promptTemplates';
+import { TEMPLATE_CATEGORIES } from './promptTemplates';
 import { buildStudioAIRequest } from './aiClient';
-import type { StudioAIRequest, StudioAIResponse } from './aiTypes';
+import type { StudioAIRequest } from './aiTypes';
 import { BRAND_TONES, type BrandTone } from './tones';
 import { STUDIO_USE_CASES } from './useCases';
-import { getDefaultWorkflowStep, type WorkflowStep } from './workflow';
+import { type WorkflowStep } from './workflow';
 // NEW: Import Content Machine Engine template system
-import { listAllTemplates, getTemplateById as getNewTemplateById } from './templateLoader';
+import { getTemplateById as getNewTemplateById } from './templateLoader';
 // NEW: Import prompt localization helper
 import { getLocalizedPrompt } from './promptLocalization';
 import { useTranslation } from '@/lib/i18n';
@@ -63,7 +63,7 @@ import {
 import { DraftState, AssistMode } from '@/types/analytics';
 // ✅ Orchestrator: Import transform orchestrator
 import type { ActionType, TransformMode } from '@/types/orchestrator';
-import { shouldValidate, getActionLabel, isRefusal, applyFallbackTransform, classifyAction, detectTransformMode, getDirectiveSignals, detectNewCreate, detectTopicDrift, extractOutputContract, validateOutputContract, buildEnforcementInstruction, buildContractInstruction } from '@/lib/orchestrator';
+import { shouldValidate, getActionLabel, isRefusal, applyFallbackTransform, classifyAction, detectTransformMode, detectNewCreate, detectTopicDrift, extractOutputContract, validateOutputContract, buildEnforcementInstruction, buildContractInstruction } from '@/lib/orchestrator';
 import { getMessageContent } from '@/lib/orchestrator/sourceResolver';
 import { extractLockedContext } from '@/lib/orchestrator/lockedContextExtractor';
 import { injectConstraints, buildSourceReference } from '@/lib/orchestrator/constraintInjector';
@@ -346,7 +346,8 @@ export const StudioProvider: React.FC<{ children: React.ReactNode }> = ({
         // Check schema version for forward compatibility
         if (parsed.schemaVersion === 1 && Array.isArray(parsed.messages)) {
           // Rehydrate Date objects from ISO strings
-          return parsed.messages.map((msg: any) => ({
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- JSON.parse returns dynamic structure
+          return parsed.messages.map((msg: Record<string, any>) => ({
             ...msg,
             timestamp: new Date(msg.timestamp),
           }));
@@ -391,7 +392,7 @@ export const StudioProvider: React.FC<{ children: React.ReactNode }> = ({
   const [autoFixAppliedAt, setAutoFixAppliedAt] = useState<number | null>(null);
 
   // ✅ PHASE 3: Template gate feedback state
-  const [templateGateToast, setTemplateGateToast] = useState<{
+  const [templateGateToast, _setTemplateGateToast] = useState<{
     show: boolean;
     message: string;
   } | null>(null);
@@ -1416,7 +1417,7 @@ export const StudioProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   // ✅ Orchestrator: Get last assistant message (for default source selection)
-  const getLastAssistantMessage = useCallback((): ChatMessage | null => {
+  const _getLastAssistantMessage = useCallback((): ChatMessage | null => {
     const assistantMessages = messages.filter(m => m.role === 'assistant');
     return assistantMessages.length > 0 ? assistantMessages[assistantMessages.length - 1] : null;
   }, [messages]);
@@ -2870,7 +2871,7 @@ export const StudioProvider: React.FC<{ children: React.ReactNode }> = ({
 
     try {
       const actionLabel = getActionLabel(action);
-      let instruction = transformMode === 'DIRECTED_TRANSFORM' && userInstruction
+      const instruction = transformMode === 'DIRECTED_TRANSFORM' && userInstruction
         ? userInstruction
         : `${actionLabel} nội dung này.`;
 

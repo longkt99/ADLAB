@@ -12,7 +12,6 @@ import {
   mergeEditPatch,
   reconstructTextFromCanon,
   getEditPatchDebugSummary,
-  type EditPatchTarget,
   type EditPatchMeta,
 } from './editPatchExecutor';
 import type { NormalizedEditIntent } from './editIntentNormalizer';

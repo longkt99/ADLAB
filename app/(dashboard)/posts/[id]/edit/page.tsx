@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'; // 1. Thêm React vào đây
 import { notFound } from 'next/navigation';
 import PostForm from '@/components/posts/PostForm';
 import type { PostFormData, Post } from '@/lib/types';
+import type { Platform } from '@/lib/platforms';
 import { useTranslation } from '@/lib/i18n';
 
 interface EditPostPageProps {
@@ -66,7 +67,7 @@ export default function EditPostPage({ params }: EditPostPageProps) {
       ? new Date(post.scheduled_time).toISOString().slice(0, 16)
       : '',
     cover_image_url: post.cover_image_url || '',
-    platforms: (post.platforms as any[]) || [],
+    platforms: (post.platforms as Platform[]) || [],
   };
 
   return (

@@ -27,17 +27,15 @@ import {
   getActiveVersion,
   getSnapshot,
   createSnapshot,
-  type TrustSnapshot,
-  type TrustVersion,
-  validateSnapshot,
-  isValidVersion,
+  type TrustSnapshot,
+  validateSnapshot,
 } from '@/lib/adlab/trust';
 
 // ============================================
 // GET Handler - List Versions (Public)
 // ============================================
 
-export async function GET(request: NextRequest): Promise<NextResponse> {
+export async function GET(_request: NextRequest): Promise<NextResponse> {
   try {
     const versions = getAllVersions();
     const activeVersion = getActiveVersion();

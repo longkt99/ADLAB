@@ -8,8 +8,8 @@
 // No execution logic should be affected.
 // ============================================
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { createIntentSnapshot, type IntentSnapshot, type IntentSummary } from '../../types/studio';
+import { describe, it, expect } from 'vitest';
+import { createIntentSnapshot } from '../../types/studio';
 import {
   deriveIntentSummary,
   formatSummaryForDisplay,

@@ -7,7 +7,6 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import {
   computePatternHash,
   loadLearnedChoices,
-  saveLearnedChoices,
   recordChoice,
   getLearnedChoice,
   getAutoApplyChoice,
@@ -20,7 +19,6 @@ import {
   isPatternUnreliable,
   clearOutcomeReliability,
   type IntentChoice,
-  type LearnedChoice,
 } from './intentLearning';
 
 // ============================================

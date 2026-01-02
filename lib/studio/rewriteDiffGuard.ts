@@ -121,7 +121,7 @@ const CTA_PATTERNS = [
 ];
 
 /** Anchor pattern for extraction */
-const ANCHOR_REGEX = /<<P(\d+)>>/g;
+const _ANCHOR_REGEX = /<<P(\d+)>>/g;
 
 // ============================================
 // Helper Functions

@@ -21,7 +21,7 @@ import type { Actor } from '@/lib/adlab/auth/roles';
 import {
   type DrillDefinition,
   type DrillInstance,
-  type DrillStatus,
+  
   type DrillAction,
   type DrillActionRecord,
   getDrillById,
@@ -75,7 +75,7 @@ const drillEffects: Map<string, SimulatedEffects> = new Map();
 // Supabase Client
 // ============================================
 
-function createDrillClient() {
+function _createDrillClient() {
   return createClient(supabaseUrl, supabaseServiceKey, {
     auth: {
       persistSession: false,

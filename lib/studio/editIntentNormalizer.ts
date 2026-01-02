@@ -315,7 +315,7 @@ export function normalizeEditIntent(
   const patterns = lang === 'vi' ? VI_EDIT_PATTERNS : EN_EDIT_PATTERNS;
 
   // Match all patterns
-  const { matches, totalWeight } = matchPatterns(text, patterns);
+  const { matches, totalWeight: _totalWeight } = matchPatterns(text, patterns);
 
   // No patterns matched - no edit intent detected
   if (matches.length === 0) {

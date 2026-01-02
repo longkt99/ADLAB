@@ -118,21 +118,22 @@ export async function GET(request: NextRequest) {
 
         results.published.push(variant.id);
         console.log(`  ✅ Published variant ${variant.id} (${variant.platform})`);
-      } catch (error: any) {
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
         // Store error in variant record
         await supabase
           .from('variants')
           .update({
-            published_error: error.message || 'Unknown error during publishing',
+            published_error: errorMessage || 'Unknown error during publishing',
           })
           .eq('id', variant.id);
 
         results.failed.push({
           id: variant.id,
-          error: error.message || 'Unknown error',
+          error: errorMessage || 'Unknown error',
         });
 
-        console.error(`  ❌ Failed to publish variant ${variant.id}:`, error.message);
+        console.error(`  ❌ Failed to publish variant ${variant.id}:`, errorMessage);
       }
     }
 
@@ -171,7 +172,9 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json(summary);
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorStack = error instanceof Error ? error.stack : undefined;
     console.error('💥 Cron job critical error:', error);
 
     // Log critical error
@@ -181,7 +184,7 @@ export async function GET(request: NextRequest) {
         variants_found: 0,
         variants_published: 0,
         variants_failed: 0,
-        errors: [{ type: 'critical_error', message: error.message, stack: error.stack }],
+        errors: [{ type: 'critical_error', message: errorMessage, stack: errorStack }],
         duration_ms: Date.now() - startTime,
       });
     } catch (logError) {
@@ -189,7 +192,7 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { error: error.message || 'Failed to process scheduled variants' },
+      { error: errorMessage || 'Failed to process scheduled variants' },
       { status: 500 }
     );
   }

@@ -12,7 +12,6 @@ import {
   getAllowedOpsForTarget,
   getEditTargetLabel,
   type EditTarget,
-  type CanonSection,
 } from './editScopeContract';
 
 // ============================================

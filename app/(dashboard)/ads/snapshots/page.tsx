@@ -13,7 +13,7 @@
 import Link from 'next/link';
 import { AdLabPageShell, AdLabEmptyState, AdLabErrorBox, AdLabContextBar } from '@/components/adlab';
 import { getSnapshotHistory, type ProductionSnapshot } from '@/lib/adlab/ingestion/snapshots';
-import { getDatasetLabel, getPlatformLabel } from '@/lib/adlab/ingestion';
+import { getDatasetLabel, getPlatformLabel, type PlatformType, type DatasetType } from '@/lib/adlab/ingestion';
 import { resolveWorkspace, getWorkspaceClients } from '@/lib/supabase/server';
 
 export const dynamic = 'force-dynamic';
@@ -180,7 +180,7 @@ export default async function SnapshotsPage({ searchParams }: PageProps) {
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <h3 className="text-[14px] font-semibold text-foreground">
-                  {getPlatformLabel(platform as any)} / {getDatasetLabel(dataset as any)}
+                  {getPlatformLabel(platform as PlatformType)} / {getDatasetLabel(dataset as DatasetType)}
                 </h3>
                 <span className="text-[11px] text-muted-foreground">
                   ({groupSnapshots.length} snapshot{groupSnapshots.length !== 1 ? 's' : ''})

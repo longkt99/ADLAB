@@ -8,10 +8,12 @@ import { AdLabPageShell, AdLabEmptyState, AdLabErrorBox, AdLabContextBar } from 
 import {
   getAlertsFiltered,
   type AlertFilters,
-  type AlertStatusFilter,
-  type AlertSeverityFilter,
-  type AlertPlatformFilter,
 } from '@/lib/adlab/queries';
+import type {
+  AlertStatusFilter,
+  AlertSeverityFilter,
+  AlertPlatformFilter,
+} from '@/lib/adlab/types';
 import { getAdLabPageContext } from '@/lib/adlab/page-helpers';
 import { AlertsTableClient } from './AlertsTableClient';
 import { AlertsFilters } from './AlertsFilters';

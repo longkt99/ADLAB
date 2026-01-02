@@ -55,9 +55,9 @@ export default function GenerateVariantsButton({
       router.refresh();
 
       alert(t('generateVariants.success').replace('{count}', data.count.toString()));
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Generate variants error:', err);
-      setError(err.message || t('generateVariants.error'));
+      setError(err instanceof Error ? err.message : t('generateVariants.error'));
     } finally {
       setGenerating(false);
     }

@@ -43,7 +43,6 @@ import {
 import {
   generateBoundarySheet,
   exportBoundarySheetMarkdown,
-  exportBoundarySheetJSON,
 } from '@/lib/adlab/ops/boundarySheetGenerator';
 import {
   generateVisibilityMatrix,

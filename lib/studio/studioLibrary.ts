@@ -26,7 +26,7 @@ import { supabase } from '@/lib/supabase';
  * Helper: Check if error is due to missing table
  * Checks both PostgREST error codes and error messages for robustness
  */
-function isMissingTableError(error: any): boolean {
+function isMissingTableError(error: { code?: string; message?: string }): boolean {
   // Check PostgREST error codes that indicate missing table/schema issues
   if (error.code && (
     error.code === 'PGRST106' || // PostgREST schema cache errors
@@ -59,7 +59,7 @@ export type StudioSavedPost = {
   preview: string;
   content: string;
   source: 'studio' | 'template' | 'imported';
-  meta?: any;
+  meta?: Record<string, unknown>;
   created_at: string;
   updated_at: string;
 };
@@ -75,7 +75,8 @@ export type StudioSavedPost = {
 export async function saveStudioPost(args: {
   content: string;
   title?: string;
-  meta?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Supabase Json type requires any
+  meta?: Record<string, any>;
 }): Promise<StudioSavedPost> {
   const { content, title, meta } = args;
 

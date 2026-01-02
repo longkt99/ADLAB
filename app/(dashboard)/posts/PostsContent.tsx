@@ -91,9 +91,9 @@ export default function PostsContent({ initialPosts }: PostsContentProps) {
 
       // Close modal
       setPostToDelete(null);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Delete error:', error);
-      showToast(error.message || t('posts.toast.deleteFailed'), 'error');
+      showToast(error instanceof Error ? error.message : t('posts.toast.deleteFailed'), 'error');
     } finally {
       setIsDeleting(false);
     }

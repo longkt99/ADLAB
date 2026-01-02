@@ -169,12 +169,8 @@ import {
 import {
   extractCanonFromDraft,
   applyCanonLocks,
-  computeCanonDiff,
-  shouldRequireCanonApproval,
-  reapplyLockedSections,
   updateCanonFromText,
   getCanonDebugSummary,
-  isAmbiguousEditInstruction,
   type EditorialCanon,
   type CanonDiff,
 } from '@/lib/studio/editorialCanon';
@@ -182,20 +178,15 @@ import {
 // ✅ STEP 16: Edit Guard Modal & Evaluation
 import {
   EditGuardModal,
-  evaluateEditGuard,
   type EditGuardResult,
 } from './EditGuardModal';
 import {
-  detectEditorialOp,
-  getOperationWeight,
   type EditorialOp,
 } from '@/lib/studio/editorialOpPrompt';
 
 // ✅ STEP 17: Editorial Intent Canon & Meaning Preservation
 import {
   buildIntentCanonFromDraft,
-  computeIntentCanonDiff,
-  decideIntentCanonAction,
   getIntentCanonDebugSummary,
   type EditorialIntentCanon,
   type IntentCanonDiff,
@@ -216,7 +207,6 @@ import { EditScopePickModal } from './EditScopePickModal';
 // ✅ STEP 20: Edit Intent Normalizer
 import {
   normalizeEditIntent,
-  type NormalizedEditIntent,
 } from '@/lib/studio/editIntentNormalizer';
 
 // ✅ STEP 21: Edit Patch Executor
@@ -475,7 +465,8 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   // ============================================
   const [lastDebugDecision, setLastDebugDecision] = useState<DebugDecision | null>(null);
   // Track pending debug context for confirmation flow
-  const pendingDebugContextRef = useRef<{
+  // Type for debug context used by both ref and state
+  type DebugContextType = {
     patternHash: string;
     confidenceInput: ConfidenceInput;
     confidenceResult: { routeHint: 'CREATE' | 'TRANSFORM'; intentConfidence: number; reason: string };
@@ -488,7 +479,10 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
     preferenceBias?: BiasResult;
     // ✅ STEP 14: Include governance decision
     governanceDecision?: GovernanceDecision;
-  } | null>(null);
+  };
+  const pendingDebugContextRef = useRef<DebugContextType | null>(null);
+  // State mirror for render-safe access (synced when ref is set)
+  const [debugContextForRender, setDebugContextForRender] = useState<DebugContextType | null>(null);
 
   // ============================================
   // STEP 11: Intent Memory & Conversational Continuity State
@@ -534,6 +528,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
       // Activate this message as the draft
       const activated = maybeActivateDraft(lastAssistantMsg.id, true);
       if (activated) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- Sync editorial mode after draft activation
         refreshEditorialMode();
         if (process.env.NODE_ENV === 'development') {
           console.log('[StudioEditor:STEP14A] Auto-activated draft:', lastAssistantMsg.id);
@@ -546,6 +541,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   useEffect(() => {
     if (!aiLoading && isEditLocked()) {
       unlockEdit();
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Sync editorial mode after unlock
       refreshEditorialMode();
       if (process.env.NODE_ENV === 'development') {
         console.log('[StudioEditor:STEP14A] Edit unlocked after AI response');
@@ -558,6 +554,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
     const currentDraftId = getActiveDraftId();
     // Reset if draft changed or no longer active
     if (rewriteConfirmedForDraftId && rewriteConfirmedForDraftId !== currentDraftId) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Reset confirmation on draft change
       setRewriteConfirmedForDraftId(null);
       if (process.env.NODE_ENV === 'development') {
         console.log('[StudioEditor:STEP27] Reset rewrite confirmation - draft changed', {
@@ -571,6 +568,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   // ✅ STEP 27: Reset rewrite confirmation when messages cleared
   useEffect(() => {
     if (messages.length === 0 && rewriteConfirmedForDraftId) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Reset confirmation on clear
       setRewriteConfirmedForDraftId(null);
       if (process.env.NODE_ENV === 'development') {
         console.log('[StudioEditor:STEP27] Reset rewrite confirmation - messages cleared');
@@ -585,7 +583,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   // Session-only state (not persisted to localStorage per privacy invariant).
   const [activeCanon, setActiveCanon] = useState<EditorialCanon | null>(null);
   // Pending canon approval state - when AI proposes changes to locked sections
-  const [pendingCanonApproval, setPendingCanonApproval] = useState<{
+  const [_pendingCanonApproval, _setPendingCanonApproval] = useState<{
     diff: CanonDiff;
     newText: string;
     messageId: string;
@@ -605,7 +603,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
     applyMode: 'all' | 'hook' | 'body' | 'cta' | 'hashtags';
   } | null>(null);
   // Track the detected editorial op for the current instruction
-  const detectedEditorialOpRef = useRef<EditorialOp | null>(null);
+  const _detectedEditorialOpRef = useRef<EditorialOp | null>(null);
 
   // ============================================
   // STEP 17: Editorial Intent Canon State
@@ -639,6 +637,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   // ✅ STEP 15: Initialize canon when draft is activated
   useEffect(() => {
     if (!hasActiveDraft()) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Reset canon when draft deactivated
       setActiveCanon(null);
       return;
     }
@@ -664,7 +663,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   }, [messages, activeCanon]);
 
   // ✅ STEP 15: Update canon when draft content changes (after AI edit)
-  const updateCanonAfterEdit = useCallback((newContent: string) => {
+  const _updateCanonAfterEdit = useCallback((newContent: string) => {
     if (!activeCanon) return;
 
     const updatedCanon = updateCanonFromText(activeCanon, newContent);
@@ -678,6 +677,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   // ✅ STEP 17: Initialize intent canon when draft is activated
   useEffect(() => {
     if (!hasActiveDraft()) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Reset intent canon when draft deactivated
       setActiveIntentCanon(null);
       return;
     }
@@ -860,6 +860,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
 
     const timeRemaining = localEditToast.expiresAt - Date.now();
     if (timeRemaining <= 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Dismiss expired toast immediately
       setLocalEditToast(null);
       return;
     }
@@ -1013,7 +1014,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   const SCROLL_THRESHOLD = 100;
 
   // Get enabled intents for content type chips
-  const enabledIntents = GOLDEN_INTENTS.filter((intent) => intent.enabled !== false).sort(
+  const _enabledIntents = GOLDEN_INTENTS.filter((intent) => intent.enabled !== false).sort(
     (a, b) => a.order - b.order
   );
 
@@ -1188,7 +1189,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   };
 
   const hasResult = messages.some((m) => m.role === 'assistant');
-  const { canSubmit, hint, inputState } = getIntentModel(chatInput, aiLoading, hasResult);
+  const { canSubmit, hint, inputState: _inputState } = getIntentModel(chatInput, aiLoading, hasResult);
 
   useEffect(() => {
     editorRef.current?.focus();
@@ -1618,6 +1619,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   // ============================================
   // STEP 6.5 + STEP 7 + STEP 8 + STEP 9 + STEP 14 + STEP 14A: Attempt Send with Confirmation, Learning, Debug, Outcome, Governance & Editorial Authority
   // ============================================
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization -- Complex callback with intentional partial deps
   const attemptSend = useCallback(() => {
     if (!canSubmit) return;
 
@@ -2167,7 +2169,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
     // ============================================
     // STEP 8 + STEP 14: Store pending debug context for confirmation resolution
     // ============================================
-    pendingDebugContextRef.current = {
+    const debugContext: DebugContextType = {
       patternHash,
       confidenceInput,
       confidenceResult,
@@ -2181,6 +2183,8 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
       // ✅ STEP 14: Include governance decision for debug display
       governanceDecision: governanceDecision ?? undefined,
     };
+    pendingDebugContextRef.current = debugContext;
+    setDebugContextForRender(debugContext);
 
     // Log that confirmation is being shown
     logDebugDecision('CONFIRMATION_SHOWN');
@@ -2291,8 +2295,8 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   const renderIntentConfirmation = () => {
     if (!pendingIntentChoice) return null;
 
-    // Get pending debug context for explainability
-    const debugContext = pendingDebugContextRef.current;
+    // Get pending debug context for explainability (use state, not ref, during render)
+    const debugContext = debugContextForRender;
 
     // ✅ STEP 10 + STEP 13: Get trust microcopy for display
     const hasActivePrefs = arePreferencesEnabled() && (debugContext?.preferenceBias?.activePreferences?.length ?? 0) > 0;
@@ -2435,7 +2439,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   // ============================================
   // STEP 14A: Editorial Badge (shows when editing draft)
   // ============================================
-  const renderEditorialBadge = () => {
+  const _renderEditorialBadge = () => {
     if (editorialMode !== 'DRAFT_ACTIVE' && editorialMode !== 'EDIT_LOCKED') {
       return null;
     }
@@ -2470,7 +2474,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   // ============================================
   // STEP 14A: Explicit Create New Button
   // ============================================
-  const handleExplicitCreateNew = useCallback(() => {
+  const _handleExplicitCreateNew = useCallback(() => {
     // Explicitly enter create mode
     enterCreateMode();
     refreshEditorialMode();
@@ -3006,8 +3010,8 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
       <IntentDebugBadge
         decision={lastDebugDecision}
         continuity={continuityState}
-        preferenceBias={pendingDebugContextRef.current?.preferenceBias}
-        governanceDecision={pendingDebugContextRef.current?.governanceDecision}
+        preferenceBias={debugContextForRender?.preferenceBias}
+        governanceDecision={debugContextForRender?.governanceDecision}
         onDismiss={() => setLastDebugDecision(null)}
       />
 

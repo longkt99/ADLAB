@@ -5,10 +5,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import {
   // Types
-  type UserRole,
-  type GovernanceContext,
   type IntentSnapshot,
-  type GovernanceDecision,
   // Context management
   setGovernanceContext,
   getGovernanceContext,
@@ -28,7 +25,6 @@ import {
   temporarilyDisableTeamAutoApply,
   temporarilyDisableTeamLearning,
   enableTeamAutoApply,
-  enableTeamLearning,
   getTeamOverrides,
   clearAllTeamOverrides,
   // User isolation

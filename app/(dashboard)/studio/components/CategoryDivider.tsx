@@ -37,8 +37,8 @@ const CATEGORY_VISUALS: Record<
 export function CategoryDivider({ category }: CategoryDividerProps) {
   const { t } = useTranslation();
   const visuals = CATEGORY_VISUALS[category];
-  const label = t(`studio.templateMeta.categories.${category}` as any);
-  const description = t(`studio.templateMeta.categoryDescriptions.${category}` as any);
+  const label = t(`studio.templateMeta.categories.${category}`);
+  const description = t(`studio.templateMeta.categoryDescriptions.${category}`);
 
   return (
     <div className="py-6">

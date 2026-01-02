@@ -159,7 +159,7 @@ export default function ProcurementDashboard() {
       } else {
         setError(data.error || 'Failed to load dashboard');
       }
-    } catch (e) {
+    } catch {
       setError('Failed to connect to server');
     } finally {
       setLoading(false);
@@ -180,7 +180,7 @@ export default function ProcurementDashboard() {
       } else {
         setError(data.error || 'Failed to load answers');
       }
-    } catch (e) {
+    } catch {
       setError('Failed to connect to server');
     } finally {
       setLoading(false);
@@ -197,7 +197,7 @@ export default function ProcurementDashboard() {
       } else {
         setError(data.error || 'Failed to load boundary sheet');
       }
-    } catch (e) {
+    } catch {
       setError('Failed to connect to server');
     } finally {
       setLoading(false);
@@ -214,7 +214,7 @@ export default function ProcurementDashboard() {
       } else {
         setError(data.error || 'Failed to load visibility matrix');
       }
-    } catch (e) {
+    } catch {
       setError('Failed to connect to server');
     } finally {
       setLoading(false);
@@ -246,7 +246,7 @@ export default function ProcurementDashboard() {
             : `security-response-${Date.now()}.csv`;
         downloadBlob(blob, filename);
       }
-    } catch (e) {
+    } catch {
       setError('Failed to generate RFP pack');
     } finally {
       setGenerating(false);

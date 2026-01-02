@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
  * GET: List recent uploads for the current workspace
  * Fail-open: returns all uploads if no workspace context (demo mode)
  */
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const { workspaceId, clientId } = await getActiveContextIds();
 

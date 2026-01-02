@@ -105,10 +105,10 @@ export async function GET(request: NextRequest) {
     };
 
     return NextResponse.json(response);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Cron status error:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to fetch cron status' },
+      { error: error instanceof Error ? error.message : 'Failed to fetch cron status' },
       { status: 500 }
     );
   }

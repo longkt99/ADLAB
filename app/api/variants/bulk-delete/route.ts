@@ -37,10 +37,10 @@ export async function DELETE(request: NextRequest) {
       success: true,
       deleted_count: variant_ids.length,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Bulk delete error:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to delete variants' },
+      { error: error instanceof Error ? error.message : 'Failed to delete variants' },
       { status: 500 }
     );
   }

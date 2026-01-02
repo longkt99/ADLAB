@@ -34,26 +34,20 @@ export default function DiffApplyPanel({
   onApply,
   onUndo,
 }: DiffApplyPanelProps) {
-  const { t } = useTranslation();
+  const { t: _t } = useTranslation();
   const [activeTab, setActiveTab] = useState<TabType>('apply');
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Get diffApply metadata
   const diffApply = message.meta?.diffApply;
 
-  // Don't render if no diffApply metadata
-  if (!diffApply) {
-    return null;
-  }
-
-  const {
-    beforeText,
-    afterText,
-    beforeSections,
-    afterSections,
-    applyState,
-    appliedMode,
-  } = diffApply;
+  // Extract values with defaults for hook stability
+  const beforeText = diffApply?.beforeText ?? '';
+  const afterText = diffApply?.afterText ?? '';
+  const beforeSections = diffApply?.beforeSections;
+  const afterSections = diffApply?.afterSections;
+  const applyState = diffApply?.applyState ?? 'idle';
+  const appliedMode = diffApply?.appliedMode;
 
   // Calculate available sections from afterSections
   const availableSections = useMemo(() => {
@@ -113,6 +107,11 @@ export default function DiffApplyPanel({
   const handleUndo = useCallback(() => {
     onUndo();
   }, [onUndo]);
+
+  // Don't render if no diffApply metadata
+  if (!diffApply) {
+    return null;
+  }
 
   // Status indicator
   const getStatusBadge = () => {
@@ -338,7 +337,7 @@ function ApplyTab({
       {/* Info message if AI result has no sections */}
       {availableSections.length === 0 && (
         <div className="text-xs text-zinc-500 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-800/50 rounded-md p-2">
-          Kết quả AI không có section rõ ràng. Sử dụng "Áp dụng tất cả" để thay thế toàn bộ.
+          Kết quả AI không có section rõ ràng. Sử dụng &quot;Áp dụng tất cả&quot; để thay thế toàn bộ.
         </div>
       )}
     </div>

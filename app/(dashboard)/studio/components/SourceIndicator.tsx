@@ -51,7 +51,7 @@ export default function SourceIndicator({
           Đang chỉnh sửa
         </span>
         <p className="text-xs text-blue-800 dark:text-blue-200 truncate">
-          "{preview}"
+          &quot;{preview}&quot;
         </p>
       </div>
 

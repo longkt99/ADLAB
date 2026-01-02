@@ -13,7 +13,6 @@ import {
   getDisplayedText,
   isValidationStale,
   computeContentHash,
-  traceValidation,
 } from '../validateDisplayedContent';
 import { runQualityLock } from '../runQualityLock';
 import { normalizeSections, validateStructure } from '../sectionParser';

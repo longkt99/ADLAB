@@ -35,10 +35,10 @@ export async function GET(
       success: true,
       variants: variants || [],
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Get variants error:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to fetch variants' },
+      { error: error instanceof Error ? error.message : 'Failed to fetch variants' },
       { status: 500 }
     );
   }

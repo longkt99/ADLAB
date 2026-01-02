@@ -20,11 +20,9 @@
 import type {
   ActionType,
   LockedContext,
-  LockMode,
   TransformResult,
   TopicLockValidation,
 } from '@/types/orchestrator';
-import type { ChatMessage } from '@/types/studio';
 import { extractLockedContext } from './lockedContextExtractor';
 import { injectConstraints, buildSourceReference } from './constraintInjector';
 import { validateTopicLock, isRecoverable } from './topicLockValidator';
@@ -272,7 +270,7 @@ function detectTone(content: string): 'professional' | 'friendly' {
 function recomposeWithTone(
   structure: { hook: string; body: string; cta: string },
   targetTone: 'professional' | 'friendly',
-  entities: string[]
+  _entities: string[]
 ): string {
   const template = TONE_TEMPLATES[targetTone];
   const parts: string[] = [];
@@ -452,7 +450,7 @@ export function applyFallbackTransform(
 
     case 'REWRITE': {
       // Structure-first rewrite: recompose Hook/Body/CTA with same tone
-      const currentTone = detectTone(trimmed);
+      const _currentTone = detectTone(trimmed);
       const parts: string[] = [];
 
       // Rewrite Hook with variation (keep same tone)
@@ -624,7 +622,7 @@ function buildTransformInstruction(
 /**
  * Actions requiring full validation (Hook/Body/CTA structure)
  */
-const FULL_VALIDATION_ACTIONS: ActionType[] = ['OPTIMIZE', 'CREATE_CONTENT'];
+const _FULL_VALIDATION_ACTIONS: ActionType[] = ['OPTIMIZE', 'CREATE_CONTENT'];
 
 /**
  * Actions requiring only topic + entity preservation
@@ -771,7 +769,6 @@ export async function executeTransform(
 
     // Retry progression: NORMAL → STRICT → RELAXED
     const retryModes: RetryMode[] = ['NORMAL', 'STRICT', 'RELAXED'];
-    let lastOutput: string | null = null;
     let lastValidation: TopicLockValidation | null = null;
     let attemptCount = 0;
 
@@ -796,7 +793,6 @@ export async function executeTransform(
       try {
         // Call AI
         const output = await aiCall(constrainedPrompt, userMessage);
-        lastOutput = output;
 
         // Check for refusal
         if (isRefusal(output)) {

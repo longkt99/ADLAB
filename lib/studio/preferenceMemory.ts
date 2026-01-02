@@ -12,7 +12,7 @@
 // ============================================
 
 const STORAGE_KEY = 'studio_soft_preferences';
-const SESSION_KEY = 'studio_session_prefs';
+const _SESSION_KEY = 'studio_session_prefs';
 
 // Memory decay: clear after 7 days of inactivity
 const MEMORY_DECAY_MS = 7 * 24 * 60 * 60 * 1000;

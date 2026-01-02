@@ -18,7 +18,6 @@ import {
   noMembershipResponse,
 } from '@/lib/adlab/auth';
 import {
-  DRILL_DEFINITIONS,
   getDrillsForRole,
   getDrillById,
   canParticipate,

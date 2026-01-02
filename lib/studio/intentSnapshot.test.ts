@@ -8,14 +8,13 @@
 // No execution logic should be tested here.
 // ============================================
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { createIntentSnapshot, type IntentSnapshot, type IntentMode, type ChatMessage } from '../../types/studio';
+import { describe, it, expect } from 'vitest';
+import { createIntentSnapshot, type IntentSnapshot, type ChatMessage } from '../../types/studio';
 import {
   createTransformSnapshot,
   createCreateSnapshot,
   getMessageSnapshot,
   hasIntentSnapshot,
-  getOriginSnapshotId,
   validateSnapshot,
   formatSnapshotForDebug,
 } from './intentSnapshot';

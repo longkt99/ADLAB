@@ -22,9 +22,7 @@ import {
   type EditorialOpType,
   type EditorialScope,
   getEditorialOpLabel,
-  getScopeLabel,
   getOperationWeight,
-  getScopeWeight,
 } from '@/lib/studio/editorialOpPrompt';
 
 // ============================================
@@ -263,7 +261,7 @@ function calculateSemanticDrift(original: string, output: string): number {
  */
 function getThresholdsForOp(
   op: EditorialOpType,
-  scope: EditorialScope
+  _scope: EditorialScope
 ): {
   minLengthRatio: number;
   maxLengthRatio: number;
@@ -272,7 +270,7 @@ function getThresholdsForOp(
 } {
   // Base thresholds by operation weight
   const opWeight = getOperationWeight(op);
-  const scopeWeight = getScopeWeight(scope);
+  // Note: scope weight reserved for future granularity
 
   // Light edits (weight 1-2): very strict
   if (opWeight <= 2) {

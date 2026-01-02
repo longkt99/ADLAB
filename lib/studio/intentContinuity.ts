@@ -11,7 +11,7 @@
 // - Observability: for UX hints and debug only
 // ============================================
 
-import type { IntentOutcome } from './intentOutcome';
+// IntentOutcome type imported but used only in function signatures that may be called externally
 
 // ============================================
 // Configuration (tuneable constants)

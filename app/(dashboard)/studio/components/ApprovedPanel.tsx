@@ -18,7 +18,7 @@ export default function ApprovedPanel() {
     if (!approvedMessage) return;
     try {
       await navigator.clipboard.writeText(approvedMessage.content);
-      console.log('✅ Approved content copied to clipboard');
+      // Content copied successfully
     } catch (error) {
       console.error('❌ Failed to copy:', error);
     }
@@ -64,7 +64,7 @@ export default function ApprovedPanel() {
               Phiên bản đã duyệt
             </h3>
             <p className="text-xs text-green-700 dark:text-green-300">
-              Chưa có phiên bản nào được đánh dấu là bản cuối. Hãy nhấn "Đặt làm bản cuối" ở bất kỳ câu trả lời nào của AI để lưu nó vào đây.
+              Chưa có phiên bản nào được đánh dấu là bản cuối. Hãy nhấn &quot;Đặt làm bản cuối&quot; ở bất kỳ câu trả lời nào của AI để lưu nó vào đây.
             </p>
           </div>
         </div>

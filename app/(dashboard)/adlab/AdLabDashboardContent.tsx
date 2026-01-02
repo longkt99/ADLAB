@@ -95,17 +95,17 @@ const PLATFORM_CONFIG: Record<string, { name: string; color: string }> = {
 export function AdLabDashboardContent({
   workspace,
   error,
-  clients,
+  clients: _clients,
   counts,
   summary,
   dailyMetrics,
   alerts,
   platformBreakdown,
 }: AdLabDashboardContentProps) {
-  const router = useRouter();
+  const _router = useRouter();
 
-  // Calculate ROAS
-  const roas = summary && summary.totalSpend > 0
+  // Calculate ROAS (reserved for future use)
+  const _roas = summary && summary.totalSpend > 0
     ? ((summary.totalConversions * 100000) / summary.totalSpend) // Assume avg order value
     : 0;
 

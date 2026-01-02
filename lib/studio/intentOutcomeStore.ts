@@ -17,7 +17,6 @@ import {
   decodeOutcome,
   isOutcomeExpired,
   deriveOutcome,
-  OUTCOME_TTL_MS,
 } from './intentOutcome';
 
 // ============================================

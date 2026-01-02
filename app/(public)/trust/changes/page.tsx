@@ -211,7 +211,7 @@ export default function TrustChangelogPage() {
         ) : (
           <div className="flow-root">
             <ul className="-mb-8">
-              {entries.map((entry, index) => (
+              {entries.map((entry, _index) => (
                 <li key={entry.version}>
                   <ChangelogEntryCard
                     entry={entry}

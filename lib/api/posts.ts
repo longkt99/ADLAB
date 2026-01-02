@@ -87,6 +87,7 @@ export async function updatePost(
 ): Promise<Post> {
   const supabase = createServerClient();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic update object for Supabase
   const updateData: Record<string, any> = {};
 
   if (input.title !== undefined) updateData.title = input.title;

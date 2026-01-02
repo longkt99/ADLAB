@@ -59,7 +59,7 @@ export function TemplateDetailDrawer({
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1 min-w-0">
               <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-1">
-                {template.nameKey ? (t(template.nameKey as any) || template.name) : template.name}
+                {template.nameKey ? (t(template.nameKey) || template.name) : template.name}
               </h2>
               {uiMetadata && (
                 <div className="flex items-center gap-2">
@@ -74,7 +74,7 @@ export function TemplateDetailDrawer({
                           : 'bg-orange-500/15 text-orange-700 dark:text-orange-500'
                       }`}
                     >
-                      {t(`studio.templateMeta.complexity.${uiMetadata.complexity}` as any)}
+                      {t(`studio.templateMeta.complexity.${uiMetadata.complexity}`)}
                     </span>
                   )}
                 </div>
@@ -120,7 +120,7 @@ export function TemplateDetailDrawer({
                   : 'bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-400'
               }`}
             >
-              {t(`studio.templateMeta.categories.${template.category}` as any)}
+              {t(`studio.templateMeta.categories.${template.category}`)}
             </span>
           </div>
 
@@ -128,7 +128,7 @@ export function TemplateDetailDrawer({
           {uiMetadata && (
             <div>
               <h3 className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
-                {t('studio.templateMeta.labels.executionModes' as any)}
+                {t('studio.templateMeta.labels.executionModes')}
               </h3>
               <div className="mb-3">
                 <ModeIndicator ui={uiMetadata} variant="expanded" />
@@ -139,7 +139,7 @@ export function TemplateDetailDrawer({
                     <span className="flex-shrink-0 w-5 h-5 flex items-center justify-center rounded bg-slate-100 dark:bg-slate-800 text-[9px] font-bold">
                       A
                     </span>
-                    <p>{t('studio.templateMeta.modes.abstract' as any)}</p>
+                    <p>{t('studio.templateMeta.modes.abstract')}</p>
                   </div>
                 )}
                 {uiMetadata.supportedModes.structured && (
@@ -147,7 +147,7 @@ export function TemplateDetailDrawer({
                     <span className="flex-shrink-0 w-5 h-5 flex items-center justify-center rounded bg-slate-100 dark:bg-slate-800 text-[9px] font-bold">
                       B
                     </span>
-                    <p>{t('studio.templateMeta.modes.structured' as any)}</p>
+                    <p>{t('studio.templateMeta.modes.structured')}</p>
                   </div>
                 )}
                 {uiMetadata.supportedModes.generic && (
@@ -155,12 +155,12 @@ export function TemplateDetailDrawer({
                     <span className="flex-shrink-0 w-5 h-5 flex items-center justify-center rounded bg-slate-100 dark:bg-slate-800 text-[9px] font-bold">
                       C
                     </span>
-                    <p>{t('studio.templateMeta.modes.generic' as any)}</p>
+                    <p>{t('studio.templateMeta.modes.generic')}</p>
                   </div>
                 )}
               </div>
               <p className="mt-3 text-xs text-slate-500 dark:text-slate-500">
-                <span className="font-semibold">{t('studio.templateMeta.labels.defaultMode' as any)}</span> {t(`studio.templateMeta.modes.${uiMetadata.defaultMode}` as any)}
+                <span className="font-semibold">{t('studio.templateMeta.labels.defaultMode')}</span> {t(`studio.templateMeta.modes.${uiMetadata.defaultMode}`)}
               </p>
             </div>
           )}
@@ -168,7 +168,7 @@ export function TemplateDetailDrawer({
           {/* Platforms */}
           <div>
             <h3 className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
-              {t('studio.templateMeta.labels.supportedPlatforms' as any)}
+              {t('studio.templateMeta.labels.supportedPlatforms')}
             </h3>
             <PlatformChips platforms={template.platforms} size="md" />
           </div>

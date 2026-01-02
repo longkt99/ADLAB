@@ -37,7 +37,6 @@ import {
   isValidProfile,
   getProfile,
   getProfileIds,
-  applyRedactions,
   type AttestationProfile,
   type AttestationResult,
 } from '@/lib/adlab/ops/attestationProfiles';

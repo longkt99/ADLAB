@@ -8,13 +8,11 @@
 // consistent with user intent.
 // ============================================
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { createIntentSnapshot, type IntentSnapshot, type ChatMessage } from '../../types/studio';
 import {
   resolveExecutionSource,
   validateExecutionContract,
-  warnIfExecutionSourceDrifts,
-  warnIfModeMismatch,
   getOriginForChain,
   isInSameChain,
   type ExecutionSourceResult,

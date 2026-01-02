@@ -15,7 +15,7 @@
 // - UNAVAILABLE if evidence missing
 // ============================================
 
-import { DRILL_DEFINITIONS, type DrillDefinition, type IncidentSeverity } from './drills';
+import { DRILL_DEFINITIONS, type IncidentSeverity } from './drills';
 import { getEscalationConfig, type EscalationSLA } from './driftEscalation';
 import { DEFAULT_FRESHNESS_POLICIES, CRITICAL_DATASET_KEYS, type DatasetKey } from './freshnessPolicy';
 

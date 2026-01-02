@@ -39,7 +39,7 @@ const PLATFORMS: PlatformType[] = ['meta', 'google', 'tiktok', 'linkedin', 'othe
 
 export function IngestionUploadClient({
   workspaceId,
-  workspaceName,
+  workspaceName: _workspaceName,
   clients,
   isEnabled,
 }: IngestionUploadClientProps) {

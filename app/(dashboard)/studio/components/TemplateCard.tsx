@@ -4,7 +4,7 @@
 // Rich card for displaying templates in grid view
 
 import React from 'react';
-import type { ContentTemplate, TemplateUIMetadata } from '@/lib/studio/templates/templateSchema';
+import type { TemplateUIMetadata } from '@/lib/studio/templates/templateSchema';
 import { EngineBadge } from './EngineBadge';
 import { ModeIndicator } from './ModeIndicator';
 import { PlatformChips } from './PlatformChips';
@@ -41,8 +41,8 @@ export function TemplateCard({
   const { t } = useTranslation();
 
   // Use i18n key if available, otherwise fallback to template.name/description
-  const displayName = template.nameKey ? (t(template.nameKey as any) || template.name) : template.name;
-  const displayDescription = template.descriptionKey ? (t(template.descriptionKey as any) || template.description) : template.description;
+  const displayName = template.nameKey ? (t(template.nameKey) || template.name) : template.name;
+  const displayDescription = template.descriptionKey ? (t(template.descriptionKey) || template.description) : template.description;
 
   return (
     <div
@@ -76,7 +76,7 @@ export function TemplateCard({
                 : 'bg-orange-500/15 text-orange-700 dark:text-orange-500'
             }`}
           >
-            {t(`studio.templateMeta.complexity.${uiMetadata.complexity}` as any)}
+            {t(`studio.templateMeta.complexity.${uiMetadata.complexity}`)}
           </span>
         )}
       </div>
@@ -101,7 +101,7 @@ export function TemplateCard({
                 : 'bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-400'
             }`}
           >
-            {t(`studio.templateMeta.categories.${template.category}` as any)}
+            {t(`studio.templateMeta.categories.${template.category}`)}
           </span>
 
           {uiMetadata && <ModeIndicator ui={uiMetadata} variant="compact" />}
@@ -136,14 +136,14 @@ export function TemplateCard({
           onClick={() => onSelect(template.id)}
           className="flex-1 px-3 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 rounded-lg transition-colors"
         >
-          {t('studio.templateMeta.actions.useScript' as any)}
+          {t('studio.templateMeta.actions.useScript')}
         </button>
         {onPreview && (
           <button
             onClick={() => onPreview(template.id)}
             className="px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30 rounded-lg transition-colors"
           >
-            {t('studio.templateMeta.actions.viewDetails' as any)}
+            {t('studio.templateMeta.actions.viewDetails')}
           </button>
         )}
       </div>

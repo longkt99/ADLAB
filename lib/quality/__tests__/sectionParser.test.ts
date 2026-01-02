@@ -20,8 +20,8 @@ import {
   validateStructure,
   hasSection,
   getSectionContent,
-  type SectionType,
-  type NormalizedSections,
+  
+  
 } from '../sectionParser';
 
 // ============================================

@@ -108,50 +108,54 @@ export interface BuildSystemPromptOptions {
  * @param manifest - Manifest to validate
  * @returns Validation result with errors if any
  */
-export function validateManifest(manifest: any): {
+export function validateManifest(manifest: unknown): {
   isValid: boolean;
   errors: string[];
 } {
+  const m = manifest as Record<string, unknown>;
   const errors: string[] = [];
 
   // Required fields
-  if (!manifest.id) errors.push('Missing required field: id');
-  if (!manifest.name) errors.push('Missing required field: name');
-  if (!manifest.version) errors.push('Missing required field: version');
-  if (!manifest.objective) errors.push('Missing required field: objective');
+  if (!m.id) errors.push('Missing required field: id');
+  if (!m.name) errors.push('Missing required field: name');
+  if (!m.version) errors.push('Missing required field: version');
+  if (!m.objective) errors.push('Missing required field: objective');
 
   // outputSpec validation
-  if (!manifest.outputSpec) {
+  const outputSpec = m.outputSpec as Record<string, unknown> | undefined;
+  if (!outputSpec) {
     errors.push('Missing required field: outputSpec');
   } else {
-    if (!Array.isArray(manifest.outputSpec.sections)) {
+    if (!Array.isArray(outputSpec.sections)) {
       errors.push('outputSpec.sections must be an array');
     }
-    if (!manifest.outputSpec.format) {
+    if (!outputSpec.format) {
       errors.push('Missing required field: outputSpec.format');
     }
   }
 
   // constraints validation
-  if (!manifest.constraints) {
+  const constraints = m.constraints as Record<string, unknown> | undefined;
+  if (!constraints) {
     errors.push('Missing required field: constraints');
   } else {
-    if (!Array.isArray(manifest.constraints.must)) {
+    if (!Array.isArray(constraints.must)) {
       errors.push('constraints.must must be an array');
     }
-    if (!Array.isArray(manifest.constraints.avoid)) {
+    if (!Array.isArray(constraints.avoid)) {
       errors.push('constraints.avoid must be an array');
     }
   }
 
   // style validation
-  if (!manifest.style) {
+  const style = m.style as Record<string, unknown> | undefined;
+  if (!style) {
     errors.push('Missing required field: style');
   } else {
-    if (!manifest.style.description) {
+    if (!style.description) {
       errors.push('Missing required field: style.description');
     }
-    if (!Array.isArray(manifest.style.formatting)) {
+    if (!Array.isArray(style.formatting)) {
       errors.push('style.formatting must be an array');
     }
   }

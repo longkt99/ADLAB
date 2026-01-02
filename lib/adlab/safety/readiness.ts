@@ -19,15 +19,7 @@
 // ============================================
 
 import { createClient } from '@supabase/supabase-js';
-import {
-  type DatasetKey,
-  CRITICAL_DATASET_KEYS,
-  getFreshnessPolicy,
-} from '../ops/freshnessPolicy';
-import {
-  getWorkspaceFreshnessMap,
-  type WorkspaceFreshnessMap,
-} from '../ops/freshnessStatus';
+import { getWorkspaceFreshnessMap } from '../ops/freshnessStatus';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;

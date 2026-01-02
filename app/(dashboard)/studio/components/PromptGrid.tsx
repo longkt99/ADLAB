@@ -54,6 +54,7 @@ export default function PromptGrid({
   // STEP 4.5: Mark as interacted when user types or has AI results
   useEffect(() => {
     if (editorValue.trim().length > 0 || assistantCount > 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- One-way state transition based on external data
       setHasInteracted(true);
     }
   }, [editorValue, assistantCount]);
@@ -78,6 +79,7 @@ export default function PromptGrid({
 
     // Collapse when count increases (new AI response arrived)
     if (assistantCount > prevAssistantCountRef.current) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Auto-collapse on new AI response
       setIsCollapsed(true);
       setHasAutoCollapsed(true);
     }

@@ -80,9 +80,9 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
         // Fetch variants data
         await fetchVariants();
 
-      } catch (error: any) {
+      } catch (error) {
         console.error('Failed to fetch post:', error);
-        setError(error.message || 'Failed to load post');
+        setError(error instanceof Error ? error.message : 'Failed to load post');
       } finally {
         setLoading(false);
       }
@@ -113,7 +113,7 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
             {error || 'Post not found'}
           </h2>
           <p className="text-sm text-muted-foreground mb-6">
-            The post you're looking for doesn't exist or has been deleted.
+            The post you&apos;re looking for doesn&apos;t exist or has been deleted.
           </p>
           <Link
             href="/posts"
@@ -211,7 +211,7 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
                       key={platform}
                       className="px-2.5 py-1 bg-secondary/60 dark:bg-secondary/80 text-foreground/80 text-xs font-medium rounded-md"
                     >
-                      {getPlatformDisplayName(platform as any)}
+                      {getPlatformDisplayName(platform)}
                     </span>
                   ))}
                 </div>

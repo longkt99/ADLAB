@@ -24,9 +24,9 @@
 
 import {
   getActiveSnapshot,
-  getActiveVersion,
+  
   type TrustVersion,
-  type TrustSnapshot,
+  
 } from './index';
 
 // ============================================

@@ -16,7 +16,7 @@
 import { useState, useCallback } from 'react';
 import { useStudio } from '@/lib/studio/studioContext';
 import { BRAND_TONES } from '@/lib/studio/tones';
-import FallingLEffect from './components/FallingLEffect';
+import _FallingLEffect from './components/FallingLEffect';
 import StudioEditor from './components/StudioEditor';
 import PromptGrid from './components/PromptGrid';
 import PromptSheet from './components/PromptSheet';
@@ -26,8 +26,8 @@ import type { PromptCardData } from '@/lib/studio/promptLibrary';
 
 export default function StudioPage() {
   const {
-    showWelcomeAnimation,
-    celebrationTrigger,
+    showWelcomeAnimation: _showWelcomeAnimation,
+    celebrationTrigger: _celebrationTrigger,
     chatInput,
     setChatInput,
     handleTemplateSelect,

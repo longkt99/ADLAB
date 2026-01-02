@@ -17,10 +17,8 @@ const {
   extractKeywords,
   hasCTA,
   sentenceSimilarity,
-  calculateSentenceReplacementRatio,
   analyzeParagraph,
   MAX_LENGTH_RATIO,
-  MAX_SENTENCE_REPLACEMENT_RATIO,
   MIN_KEYWORD_PRESERVATION_RATIO,
 } = _testExports;
 

@@ -174,7 +174,7 @@ export async function getDatasetFreshness(
   const basePolicy = getFreshnessPolicy(dataset);
 
   // D29: Apply workspace-level overrides
-  let effectivePolicy: FreshnessPolicy = { ...basePolicy };
+  const effectivePolicy: FreshnessPolicy = { ...basePolicy };
   try {
     const overrides = await getFreshnessOverrides(workspaceId, dataset);
     if (overrides.warnMinutes !== null) {

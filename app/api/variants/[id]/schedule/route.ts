@@ -69,10 +69,10 @@ export async function PATCH(
       success: true,
       variant,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Schedule variant error:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to schedule variant' },
+      { error: error instanceof Error ? error.message : 'Failed to schedule variant' },
       { status: 500 }
     );
   }

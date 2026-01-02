@@ -85,12 +85,12 @@ export default function UseCaseGrid() {
 
               {/* Title */}
               <h3 className="text-[13px] sm:text-sm font-medium text-zinc-700 dark:text-zinc-200 mb-1 leading-snug">
-                {t(`studio.useCases.${useCase.id}.title` as any)}
+                {t(`studio.useCases.${useCase.id}.title`)}
               </h3>
 
               {/* Description */}
               <p className="text-[11px] text-zinc-500 dark:text-zinc-500 line-clamp-2 leading-relaxed">
-                {t(`studio.useCases.${useCase.id}.description` as any)}
+                {t(`studio.useCases.${useCase.id}.description`)}
               </p>
             </button>
           );

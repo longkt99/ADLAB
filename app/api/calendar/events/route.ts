@@ -142,7 +142,7 @@ export async function GET(request: NextRequest) {
       // ============================================
       // 5. Transform to Calendar Events
       // ============================================
-      const events = (variants || []).map((variant: any) => {
+      const events = (variants || []).map((variant) => {
         // Use scheduled_at for scheduled variants, published_at for published
         const eventDate = variant.status === 'scheduled'
           ? variant.scheduled_at
@@ -198,30 +198,34 @@ export async function GET(request: NextRequest) {
           status: status || 'all',
         },
       });
-    } catch (queryError: any) {
+    } catch (queryError: unknown) {
+      const message = queryError instanceof Error ? queryError.message : 'Unknown error';
+      const stack = queryError instanceof Error ? queryError.stack : undefined;
       console.error('CALENDAR_EVENTS_ERROR - Query execution failed:', {
         error: queryError,
-        message: queryError.message,
-        stack: queryError.stack,
+        message,
+        stack,
       });
       return NextResponse.json(
         {
           error: 'Database query failed',
-          details: queryError.message,
+          details: message,
         },
         { status: 500 }
       );
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    const stack = error instanceof Error ? error.stack : undefined;
     console.error('CALENDAR_EVENTS_ERROR - Unexpected error:', {
       error,
-      message: error.message,
-      stack: error.stack,
+      message,
+      stack,
     });
     return NextResponse.json(
       {
         error: 'Failed to fetch calendar events',
-        details: error.message,
+        details: message,
       },
       { status: 500 }
     );

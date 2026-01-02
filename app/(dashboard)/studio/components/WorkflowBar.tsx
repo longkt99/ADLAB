@@ -107,7 +107,7 @@ export default function WorkflowBar({ onReviewPhaseEnter }: WorkflowBarProps) {
           {WORKFLOW_STEPS.map((step, index) => {
             const isActive = index === activeStepIndex;
             const isPast = index < activeStepIndex;
-            const isFuture = index > activeStepIndex;
+            const _isFuture = index > activeStepIndex;
 
             return (
               <div

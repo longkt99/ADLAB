@@ -91,7 +91,7 @@ export function TemplateExplorer({
       const loaded = getTemplateById(previewTemplateId);
       previewTemplate = loaded.template;
       previewUIMetadata = loaded.template.ui;
-    } catch (error) {
+    } catch (_error) {
       // Template not found
       previewTemplate = undefined;
     }
@@ -113,10 +113,10 @@ export function TemplateExplorer({
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1">
               <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">
-                {t('studio.scriptLibrary.title' as any)}
+                {t('studio.scriptLibrary.title')}
               </h1>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                {t('studio.templateMeta.labels.engineInfo' as any)}
+                {t('studio.templateMeta.labels.engineInfo')}
               </p>
             </div>
             <button
@@ -149,7 +149,7 @@ export function TemplateExplorer({
                     try {
                       const loaded = getTemplateById(template.id);
                       uiMetadata = loaded.template.ui;
-                    } catch (error) {
+                    } catch (_error) {
                       uiMetadata = undefined;
                     }
 

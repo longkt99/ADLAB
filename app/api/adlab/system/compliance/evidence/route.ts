@@ -31,13 +31,13 @@ import {
 import { checkProductionReadiness } from '@/lib/adlab/safety';
 import {
   checkWorkspaceCompliance,
-  getWorkspaceFreshnessMap,
+
   listOverrides,
   DEFAULT_FRESHNESS_POLICIES,
   ALL_DATASET_KEYS,
 } from '@/lib/adlab/ops';
 import { appendAuditLog } from '@/lib/adlab/audit';
-import { verifyCoverage, getAllRegisteredRoutes } from '@/lib/adlab/safety/guardRegistry';
+import { verifyCoverage } from '@/lib/adlab/safety/guardRegistry';
 import crypto from 'crypto';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -518,7 +518,7 @@ export async function GET(): Promise<NextResponse> {
     ]);
 
     // Get guard coverage
-    const guardCoverage = verifyCoverage();
+    const _guardCoverage = verifyCoverage();
 
     // Build evidence payload (without metadata for checksum)
     const payloadWithoutChecksum: Omit<EvidencePayload, 'metadata'> = {

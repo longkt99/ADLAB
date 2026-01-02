@@ -1,6 +1,6 @@
 'use client';
 
-import { BRAND_TONES, type BrandTone } from '@/lib/studio/tones';
+import { BRAND_TONES } from '@/lib/studio/tones';
 import { useStudio } from '@/lib/studio/studioContext';
 
 export default function TonePicker() {

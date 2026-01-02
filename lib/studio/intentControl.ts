@@ -18,14 +18,11 @@
 // ============================================
 
 import {
-  loadPreferences,
-  savePreferences,
   clearPreferences,
   getActivePreferences,
   getPreferenceStats,
   type PreferenceKey,
   type PreferenceBias,
-  type PreferenceState,
 } from './userPreference';
 import {
   recordNegativeSignal,
@@ -37,7 +34,7 @@ import {
 } from './intentLearning';
 import { recordOutcome } from './intentLearning';
 import type { StabilityMetrics, StabilityBand } from './intentStability';
-import type { ContinuityState, ConversationMode } from './intentContinuity';
+import type { ConversationMode } from './intentContinuity';
 
 // ============================================
 // Types
@@ -275,7 +272,7 @@ export function getTrustMicrocopy(params: {
   const {
     stabilityMetrics,
     hasActivePreferences = false,
-    continuityMode,
+    continuityMode: _continuityMode,
     language = 'vi',
   } = params;
 

@@ -12,9 +12,7 @@ import { useTranslation } from '@/lib/i18n';
 import { EngineBadge } from './EngineBadge';
 import { ModeIndicator } from './ModeIndicator';
 import { PlatformChips } from './PlatformChips';
-import { ToneChips } from './ToneChips';
 import { TemplateExplorer } from './TemplateExplorer';
-import type { ContentTemplate, TemplateUIMetadata } from '@/lib/studio/templates/templateSchema';
 
 // Labels now fetched from i18n
 
@@ -50,13 +48,13 @@ export default function TemplateSelector({
           )}
         </div>
         <p className="text-[10px] text-slate-500 dark:text-slate-500 tracking-tight leading-tight mb-1.5">
-          {t('studio.templateMeta.labels.engineInfo' as any)}
+          {t('studio.templateMeta.labels.engineInfo')}
         </p>
         <button
           onClick={() => setExplorerOpen(true)}
           className="text-[11px] font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:underline transition-colors"
         >
-          {t('studio.templateMeta.labels.viewAllScripts' as any)}
+          {t('studio.templateMeta.labels.viewAllScripts')}
         </button>
       </div>
 
@@ -70,7 +68,7 @@ export default function TemplateSelector({
           let fullTemplate;
           try {
             fullTemplate = getTemplateById(template.id);
-          } catch (error) {
+          } catch {
             fullTemplate = null;
           }
           const hasUIMetadata = fullTemplate?.template?.ui;
@@ -97,7 +95,7 @@ export default function TemplateSelector({
                     <h4 className={`text-[13px] font-semibold truncate ${
                       isSelected ? 'text-blue-700 dark:text-blue-300' : 'text-gray-900 dark:text-gray-100'
                     }`}>
-                      {template.nameKey ? (t(template.nameKey as any) || template.name) : template.name}
+                      {template.nameKey ? (t(template.nameKey) || template.name) : template.name}
                     </h4>
                     {isSelected && (
                       <svg className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -111,7 +109,7 @@ export default function TemplateSelector({
                   </div>
                   {/* Description */}
                   <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-snug line-clamp-2">
-                    {template.descriptionKey ? (t(template.descriptionKey as any) || template.description) : template.description}
+                    {template.descriptionKey ? (t(template.descriptionKey) || template.description) : template.description}
                   </p>
                 </div>
 
@@ -125,7 +123,7 @@ export default function TemplateSelector({
                         ? 'bg-yellow-500/15 text-yellow-700 dark:text-yellow-500'
                         : 'bg-orange-500/15 text-orange-700 dark:text-orange-500'
                     }`}>
-                      {t(`studio.templateMeta.complexity.${fullTemplate!.template.ui!.complexity}` as any)}
+                      {t(`studio.templateMeta.complexity.${fullTemplate!.template.ui!.complexity}`)}
                     </span>
                   ) : isInvalid ? (
                     <span className="inline-block px-1.5 py-0.5 bg-red-100 dark:bg-red-950/50 text-red-700 dark:text-red-400 text-[9px] font-semibold rounded">
@@ -148,7 +146,7 @@ export default function TemplateSelector({
                       ? 'bg-amber-100 dark:bg-amber-950/50 text-amber-700 dark:text-amber-400'
                       : 'bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-400'
                   }`}>
-                    {t(`studio.templateMeta.categories.${template.category}` as any)}
+                    {t(`studio.templateMeta.categories.${template.category}`)}
                   </span>
 
                   {/* Mode Indicator */}

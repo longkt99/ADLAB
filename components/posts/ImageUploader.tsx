@@ -64,9 +64,9 @@ export default function ImageUploader({
       } else {
         throw new Error('Failed to get public URL');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Upload error:', err);
-      setError(err.message || 'Failed to upload image');
+      setError(err instanceof Error ? err.message : 'Failed to upload image');
     } finally {
       setUploading(false);
     }

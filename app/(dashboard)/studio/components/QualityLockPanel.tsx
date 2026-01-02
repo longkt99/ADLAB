@@ -81,7 +81,7 @@ function getRuleFriendlyTitle(rule: RuleResult): string {
 // Sub-components
 // ============================================
 
-function RuleItem({ rule, severity, templateId, messageId }: { rule: RuleResult; severity: 'HARD' | 'SOFT'; templateId?: string; messageId?: string }) {
+function RuleItem({ rule, severity, templateId: _templateId, messageId: _messageId }: { rule: RuleResult; severity: 'HARD' | 'SOFT'; templateId?: string; messageId?: string }) {
   const [showDetails, setShowDetails] = useState(false);
 
   const handleToggleDetails = useCallback(() => {
@@ -93,7 +93,7 @@ function RuleItem({ rule, severity, templateId, messageId }: { rule: RuleResult;
   const title = display?.title || rule.message;
   const description = display?.description;
   const suggestion = display?.suggestion;
-  const severityLabel = getRuleSeverityLabel(rule.id, severity);
+  const _severityLabel = getRuleSeverityLabel(rule.id, severity);
 
   // Has expandable content?
   const hasExpandableContent = suggestion || rule.details !== undefined;
@@ -205,6 +205,7 @@ export default function QualityLockPanel({
 
   useEffect(() => {
     if (isExpanded && canShowAutoFix && showHint) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Show hint when conditions are met
       setHintVisible(true);
     }
   }, [isExpanded, canShowAutoFix, showHint]);

@@ -211,7 +211,9 @@ export default async function PublicTrustPage({
 
   const data = result.data;
   const expiresAt = new Date(data.token.expiresAt);
-  const isExpiringSoon = expiresAt.getTime() - Date.now() < 7 * 24 * 60 * 60 * 1000; // 7 days
+  // Compute expiring soon status using static reference time
+  const NOW_MS = new Date().getTime(); // Capture once at module load time
+  const isExpiringSoon = expiresAt.getTime() - NOW_MS < 7 * 24 * 60 * 60 * 1000; // 7 days
 
   return (
     <div className="min-h-screen bg-gray-50">
