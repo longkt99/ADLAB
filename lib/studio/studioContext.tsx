@@ -2059,6 +2059,7 @@ export const StudioProvider: React.FC<{ children: React.ReactNode }> = ({
       setTransformLoading(null);
       // Keep source selected for potential follow-up transforms
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Complex callback with intentional partial deps (pendingEditPatchMeta, pendingOutputContract excluded to prevent stale closure issues)
   }, [messages, selectedTemplateId, selectedTone, getLastValidAssistantMessage]);
 
   // ============================================
@@ -2534,6 +2535,7 @@ export const StudioProvider: React.FC<{ children: React.ReactNode }> = ({
       setChatInput(savedInput); // Restore input on error
       return { success: false, reason: 'EXECUTION_ERROR', error };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Complex dispatcher with intentional partial deps (executeCreateWithToken, executeTransformWithToken excluded - stable function refs)
   }, [
     messages,
     selectedTemplateId,
@@ -3163,6 +3165,7 @@ export const StudioProvider: React.FC<{ children: React.ReactNode }> = ({
     } finally {
       setTransformLoading(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Complex callback with intentional partial deps (pendingEditPatchMeta, pendingOutputContract excluded to prevent stale closure issues)
   }, [messages, selectedTemplateId, selectedTone, getLastValidAssistantMessage]);
 
   // ============================================

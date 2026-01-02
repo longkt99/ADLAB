@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { PLATFORMS, PLATFORM_DISPLAY_NAMES, type Platform } from '@/lib/platforms';
@@ -221,7 +221,7 @@ export default function CalendarPage() {
   // ============================================
   // Fetch Calendar Data
   // ============================================
-  const fetchCalendarData = async () => {
+  const fetchCalendarData = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams({
@@ -251,12 +251,12 @@ export default function CalendarPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [year, month, platformFilter, statusFilter]);
 
   // Fetch calendar data when dependencies change
   useEffect(() => {
     fetchCalendarData();
-  }, [year, month, platformFilter, statusFilter]);
+  }, [fetchCalendarData]);
 
   // Refetch calendar data when page becomes visible (user navigates back)
   useEffect(() => {
@@ -271,7 +271,7 @@ export default function CalendarPage() {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [year, month, platformFilter, statusFilter]);
+  }, [fetchCalendarData]);
 
   // ============================================
   // Calendar Navigation

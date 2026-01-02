@@ -528,7 +528,6 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
       // Activate this message as the draft
       const activated = maybeActivateDraft(lastAssistantMsg.id, true);
       if (activated) {
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- Sync editorial mode after draft activation
         refreshEditorialMode();
         if (process.env.NODE_ENV === 'development') {
           console.log('[StudioEditor:STEP14A] Auto-activated draft:', lastAssistantMsg.id);
@@ -541,7 +540,6 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   useEffect(() => {
     if (!aiLoading && isEditLocked()) {
       unlockEdit();
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- Sync editorial mode after unlock
       refreshEditorialMode();
       if (process.env.NODE_ENV === 'development') {
         console.log('[StudioEditor:STEP14A] Edit unlocked after AI response');
@@ -554,7 +552,6 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
     const currentDraftId = getActiveDraftId();
     // Reset if draft changed or no longer active
     if (rewriteConfirmedForDraftId && rewriteConfirmedForDraftId !== currentDraftId) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- Reset confirmation on draft change
       setRewriteConfirmedForDraftId(null);
       if (process.env.NODE_ENV === 'development') {
         console.log('[StudioEditor:STEP27] Reset rewrite confirmation - draft changed', {
@@ -568,7 +565,6 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   // ✅ STEP 27: Reset rewrite confirmation when messages cleared
   useEffect(() => {
     if (messages.length === 0 && rewriteConfirmedForDraftId) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- Reset confirmation on clear
       setRewriteConfirmedForDraftId(null);
       if (process.env.NODE_ENV === 'development') {
         console.log('[StudioEditor:STEP27] Reset rewrite confirmation - messages cleared');
@@ -637,7 +633,6 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   // ✅ STEP 15: Initialize canon when draft is activated
   useEffect(() => {
     if (!hasActiveDraft()) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- Reset canon when draft deactivated
       setActiveCanon(null);
       return;
     }
@@ -677,7 +672,6 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   // ✅ STEP 17: Initialize intent canon when draft is activated
   useEffect(() => {
     if (!hasActiveDraft()) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- Reset intent canon when draft deactivated
       setActiveIntentCanon(null);
       return;
     }
@@ -860,7 +854,6 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
 
     const timeRemaining = localEditToast.expiresAt - Date.now();
     if (timeRemaining <= 0) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- Dismiss expired toast immediately
       setLocalEditToast(null);
       return;
     }
@@ -1619,7 +1612,6 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   // ============================================
   // STEP 6.5 + STEP 7 + STEP 8 + STEP 9 + STEP 14 + STEP 14A: Attempt Send with Confirmation, Learning, Debug, Outcome, Governance & Editorial Authority
   // ============================================
-  // eslint-disable-next-line react-hooks/preserve-manual-memoization -- Complex callback with intentional partial deps
   const attemptSend = useCallback(() => {
     if (!canSubmit) return;
 
@@ -2209,6 +2201,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
       editedMessageId,
       uiSourceMessageId: currentSourceId,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Complex callback with intentional partial deps (activeCanon, language, refreshEditorialMode, rewriteConfirmedForDraftId, setAiError, setEditPatchMeta, setOutputContract excluded to prevent excessive re-renders)
   }, [
     canSubmit,
     chatInput,

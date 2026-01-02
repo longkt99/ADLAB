@@ -178,7 +178,8 @@ export default function PostForm({ mode, initialData, postId }: PostFormProps) {
         localStorage.removeItem('studio_approved_draft_v1');
       }
     }
-  }, []); // Run only once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Run only once on mount, intentionally ignores form state changes
+  }, []);
 
   // Textarea auto-resize
   useEffect(() => {
@@ -201,13 +202,14 @@ export default function PostForm({ mode, initialData, postId }: PostFormProps) {
         setActivePreviewPlatform(formData.platforms[0]);
       }
     }
-  }, [formData.platforms]);
+  }, [formData.platforms, activePreviewPlatform]);
 
   // Initialize mediaImages from cover_image_url on mount
   useEffect(() => {
     if (formData.cover_image_url && mediaImages.length === 0) {
       setMediaImages([formData.cover_image_url]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Run only once on mount to initialize from initial prop
   }, []);
 
   // Sync cover_image_url with first media image
@@ -216,7 +218,7 @@ export default function PostForm({ mode, initialData, postId }: PostFormProps) {
     if (firstImage !== formData.cover_image_url) {
       setFormData((prev) => ({ ...prev, cover_image_url: firstImage }));
     }
-  }, [mediaImages]);
+  }, [mediaImages, formData.cover_image_url]);
 
   // Handlers for multi-image management
   const handleAddMedia = (e: React.ChangeEvent<HTMLInputElement>) => {

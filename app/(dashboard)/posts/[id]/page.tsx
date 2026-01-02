@@ -1,7 +1,7 @@
 'use client';
 
 // 1. Thêm import 'use'
-import { useEffect, useState, use } from 'react';
+import { useEffect, useState, use, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { getPlatformDisplayName } from '@/lib/platforms';
@@ -32,7 +32,7 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
   const [error, setError] = useState<string | null>(null);
 
   // Separate function to fetch variants - can be called independently
-  const fetchVariants = async () => {
+  const fetchVariants = useCallback(async () => {
     try {
       const variantsRes = await fetch(`/api/posts/${id}/variants`);
 
@@ -46,7 +46,7 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
     } catch (error) {
       console.error('Failed to refetch variants:', error);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     async function fetchData() {
@@ -55,7 +55,6 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
         setError(null);
 
         // Fetch post data
-        // 4. Dùng biến 'id' thay cho 'params.id'
         const postRes = await fetch(`/api/posts/${id}`);
 
         if (!postRes.ok) {
@@ -89,7 +88,7 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
     }
 
     fetchData();
-  }, [id]);
+  }, [id, router, fetchVariants]);
 
   if (loading) {
     return (
