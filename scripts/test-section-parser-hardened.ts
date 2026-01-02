@@ -1,7 +1,7 @@
 // Quick test for hardened sectionParser patterns
 // Run with: npx tsx scripts/test-section-parser-hardened.ts
 
-import { normalizeSections, validateStructure, parseSections } from '../lib/quality/sectionParser';
+import { normalizeSections, validateStructure } from '../lib/quality/sectionParser';
 
 interface TestCase {
   name: string;
@@ -230,7 +230,7 @@ let failed = 0;
 
 for (const tc of testCases) {
   const sections = normalizeSections(tc.content);
-  const validation = validateStructure(sections);
+  const _validation = validateStructure(sections);
 
   const hasHook = !!sections.hook && sections.hook.trim().length > 0;
   const hasBody = !!sections.body && sections.body.trim().length > 0;
