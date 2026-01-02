@@ -25,7 +25,6 @@ import { type DrillAction, getDrillById, DRILL_ACTIONS } from '@/lib/adlab/ops/d
 import {
   recordDrillAction,
   getActiveDrill,
-  getOperatorActiveDrill,
 } from '@/lib/adlab/ops/drillRunner';
 import { evaluateDrill } from '@/lib/adlab/ops/drillEvaluator';
 

@@ -23,13 +23,13 @@
 
 import {
   resolveAllSecurityAnswers,
-  type SecurityQuestion,
+  
   type SecurityAnswer,
   type AnswerResolutionResult,
   type EvidenceContext,
   type SecurityQuestionCategory,
   type AnswerStatus,
-  type EvidenceReference,
+  
   getStatusLabel,
 } from './securityAnswerEngine';
 

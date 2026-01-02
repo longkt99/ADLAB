@@ -93,6 +93,7 @@ export default function PromptSheet({ card, onClose, onSubmit }: PromptSheetProp
   // STEP 5: Apply inferred tone preference if no card default
   useEffect(() => {
     if (card) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Reset form state when card changes
       setTopic('');
       // STEP 5: Use card default first, then inferred preference, then empty
       const defaultTone = card.defaultToneId || getInferredTone() || '';

@@ -2,7 +2,6 @@
 
 import PostForm from '@/components/posts/PostForm';
 import { useTranslation } from '@/lib/i18n';
-import { typography, containerSpacing } from '@/lib/ui/responsive';
 
 export default function NewPostPage() {
   const { t } = useTranslation();

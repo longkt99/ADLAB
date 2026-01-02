@@ -55,7 +55,7 @@ export async function PATCH(request: NextRequest) {
     // ============================================
     // Prepare Update Data Based on Action
     // ============================================
-    let updateData: any = {};
+    let updateData: { status: VariantStatus; scheduled_at?: string; published_at?: string; published_error?: null };
     let newStatus: VariantStatus;
 
     switch (action) {
@@ -82,6 +82,13 @@ export async function PATCH(request: NextRequest) {
           published_error: null, // Clear any previous errors
         };
         break;
+
+      default:
+        // TypeScript exhaustiveness check - action is validated above
+        return NextResponse.json(
+          { error: 'Invalid action' },
+          { status: 400 }
+        );
     }
 
     // ============================================
@@ -119,10 +126,10 @@ export async function PATCH(request: NextRequest) {
       updated_count: updatedVariants.length,
       variants: updatedVariants,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Bulk action error:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to perform bulk action' },
+      { error: error instanceof Error ? error.message : String(error) || 'Failed to perform bulk action' },
       { status: 500 }
     );
   }

@@ -8,8 +8,9 @@
 // No execution logic should be affected.
 // ============================================
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { createIntentSnapshot, type IntentSnapshot, type IntentSummary } from '../../types/studio';
+import { describe, it, expect } from 'vitest';
+import { createIntentSnapshot } from '../../types/studio';
+import type { IntentSummary } from '../../types/studio';
 import {
   deriveIntentSummary,
   formatSummaryForDisplay,
@@ -441,9 +442,9 @@ describe('Summary does NOT affect execution', () => {
     const summary = deriveIntentSummary(snapshot);
 
     // Summary should have no methods
-    const keys = Object.keys(summary);
+    const keys = Object.keys(summary) as Array<keyof IntentSummary>;
     keys.forEach((key) => {
-      expect(typeof (summary as Record<string, unknown>)[key]).not.toBe('function');
+      expect(typeof summary[key]).not.toBe('function');
     });
   });
 

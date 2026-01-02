@@ -110,7 +110,7 @@ function getBundleStatus(
 /**
  * Counts total exports from export record.
  */
-function countTotalExports(exports: Record<ExportFormat, number>): number {
+function _countTotalExports(exports: Record<ExportFormat, number>): number {
   return Object.values(exports).reduce((sum, count) => sum + count, 0);
 }
 

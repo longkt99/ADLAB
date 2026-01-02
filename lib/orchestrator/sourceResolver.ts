@@ -11,7 +11,6 @@
 
 import type {
   SourceResolution,
-  SourceResolutionStatus,
   OutputReference,
 } from '@/types/orchestrator';
 import type { ChatMessage } from '@/types/studio';

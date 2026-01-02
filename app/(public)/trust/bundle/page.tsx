@@ -171,7 +171,7 @@ function BundleViewerContent() {
       }
 
       setBundle(result.data);
-    } catch (e) {
+    } catch (_e) {
       setError('Failed to load bundle');
     } finally {
       setLoading(false);

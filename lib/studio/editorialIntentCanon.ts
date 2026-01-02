@@ -199,7 +199,7 @@ const PROMO_PATTERNS = [
 ];
 
 // CTA intensity patterns
-const SOFT_CTA_PATTERNS = [
+const _SOFT_CTA_PATTERNS = [
   /(?:tìm\s*hiểu\s*thêm|xem\s*thêm|more\s*info)/gi,
   /(?:liên\s*hệ\s*để|contact\s*for)/gi,
   /(?:đừng\s*bỏ\s*lỡ|don't\s*miss)/gi,

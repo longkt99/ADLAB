@@ -17,7 +17,7 @@
 // ============================================
 
 import type { StabilityBand } from './intentStability';
-import type { ConversationMode, ContinuityState } from './intentContinuity';
+import type { ContinuityState } from './intentContinuity';
 
 // ============================================
 // Types

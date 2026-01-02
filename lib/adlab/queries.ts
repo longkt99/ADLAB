@@ -53,9 +53,9 @@ import { isE2ELogEnabled, shouldLogE2ERoute, logE2E, logE2EBanner } from '@/lib/
 export type {
   AdLabFilters,
   DateRange,
-  AlertStatusFilter,
-  AlertSeverityFilter,
-  AlertPlatformFilter,
+
+
+
   AlertFilters,
   AdLabClient,
   AdLabCampaign,
@@ -81,9 +81,9 @@ export type {
 import type {
   AdLabFilters,
   DateRange,
-  AlertStatusFilter,
-  AlertSeverityFilter,
-  AlertPlatformFilter,
+
+
+
   AlertFilters,
   AdLabClient,
   AdLabCampaign,
@@ -387,11 +387,12 @@ export async function getCampaigns(
     }
 
     // Map joined client name
-    const mapped = (data || []).map((c: any) => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Supabase join returns dynamic shape
+    const mapped = (data || []).map((c: Record<string, any>) => ({
       ...c,
       client_name: c.clients?.name || null,
       clients: undefined,
-    })) as AdLabCampaign[];
+    })) as unknown as AdLabCampaign[];
 
     return { data: mapped, error: null, count: count || 0 };
   } catch (e) {

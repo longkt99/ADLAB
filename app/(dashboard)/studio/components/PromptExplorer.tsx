@@ -113,6 +113,7 @@ export default function PromptExplorer({
   // Reset filters when opening
   useEffect(() => {
     if (isOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Reset filters when modal opens
       setSearchQuery('');
       setSelectedCategory('all');
       setSelectedUseCase('all');
@@ -137,6 +138,7 @@ export default function PromptExplorer({
 
   // Reset use case when category changes
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Derived state reset when category changes
     setSelectedUseCase('all');
   }, [selectedCategory]);
 

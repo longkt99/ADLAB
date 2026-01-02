@@ -462,7 +462,7 @@ function resolveQuestion(
   question: SecurityQuestion,
   context: EvidenceContext
 ): ResolvedAnswer {
-  const { slaSummary, drills, freshnessPolicies, criticalDatasets, readiness } = context;
+  const { slaSummary, drills, freshnessPolicies: _freshnessPolicies, criticalDatasets, readiness } = context;
 
   switch (question.id) {
     // ACCESS_CONTROL

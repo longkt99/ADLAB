@@ -38,7 +38,7 @@ import {
 // GET: Dashboard Data
 // ============================================
 
-export async function GET(request: NextRequest): Promise<NextResponse> {
+export async function GET(_request: NextRequest): Promise<NextResponse> {
   try {
     const actor = await resolveActorFromRequest();
 

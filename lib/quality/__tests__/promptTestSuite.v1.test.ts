@@ -10,12 +10,11 @@
 //
 // All thresholds are LOCKED and match production values.
 
-import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import {
   checkGuardrails,
   GUARDRAIL_POLICY,
   STRICT_GUARDRAIL_POLICY,
-  type GuardrailCheckResult,
 } from '../autoFixGuardrails';
 import { checkSimilarity, type SimilarityResult } from '../similarityCheck';
 import {
@@ -25,13 +24,7 @@ import {
   detectQuickUndo,
   detectFallbackUsed,
   detectConsecutiveReject,
-  createTrustState,
-  addTrustSignal,
-  recordSuccessfulAccept,
-  isInCooldown,
-  isFrozen,
   TRUST_THRESHOLDS,
-  type TrustSignal,
   type TrustSignalType,
 } from '../trustErosion';
 import {
@@ -41,7 +34,6 @@ import {
   recordSuccess,
   checkBackoff,
   shouldUseStrictMode,
-  type BackoffContext,
   type BackoffState,
 } from '../backoffState';
 import type { RuleResult } from '../intentQualityRules';
@@ -746,7 +738,8 @@ describe('Prompt Test Suite v1 - Trust Erosion Signals', () => {
 // ============================================
 
 describe('Prompt Test Suite v1 - Backoff State Machine', () => {
-  const backoffCases = TEST_CASES.filter(tc => tc.name.startsWith('B'));
+  // Filter backoff cases for reference (test cases are defined inline)
+  const _backoffCases = TEST_CASES.filter(tc => tc.name.startsWith('B'));
 
   describe('B1: NORMAL → CAUTIOUS transition', () => {
     it('should transition to CAUTIOUS when trust drops below 80', () => {
@@ -853,7 +846,7 @@ describe('Prompt Test Suite v1 - API Integration', () => {
   describe('A2: Retry threshold behavior', () => {
     it('should use stricter 75% threshold on retry', () => {
       // Simulate first attempt at 72% - passes 70% but not 75%
-      const similarity = checkSimilarity(
+      checkSimilarity(
         VIETNAMESE_FIXTURES.cleanPost,
         'Sản phẩm tiết kiệm thời gian.',
         { minSimilarity: 0.75 } // Retry threshold

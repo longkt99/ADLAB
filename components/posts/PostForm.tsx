@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import ImageUploader from './ImageUploader';
+import Image from 'next/image';
+import _ImageUploader from './ImageUploader';
 import { PLATFORMS, getPlatformDisplayName } from '@/lib/platforms';
 import type { PostFormData, PostStatus, Platform } from '@/lib/types';
 import { useTranslation } from '@/lib/i18n';
@@ -102,9 +103,10 @@ export default function PostForm({ mode, initialData, postId }: PostFormProps) {
           router.push(`/posts/${postId}`);
         }
       }, 500);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Form submission error:', err);
-      setError(err.message || t('postForm.error.failedToSave'));
+      const errorMessage = err instanceof Error ? err.message : t('postForm.error.failedToSave');
+      setError(errorMessage);
       setSubmitting(false);
     }
   };
@@ -177,7 +179,8 @@ export default function PostForm({ mode, initialData, postId }: PostFormProps) {
         localStorage.removeItem('studio_approved_draft_v1');
       }
     }
-  }, []); // Run only once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Run only once on mount, intentionally ignores form state changes
+  }, []);
 
   // Textarea auto-resize
   useEffect(() => {
@@ -200,13 +203,14 @@ export default function PostForm({ mode, initialData, postId }: PostFormProps) {
         setActivePreviewPlatform(formData.platforms[0]);
       }
     }
-  }, [formData.platforms]);
+  }, [formData.platforms, activePreviewPlatform]);
 
   // Initialize mediaImages from cover_image_url on mount
   useEffect(() => {
     if (formData.cover_image_url && mediaImages.length === 0) {
       setMediaImages([formData.cover_image_url]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Run only once on mount to initialize from initial prop
   }, []);
 
   // Sync cover_image_url with first media image
@@ -215,7 +219,7 @@ export default function PostForm({ mode, initialData, postId }: PostFormProps) {
     if (firstImage !== formData.cover_image_url) {
       setFormData((prev) => ({ ...prev, cover_image_url: firstImage }));
     }
-  }, [mediaImages]);
+  }, [mediaImages, formData.cover_image_url]);
 
   // Handlers for multi-image management
   const handleAddMedia = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -272,23 +276,30 @@ export default function PostForm({ mode, initialData, postId }: PostFormProps) {
           <div className="bg-gray-100 dark:bg-gray-800">
             {imageCount === 1 && (
               // Single image: full width
-              <img
-                src={mediaImages[0]}
-                alt="Facebook preview"
-                className="w-full object-cover max-h-96"
-              />
+              <div className="relative w-full h-96">
+                <Image
+                  src={mediaImages[0]}
+                  alt="Facebook preview"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+              </div>
             )}
 
             {imageCount === 2 && (
               // Two images: side by side
               <div className="grid grid-cols-2 gap-0.5">
                 {mediaImages.slice(0, 2).map((img, i) => (
-                  <img
-                    key={i}
-                    src={img}
-                    alt={`Facebook preview ${i + 1}`}
-                    className="w-full h-64 object-cover"
-                  />
+                  <div key={i} className="relative w-full h-64">
+                    <Image
+                      src={img}
+                      alt={`Facebook preview ${i + 1}`}
+                      fill
+                      className="object-cover"
+                      unoptimized
+                    />
+                  </div>
                 ))}
               </div>
             )}
@@ -297,26 +308,34 @@ export default function PostForm({ mode, initialData, postId }: PostFormProps) {
               // Three or more: mosaic layout
               <div className="grid grid-cols-2 gap-0.5">
                 {/* First image takes full left column */}
-                <img
-                  src={mediaImages[0]}
-                  alt="Facebook preview 1"
-                  className="w-full h-full min-h-[256px] object-cover"
-                />
+                <div className="relative w-full min-h-[256px]">
+                  <Image
+                    src={mediaImages[0]}
+                    alt="Facebook preview 1"
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
 
                 {/* Right column: 2 images stacked */}
                 <div className="grid grid-rows-2 gap-0.5">
-                  <div className="relative">
-                    <img
+                  <div className="relative min-h-[128px]">
+                    <Image
                       src={mediaImages[1]}
                       alt="Facebook preview 2"
-                      className="w-full h-full min-h-[128px] object-cover"
+                      fill
+                      className="object-cover"
+                      unoptimized
                     />
                   </div>
-                  <div className="relative">
-                    <img
+                  <div className="relative min-h-[128px]">
+                    <Image
                       src={mediaImages[2]}
                       alt="Facebook preview 3"
-                      className="w-full h-full min-h-[128px] object-cover"
+                      fill
+                      className="object-cover"
+                      unoptimized
                     />
                     {/* +N overlay if more than 3 images */}
                     {imageCount > 3 && (
@@ -362,11 +381,13 @@ export default function PostForm({ mode, initialData, postId }: PostFormProps) {
 
       {/* Main Media Image (square, first image only) */}
       {mediaImages.length > 0 && (
-        <div className="relative">
-          <img
+        <div className="relative aspect-square">
+          <Image
             src={mediaImages[0]}
             alt="Instagram preview"
-            className="w-full aspect-square object-cover"
+            fill
+            className="object-cover"
+            unoptimized
           />
           {/* Carousel indicator for multiple images */}
           {mediaImages.length > 1 && (
@@ -420,11 +441,13 @@ export default function PostForm({ mode, initialData, postId }: PostFormProps) {
         <div className="px-3 pb-3">
           <div className="flex items-center gap-2 overflow-x-auto thumbnail-scroll">
             {mediaImages.slice(1).map((imageUrl, index) => (
-              <div key={index} className="flex-shrink-0">
-                <img
+              <div key={index} className="relative flex-shrink-0 w-14 h-14">
+                <Image
                   src={imageUrl}
                   alt={`Thumbnail ${index + 2}`}
-                  className="w-14 h-14 rounded-md object-cover border border-gray-200 dark:border-gray-700"
+                  fill
+                  className="rounded-md object-cover border border-gray-200 dark:border-gray-700"
+                  unoptimized
                 />
               </div>
             ))}
@@ -457,11 +480,15 @@ export default function PostForm({ mode, initialData, postId }: PostFormProps) {
           {/* Media (landscape aspect ratio) */}
           {mediaImages.length > 0 && (
             <div className="mt-3 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
-              <img
-                src={mediaImages[0]}
-                alt="Twitter preview"
-                className="w-full aspect-[16/9] object-cover"
-              />
+              <div className="relative w-full aspect-[16/9]">
+                <Image
+                  src={mediaImages[0]}
+                  alt="Twitter preview"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+              </div>
             </div>
           )}
 
@@ -531,11 +558,15 @@ export default function PostForm({ mode, initialData, postId }: PostFormProps) {
       {/* Media (wide landscape) */}
       {mediaImages.length > 0 && (
         <div className="px-0">
-          <img
-            src={mediaImages[0]}
-            alt="LinkedIn preview"
-            className="w-full aspect-[2/1] object-cover"
-          />
+          <div className="relative w-full aspect-[2/1]">
+            <Image
+              src={mediaImages[0]}
+              alt="LinkedIn preview"
+              fill
+              className="object-cover"
+              unoptimized
+            />
+          </div>
         </div>
       )}
 
@@ -568,20 +599,26 @@ export default function PostForm({ mode, initialData, postId }: PostFormProps) {
       {/* Main Media Image (first image only) */}
       {mediaImages.length > 0 && (
         <div>
-          <img
-            src={mediaImages[0]}
-            alt="Preview"
-            className="w-full rounded-lg object-cover max-h-48"
-          />
+          <div className="relative w-full h-48">
+            <Image
+              src={mediaImages[0]}
+              alt="Preview"
+              fill
+              className="rounded-lg object-cover"
+              unoptimized
+            />
+          </div>
           {/* Thumbnail strip for additional images */}
           {mediaImages.length > 1 && (
             <div className="mt-2 flex items-center gap-2 overflow-x-auto thumbnail-scroll">
               {mediaImages.slice(1).map((imageUrl, index) => (
-                <div key={index} className="flex-shrink-0">
-                  <img
+                <div key={index} className="relative flex-shrink-0 w-16 h-16">
+                  <Image
                     src={imageUrl}
                     alt={`Thumbnail ${index + 2}`}
-                    className="w-16 h-16 rounded object-cover border border-gray-200 dark:border-gray-700"
+                    fill
+                    className="rounded object-cover border border-gray-200 dark:border-gray-700"
+                    unoptimized
                   />
                 </div>
               ))}
@@ -821,10 +858,12 @@ export default function PostForm({ mode, initialData, postId }: PostFormProps) {
                     key={index}
                     className="relative group w-20 h-20 rounded-lg overflow-hidden border border-border"
                   >
-                    <img
+                    <Image
                       src={imageUrl}
                       alt={`Media ${index + 1}`}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      unoptimized
                     />
                     {/* Remove Button */}
                     <button

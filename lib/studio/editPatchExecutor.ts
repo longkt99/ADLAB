@@ -21,7 +21,7 @@
 // ============================================
 
 import type { EditorialCanon, CanonSection } from './editorialCanon';
-import type { EditIntentTarget, NormalizedEditIntent } from './editIntentNormalizer';
+import type { NormalizedEditIntent } from './editIntentNormalizer';
 import type {
   PatchOnlyContract,
   PatchTarget,
@@ -544,7 +544,7 @@ export function applyPatches(
   originalCanon: EditorialCanon,
   patches: ExtractedPatch[]
 ): EditorialCanon {
-  let updatedCanon = { ...originalCanon };
+  const updatedCanon = { ...originalCanon };
 
   for (const patch of patches) {
     switch (patch.target) {

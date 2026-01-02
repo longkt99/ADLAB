@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 
 interface ImageUploaderProps {
@@ -64,9 +65,9 @@ export default function ImageUploader({
       } else {
         throw new Error('Failed to get public URL');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Upload error:', err);
-      setError(err.message || 'Failed to upload image');
+      setError(err instanceof Error ? err.message : 'Failed to upload image');
     } finally {
       setUploading(false);
     }
@@ -84,11 +85,13 @@ export default function ImageUploader({
       </label>
 
       {preview ? (
-        <div className="relative">
-          <img
+        <div className="relative h-48">
+          <Image
             src={preview}
             alt="Cover preview"
-            className="w-full h-48 object-cover rounded-lg border border-gray-300"
+            fill
+            className="object-cover rounded-lg border border-gray-300"
+            unoptimized
           />
           <button
             type="button"

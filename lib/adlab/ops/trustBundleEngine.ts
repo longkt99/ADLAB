@@ -28,7 +28,6 @@ import {
 } from './questionnaireEngine';
 import {
   generateAttestation,
-  applyRedactions,
   ATTESTATION_PROFILES,
   type AttestationProfile,
   type AttestationResult,
@@ -36,12 +35,10 @@ import {
 import {
   generateSecurityWhitepaper,
   type SecurityWhitepaper,
-  type SectionId,
 } from './securityWhitepaper';
 import {
   deriveSLASummary,
   getSLAEvidenceSources,
-  type SLASummary,
   type EvidenceSource,
 } from './slaDerivation';
 import {
@@ -492,7 +489,7 @@ export async function checkBundlePrerequisites(
         .map(c => c.name);
       errors.push(`Go-live gate failed: ${failedChecks.join(', ')}`);
     }
-  } catch (e) {
+  } catch (_e) {
     errors.push('Unable to verify go-live readiness');
   }
 
@@ -884,7 +881,7 @@ export async function getBundleContents(
   }
 
   // Re-assemble bundle (always from current truth)
-  const { bundle, status } = await assembleBundle(verification.profile!);
+  const { bundle, status: _status } = await assembleBundle(verification.profile!);
 
   // Update manifest with stored values
   if (verification.record) {

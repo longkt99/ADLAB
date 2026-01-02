@@ -23,7 +23,7 @@
 
 import { createClient } from '@supabase/supabase-js';
 import { appendAuditLog } from '@/lib/adlab/audit';
-import type { Actor, PermissionAction } from '@/lib/adlab/auth/roles';
+import type { Actor } from '@/lib/adlab/auth/roles';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;

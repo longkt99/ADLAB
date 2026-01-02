@@ -21,10 +21,11 @@ export async function GET(
     }
 
     return NextResponse.json({ post });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Get post error:', error);
+    const message = error instanceof Error ? error.message : 'Failed to fetch post';
     return NextResponse.json(
-      { error: error.message || 'Failed to fetch post' },
+      { error: message },
       { status: 500 }
     );
   }
@@ -57,10 +58,11 @@ export async function PATCH(
     const post = await updatePost(id, input);
 
     return NextResponse.json({ success: true, post });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Update post error:', error);
+    const message = error instanceof Error ? error.message : 'Failed to update post';
     return NextResponse.json(
-      { error: error.message || 'Failed to update post' },
+      { error: message },
       { status: 500 }
     );
   }
@@ -78,10 +80,11 @@ export async function DELETE(
     await deletePost(id);
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Delete post error:', error);
+    const message = error instanceof Error ? error.message : 'Failed to delete post';
     return NextResponse.json(
-      { error: error.message || 'Failed to delete post' },
+      { error: message },
       { status: 500 }
     );
   }

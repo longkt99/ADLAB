@@ -11,9 +11,8 @@
 // - Observability: for UX hints and debug only
 // ============================================
 
-import { getPatternReliability, getAutoApplyChoice, getLearnedChoice } from './intentLearning';
+import { getPatternReliability, getAutoApplyChoice } from './intentLearning';
 import * as outcomeStore from './intentOutcomeStore';
-import type { IntentOutcome } from './intentOutcome';
 
 // ============================================
 // Configuration (tuneable constants)

@@ -28,17 +28,14 @@ import {
   type AdLabRole,
 } from './roles';
 import {
-  resolveActorFromSession,
   resolveActorForWorkspace,
   resolveActorWithDevFallback,
   type ResolvedActor,
   NotAuthenticatedError,
   MissingMembershipError,
   InactiveMembershipError,
-  NoWorkspaceError,
-  WorkspaceResolutionError,
 } from './resolveActor';
-import { appendAuditLog } from '@/lib/adlab/audit';
+import { appendAuditLog, type AuditAction } from '@/lib/adlab/audit';
 
 // ============================================
 // Types
@@ -265,6 +262,20 @@ export function noMembershipResponse(): NextResponse {
 // Audit Logging for Denials
 // ============================================
 
+/** Map PermissionAction to AuditAction. READ_ANALYTICS is not audited. */
+function toAuditAction(action: PermissionAction): AuditAction | null {
+  const mapping: Partial<Record<PermissionAction, AuditAction>> = {
+    PROMOTE: 'PROMOTE',
+    ROLLBACK: 'ROLLBACK',
+    SNAPSHOT_ACTIVATE: 'SNAPSHOT_ACTIVATE',
+    SNAPSHOT_DEACTIVATE: 'SNAPSHOT_DEACTIVATE',
+    VALIDATE: 'VALIDATE',
+    INGEST: 'INGEST',
+    // READ_ANALYTICS is not a high-risk action, skip auditing
+  };
+  return mapping[action] ?? null;
+}
+
 /**
  * Logs a permission denial to the audit trail.
  * This creates a permanent record of access attempts.
@@ -274,6 +285,12 @@ async function logPermissionDenial(
   action: PermissionAction,
   options: RequirePermissionOptions
 ): Promise<void> {
+  const auditAction = toAuditAction(action);
+  if (!auditAction) {
+    // Action not auditable (e.g., READ_ANALYTICS)
+    return;
+  }
+
   try {
     await appendAuditLog({
       context: {
@@ -281,7 +298,7 @@ async function logPermissionDenial(
         actorId: actor.id,
         actorRole: actor.role,
       },
-      action: action as any, // Action maps to audit action
+      action: auditAction,
       entityType: options.entity?.type || 'dataset',
       entityId: options.entity?.id || 'system',
       scope: {
@@ -334,20 +351,21 @@ export async function withActorPermission<T>(
     await requirePermission(actor, action, options);
     return handler(actor);
   } catch (e) {
+    type ErrorResponse = NextResponse<{ success: false; error: string; requiredRoles?: readonly string[] }>;
     if (e instanceof NotAuthenticatedError) {
-      return notAuthenticatedResponse() as any;
+      return notAuthenticatedResponse() as ErrorResponse;
     }
     if (e instanceof MissingMembershipError || e instanceof InactiveMembershipError) {
-      return noMembershipResponse() as any;
+      return noMembershipResponse() as ErrorResponse;
     }
     if (e instanceof PermissionDeniedError) {
-      return permissionDeniedResponse(action, (e as PermissionDeniedError).actor.role) as any;
+      return permissionDeniedResponse(action, e.actor.role) as ErrorResponse;
     }
     if (e instanceof InvalidRoleError || e instanceof MissingActorError) {
       return NextResponse.json(
         { success: false, error: e.message },
         { status: 400 }
-      ) as any;
+      ) as ErrorResponse;
     }
     throw e;
   }
@@ -374,14 +392,15 @@ export async function withPermission<T>(
     await requirePermission(actor, action, options);
     return handler(actor);
   } catch (e) {
+    type ErrorResponse = NextResponse<{ success: false; error: string; requiredRoles?: readonly string[] }>;
     if (e instanceof PermissionDeniedError) {
-      return permissionDeniedResponse(action, actorInput.role) as any;
+      return permissionDeniedResponse(action, actorInput.role) as ErrorResponse;
     }
     if (e instanceof InvalidRoleError || e instanceof MissingActorError) {
       return NextResponse.json(
         { success: false, error: e.message },
         { status: 400 }
-      ) as any;
+      ) as ErrorResponse;
     }
     throw e;
   }

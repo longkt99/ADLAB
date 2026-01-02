@@ -24,6 +24,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY) as Language | null;
     const initialLanguage = stored === 'vi' || stored === 'en' ? stored : DEFAULT_LANGUAGE;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Hydration from localStorage on mount
     setLanguageState(initialLanguage);
     setMounted(true);
   }, []);

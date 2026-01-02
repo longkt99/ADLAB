@@ -38,6 +38,7 @@ export default function FallingLEffect({
       })
     );
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Animation trigger requires immediate state setup
     setParticles(newParticles);
     setIsAnimating(true);
 
@@ -68,7 +69,7 @@ export default function FallingLEffect({
             animationDelay: `${particle.delay}ms`,
             animationDuration: `${particle.duration}ms`,
             opacity: particle.opacity,
-            ['--rotate-end' as any]: `${particle.rotation}deg`,
+            ['--rotate-end' as string]: `${particle.rotation}deg`,
           }}
         >
           <span

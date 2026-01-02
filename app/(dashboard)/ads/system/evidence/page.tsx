@@ -23,7 +23,7 @@ import { hasAtLeastRole } from '@/lib/adlab/auth/roles';
 import { checkProductionReadiness } from '@/lib/adlab/safety';
 import { getKillSwitchStatus } from '@/lib/adlab/safety/killSwitch';
 import { listInjectionConfigs } from '@/lib/adlab/safety/failureInjection';
-import { checkWorkspaceCompliance, listOverrides, DEFAULT_FRESHNESS_POLICIES, ALL_DATASET_KEYS } from '@/lib/adlab/ops';
+import { checkWorkspaceCompliance, listOverrides } from '@/lib/adlab/ops';
 import { createClient } from '@supabase/supabase-js';
 import Link from 'next/link';
 

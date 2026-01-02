@@ -78,7 +78,7 @@ export default function TemplateQuickPicker({
           className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-950/50 rounded-lg transition-colors whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
         >
           <span>📂</span>
-          <span>{t('studio.templateMeta.actions.viewAll' as any)}</span>
+          <span>{t('studio.templateMeta.actions.viewAll')}</span>
         </button>
       </div>
 
@@ -128,11 +128,11 @@ export default function TemplateQuickPicker({
             <button
               onClick={() => onSelectTemplate(null)}
               className="flex-shrink-0 px-3 py-2 rounded-lg border border-dashed border-slate-300 dark:border-slate-600 bg-transparent hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
-              title={t('studio.templateMeta.actions.useDefault' as any)}
+              title={t('studio.templateMeta.actions.useDefault')}
               type="button"
             >
               <span className="text-xs font-medium text-slate-500 dark:text-slate-400 whitespace-nowrap">
-                ✕ {t('studio.templateMeta.actions.useDefault' as any)}
+                ✕ {t('studio.templateMeta.actions.useDefault')}
               </span>
             </button>
           )}
@@ -148,18 +148,18 @@ export default function TemplateQuickPicker({
             try {
               fullTemplateData = getTemplateById(template.id);
               uiMetadata = fullTemplateData.template.ui;
-            } catch (error) {
+            } catch (_error) {
               uiMetadata = undefined;
             }
 
             // Use i18n keys if available, otherwise fallback to template name/description
             const nameKey = fullTemplateData?.template.nameKey;
             const descriptionKey = fullTemplateData?.template.descriptionKey;
-            const displayName = nameKey ? (t(nameKey as any) || template.name) : template.name;
-            const displayDescription = descriptionKey ? (t(descriptionKey as any) || template.description) : template.description;
+            const displayName = nameKey ? (t(nameKey) || template.name) : template.name;
+            const displayDescription = descriptionKey ? (t(descriptionKey) || template.description) : template.description;
 
             const categoryIcon = CATEGORY_ICONS[template.category] || '📄';
-            const categoryLabel = t(`studio.templateMeta.categories.${template.category}` as any) || template.category;
+            const categoryLabel = t(`studio.templateMeta.categories.${template.category}`) || template.category;
 
             return (
               <button
@@ -203,7 +203,7 @@ export default function TemplateQuickPicker({
                           ? 'bg-yellow-500/15 text-yellow-700 dark:text-yellow-500'
                           : 'bg-orange-500/15 text-orange-700 dark:text-orange-500'
                       }`}>
-                        {t(`studio.templateMeta.complexity.${uiMetadata.complexity}` as any)}
+                        {t(`studio.templateMeta.complexity.${uiMetadata.complexity}`)}
                       </span>
                     )}
 
@@ -251,7 +251,7 @@ export default function TemplateQuickPicker({
                             ? 'bg-yellow-500/15 text-yellow-700 dark:text-yellow-500'
                             : 'bg-orange-500/15 text-orange-700 dark:text-orange-500'
                         }`}>
-                          {t(`studio.templateMeta.complexity.${uiMetadata.complexity}` as any)}
+                          {t(`studio.templateMeta.complexity.${uiMetadata.complexity}`)}
                         </span>
                       )}
                     </div>
@@ -285,7 +285,7 @@ export default function TemplateQuickPicker({
                     {scriptChipHoverHint.shouldShow && (
                       <div className="mt-3 pt-2 border-t border-blue-100 dark:border-blue-900/50">
                         <p className="text-[9px] text-blue-600 dark:text-blue-400 leading-tight">
-                          💡 {t('studio.onboarding.templateEngine.firstUseHint' as any)}
+                          💡 {t('studio.onboarding.templateEngine.firstUseHint')}
                         </p>
                       </div>
                     )}

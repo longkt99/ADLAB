@@ -21,7 +21,6 @@
 import {
   type BundleEngagementMetrics,
   type TrackedSection,
-  type TimeBucket,
 } from './trustEngagement';
 
 // ============================================

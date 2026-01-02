@@ -18,12 +18,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import {
   resolveQuestionnaire,
   resolveCustomQuestions,
-  validateQuestion,
-  STANDARD_QUESTIONS,
+  validateQuestion,
   type SecurityQuestion,
 } from '@/lib/adlab/ops/questionnaireEngine';
 import { appendAuditLog } from '@/lib/adlab/audit';
-import crypto from 'crypto';
 
 const SYSTEM_WORKSPACE_ID = process.env.ADLAB_SYSTEM_WORKSPACE_ID || 'system';
 

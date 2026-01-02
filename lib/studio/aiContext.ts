@@ -13,7 +13,6 @@
 
 import { getTemplateById } from './templateLoader';
 import type { ContentTemplate } from './templates/templateSchema';
-import type { BrandTone } from './tones';
 import type { ChatMessage } from '@/types/studio';
 
 // ============================================

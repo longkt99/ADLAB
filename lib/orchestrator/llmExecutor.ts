@@ -49,7 +49,7 @@ import { safeHash, validateBinding } from '@/lib/studio/safeHash';
 // ✅ STEP 24: Failure classification for observability (DEV-only, no runtime impact)
 import { formatFailureClassification } from '@/lib/studio/failureTaxonomy';
 // ✅ STEP 26: Validation telemetry for shadow validation
-import { logValidationSummary, type ValidationSummaryInput } from '@/lib/studio/validationTelemetry';
+import { logValidationSummary } from '@/lib/studio/validationTelemetry';
 import type { OutputContract, PatchOnlyContract } from '@/types/studio';
 
 // ============================================

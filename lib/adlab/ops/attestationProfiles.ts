@@ -436,7 +436,7 @@ export function applyRedactions<T>(data: T, targets: RedactionTarget[]): T {
 }
 
 export function countRedactions(original: unknown, redacted: unknown): number {
-  const originalStr = JSON.stringify(original);
+  const _originalStr = JSON.stringify(original);
   const redactedStr = JSON.stringify(redacted);
 
   const redactedCount = (redactedStr.match(/\[REDACTED-/g) || []).length;

@@ -124,7 +124,7 @@ function ToneDiff({
  */
 export function CanonSuggestionModal({
   diff,
-  newText,
+  newText: _newText,
   onAcceptAll,
   onRevertLocked,
   onCancel,

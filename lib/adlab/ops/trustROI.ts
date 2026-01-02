@@ -19,7 +19,6 @@
 // ============================================
 
 import { type DealStageIndicator } from './salesSignals';
-import { type TimelineRisk } from './trustTimeline';
 
 // ============================================
 // Types
@@ -343,7 +342,7 @@ export function computeBundleROIMetrics(input: ROIInputBundle): BundleROIMetrics
 function generateROIInsights(
   bundleMetrics: BundleROIMetrics[],
   outcomeDistribution: Record<BundleOutcome, number>,
-  engagementDistribution: Record<EngagementTier, number>
+  _engagementDistribution: Record<EngagementTier, number>
 ): ROIInsight[] {
   const insights: ROIInsight[] = [];
   const total = bundleMetrics.length;

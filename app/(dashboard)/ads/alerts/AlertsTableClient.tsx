@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useTransition } from 'react';
+import React, { useState, useEffect, useCallback, useTransition } from 'react';
 import Link from 'next/link';
 import { type AdLabAlert } from '@/lib/adlab/types';
 import {
@@ -272,12 +272,12 @@ interface AlertsTableClientProps {
 export function AlertsTableClient({ alerts }: AlertsTableClientProps) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
-  // Reset selection when alerts change (after bulk action)
+  // Prune selection when alerts change (remove IDs no longer in alerts)
   useEffect(() => {
-    // Keep selected IDs that still exist
+    const currentAlertIds = new Set(alerts.map((a) => a.id));
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Derived state cleanup when external data changes
     setSelectedIds((prev) => {
-      const alertIds = new Set(alerts.map((a) => a.id));
-      const filtered = new Set([...prev].filter((id) => alertIds.has(id)));
+      const filtered = new Set([...prev].filter((id) => currentAlertIds.has(id)));
       return filtered.size === prev.size ? prev : filtered;
     });
   }, [alerts]);

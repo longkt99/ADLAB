@@ -18,7 +18,6 @@ import {
   getChangelogEntries,
   getLatestChangelogEntry,
   getChangeTypeLabel,
-  type ChangelogEntry,
 } from '@/lib/adlab/trust';
 
 // ============================================
@@ -46,7 +45,7 @@ interface PublicChangelogResponse {
 // GET Handler
 // ============================================
 
-export async function GET(request: NextRequest): Promise<NextResponse> {
+export async function GET(_request: NextRequest): Promise<NextResponse> {
   try {
     const entries = getChangelogEntries();
     const latest = getLatestChangelogEntry();

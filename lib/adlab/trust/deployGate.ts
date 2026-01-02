@@ -25,10 +25,10 @@ import {
   getActiveSnapshot,
   getActiveVersion,
   versionExists,
-  getPreviousVersion,
+  
 } from './snapshotStore';
 import { hasChangelogEntry } from './changelogStore';
-import { getDiffFromPrevious, hasChanges } from './diffEngine';
+import { getDiffFromPrevious } from './diffEngine';
 
 // ============================================
 // UI Version Detection

@@ -69,9 +69,10 @@ export function getLocalizedPrompt(
  * @param key - Dotted key path (e.g., 'studio.prompts.socialPostGenerator.userTemplate')
  * @returns The value at the key path, or undefined if not found
  */
-function getNestedValue(obj: any, key: string): any {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+function getNestedValue(obj: Record<string, any>, key: string): unknown {
   const keys = key.split('.');
-  let value = obj;
+  let value: any = obj;
 
   for (const k of keys) {
     if (value && typeof value === 'object' && k in value) {
@@ -83,3 +84,4 @@ function getNestedValue(obj: any, key: string): any {
 
   return value;
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */

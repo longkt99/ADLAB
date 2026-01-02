@@ -210,7 +210,6 @@ describe('buildValidationSummary', () => {
 describe('emitValidationTelemetry', () => {
   let consoleLogSpy: ReturnType<typeof vi.spyOn>;
   let consoleInfoSpy: ReturnType<typeof vi.spyOn>;
-  const originalEnv = process.env.NODE_ENV;
 
   beforeEach(() => {
     consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
@@ -220,11 +219,11 @@ describe('emitValidationTelemetry', () => {
   afterEach(() => {
     consoleLogSpy.mockRestore();
     consoleInfoSpy.mockRestore();
-    process.env.NODE_ENV = originalEnv;
+    vi.unstubAllEnvs();
   });
 
   it('should emit telemetry with [STUDIO_RUN] prefix in DEV mode', () => {
-    process.env.NODE_ENV = 'development';
+    vi.stubEnv('NODE_ENV', 'development');
 
     const summary: ValidationSummary = {
       timestamp: new Date().toISOString(),
@@ -247,7 +246,7 @@ describe('emitValidationTelemetry', () => {
   });
 
   it('should emit safe subset in PROD mode', () => {
-    process.env.NODE_ENV = 'production';
+    vi.stubEnv('NODE_ENV', 'production');
 
     const summary: ValidationSummary = {
       timestamp: new Date().toISOString(),
@@ -283,18 +282,17 @@ describe('emitValidationTelemetry', () => {
 describe('logValidationSummary', () => {
   let consoleLogSpy: ReturnType<typeof vi.spyOn>;
   let consoleInfoSpy: ReturnType<typeof vi.spyOn>;
-  const originalEnv = process.env.NODE_ENV;
 
   beforeEach(() => {
     consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     consoleInfoSpy = vi.spyOn(console, 'info').mockImplementation(() => {});
-    process.env.NODE_ENV = 'development';
+    vi.stubEnv('NODE_ENV', 'development');
   });
 
   afterEach(() => {
     consoleLogSpy.mockRestore();
     consoleInfoSpy.mockRestore();
-    process.env.NODE_ENV = originalEnv;
+    vi.unstubAllEnvs();
   });
 
   it('should build and emit in one call', () => {

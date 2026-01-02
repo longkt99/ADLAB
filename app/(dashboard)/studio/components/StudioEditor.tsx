@@ -169,12 +169,8 @@ import {
 import {
   extractCanonFromDraft,
   applyCanonLocks,
-  computeCanonDiff,
-  shouldRequireCanonApproval,
-  reapplyLockedSections,
   updateCanonFromText,
   getCanonDebugSummary,
-  isAmbiguousEditInstruction,
   type EditorialCanon,
   type CanonDiff,
 } from '@/lib/studio/editorialCanon';
@@ -182,20 +178,15 @@ import {
 // ✅ STEP 16: Edit Guard Modal & Evaluation
 import {
   EditGuardModal,
-  evaluateEditGuard,
   type EditGuardResult,
 } from './EditGuardModal';
 import {
-  detectEditorialOp,
-  getOperationWeight,
   type EditorialOp,
 } from '@/lib/studio/editorialOpPrompt';
 
 // ✅ STEP 17: Editorial Intent Canon & Meaning Preservation
 import {
   buildIntentCanonFromDraft,
-  computeIntentCanonDiff,
-  decideIntentCanonAction,
   getIntentCanonDebugSummary,
   type EditorialIntentCanon,
   type IntentCanonDiff,
@@ -216,7 +207,6 @@ import { EditScopePickModal } from './EditScopePickModal';
 // ✅ STEP 20: Edit Intent Normalizer
 import {
   normalizeEditIntent,
-  type NormalizedEditIntent,
 } from '@/lib/studio/editIntentNormalizer';
 
 // ✅ STEP 21: Edit Patch Executor
@@ -475,7 +465,8 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   // ============================================
   const [lastDebugDecision, setLastDebugDecision] = useState<DebugDecision | null>(null);
   // Track pending debug context for confirmation flow
-  const pendingDebugContextRef = useRef<{
+  // Type for debug context used by both ref and state
+  type DebugContextType = {
     patternHash: string;
     confidenceInput: ConfidenceInput;
     confidenceResult: { routeHint: 'CREATE' | 'TRANSFORM'; intentConfidence: number; reason: string };
@@ -488,7 +479,10 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
     preferenceBias?: BiasResult;
     // ✅ STEP 14: Include governance decision
     governanceDecision?: GovernanceDecision;
-  } | null>(null);
+  };
+  const pendingDebugContextRef = useRef<DebugContextType | null>(null);
+  // State mirror for render-safe access (synced when ref is set)
+  const [debugContextForRender, setDebugContextForRender] = useState<DebugContextType | null>(null);
 
   // ============================================
   // STEP 11: Intent Memory & Conversational Continuity State
@@ -585,7 +579,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   // Session-only state (not persisted to localStorage per privacy invariant).
   const [activeCanon, setActiveCanon] = useState<EditorialCanon | null>(null);
   // Pending canon approval state - when AI proposes changes to locked sections
-  const [pendingCanonApproval, setPendingCanonApproval] = useState<{
+  const [_pendingCanonApproval, _setPendingCanonApproval] = useState<{
     diff: CanonDiff;
     newText: string;
     messageId: string;
@@ -605,7 +599,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
     applyMode: 'all' | 'hook' | 'body' | 'cta' | 'hashtags';
   } | null>(null);
   // Track the detected editorial op for the current instruction
-  const detectedEditorialOpRef = useRef<EditorialOp | null>(null);
+  const _detectedEditorialOpRef = useRef<EditorialOp | null>(null);
 
   // ============================================
   // STEP 17: Editorial Intent Canon State
@@ -664,7 +658,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   }, [messages, activeCanon]);
 
   // ✅ STEP 15: Update canon when draft content changes (after AI edit)
-  const updateCanonAfterEdit = useCallback((newContent: string) => {
+  const _updateCanonAfterEdit = useCallback((newContent: string) => {
     if (!activeCanon) return;
 
     const updatedCanon = updateCanonFromText(activeCanon, newContent);
@@ -1013,7 +1007,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   const SCROLL_THRESHOLD = 100;
 
   // Get enabled intents for content type chips
-  const enabledIntents = GOLDEN_INTENTS.filter((intent) => intent.enabled !== false).sort(
+  const _enabledIntents = GOLDEN_INTENTS.filter((intent) => intent.enabled !== false).sort(
     (a, b) => a.order - b.order
   );
 
@@ -1188,7 +1182,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   };
 
   const hasResult = messages.some((m) => m.role === 'assistant');
-  const { canSubmit, hint, inputState } = getIntentModel(chatInput, aiLoading, hasResult);
+  const { canSubmit, hint, inputState: _inputState } = getIntentModel(chatInput, aiLoading, hasResult);
 
   useEffect(() => {
     editorRef.current?.focus();
@@ -2167,7 +2161,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
     // ============================================
     // STEP 8 + STEP 14: Store pending debug context for confirmation resolution
     // ============================================
-    pendingDebugContextRef.current = {
+    const debugContext: DebugContextType = {
       patternHash,
       confidenceInput,
       confidenceResult,
@@ -2181,6 +2175,8 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
       // ✅ STEP 14: Include governance decision for debug display
       governanceDecision: governanceDecision ?? undefined,
     };
+    pendingDebugContextRef.current = debugContext;
+    setDebugContextForRender(debugContext);
 
     // Log that confirmation is being shown
     logDebugDecision('CONFIRMATION_SHOWN');
@@ -2205,6 +2201,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
       editedMessageId,
       uiSourceMessageId: currentSourceId,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Complex callback with intentional partial deps (activeCanon, language, refreshEditorialMode, rewriteConfirmedForDraftId, setAiError, setEditPatchMeta, setOutputContract excluded to prevent excessive re-renders)
   }, [
     canSubmit,
     chatInput,
@@ -2291,8 +2288,8 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   const renderIntentConfirmation = () => {
     if (!pendingIntentChoice) return null;
 
-    // Get pending debug context for explainability
-    const debugContext = pendingDebugContextRef.current;
+    // Get pending debug context for explainability (use state, not ref, during render)
+    const debugContext = debugContextForRender;
 
     // ✅ STEP 10 + STEP 13: Get trust microcopy for display
     const hasActivePrefs = arePreferencesEnabled() && (debugContext?.preferenceBias?.activePreferences?.length ?? 0) > 0;
@@ -2435,7 +2432,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   // ============================================
   // STEP 14A: Editorial Badge (shows when editing draft)
   // ============================================
-  const renderEditorialBadge = () => {
+  const _renderEditorialBadge = () => {
     if (editorialMode !== 'DRAFT_ACTIVE' && editorialMode !== 'EDIT_LOCKED') {
       return null;
     }
@@ -2470,7 +2467,7 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
   // ============================================
   // STEP 14A: Explicit Create New Button
   // ============================================
-  const handleExplicitCreateNew = useCallback(() => {
+  const _handleExplicitCreateNew = useCallback(() => {
     // Explicitly enter create mode
     enterCreateMode();
     refreshEditorialMode();
@@ -3006,8 +3003,8 @@ export default function StudioEditor({ promptGrid }: StudioEditorProps) {
       <IntentDebugBadge
         decision={lastDebugDecision}
         continuity={continuityState}
-        preferenceBias={pendingDebugContextRef.current?.preferenceBias}
-        governanceDecision={pendingDebugContextRef.current?.governanceDecision}
+        preferenceBias={debugContextForRender?.preferenceBias}
+        governanceDecision={debugContextForRender?.governanceDecision}
         onDismiss={() => setLastDebugDecision(null)}
       />
 

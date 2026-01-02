@@ -308,7 +308,7 @@ export function simulateRollback(targetVersion: TrustVersion): {
   const eligibility = checkRollbackEligibility(targetVersion);
 
   const targetSnapshot = getSnapshot(targetVersion);
-  const currentSnapshot = currentVersion ? getSnapshot(currentVersion) : null;
+  const _currentSnapshot = currentVersion ? getSnapshot(currentVersion) : null;
 
   return {
     wouldSucceed: eligibility.eligible,

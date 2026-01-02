@@ -5,7 +5,6 @@
 // Only IDs, counts, booleans, durations, enums, and bucket metrics.
 
 import type {
-  AnalyticsBaseProps,
   AnalyticsSurface,
   DraftState,
   AssistMode,

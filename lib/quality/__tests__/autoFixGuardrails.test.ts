@@ -11,20 +11,16 @@ import {
   TONE_SHIFT_PATTERNS,
   EMOJI_PATTERN,
   HASHTAG_PATTERN,
-  type GuardrailCheckResult,
 } from '../autoFixGuardrails';
 import {
   detectExcessiveEdit,
   detectRepeatedFailure,
   detectOscillation,
   detectQuickUndo,
-  detectFallbackUsed,
   detectConsecutiveReject,
   createTrustState,
   addTrustSignal,
   recordSuccessfulAccept,
-  isInCooldown,
-  isFrozen,
   TRUST_THRESHOLDS,
   type TrustSignal,
 } from '../trustErosion';

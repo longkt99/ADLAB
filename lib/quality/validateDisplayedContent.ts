@@ -298,8 +298,8 @@ export function debugValidationMismatch(
 export function getValidValidation(
   content: string,
   storedValidation: QualityLockResult | null | undefined,
-  intent: string,
-  meta?: { templateId?: string; language?: string; testMode?: boolean }
+  _intent: string,
+  _meta?: { templateId?: string; language?: string; testMode?: boolean }
 ): QualityLockResult | null {
   if (!storedValidation) return null;
 

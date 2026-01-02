@@ -94,9 +94,9 @@ function VariantCard({ variant, isSelected, onSelect, onVariantUpdated }: Varian
       if (onVariantUpdated) {
         await onVariantUpdated();
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Schedule error:', error);
-      alert(error.message || t('variants.alerts.scheduleFailed'));
+      alert(error instanceof Error ? error.message : t('variants.alerts.scheduleFailed'));
     } finally {
       setUpdating(false);
     }
@@ -449,9 +449,9 @@ export default function VariantList({ variants, onVariantsUpdated }: VariantList
       if (onVariantsUpdated) {
         await onVariantsUpdated();
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Bulk action error:', error);
-      alert(error.message || t('variants.alerts.bulkActionFailed'));
+      alert(error instanceof Error ? error.message : t('variants.alerts.bulkActionFailed'));
     } finally {
       setBulkUpdating(false);
     }
@@ -502,9 +502,9 @@ export default function VariantList({ variants, onVariantsUpdated }: VariantList
       if (onVariantsUpdated) {
         await onVariantsUpdated();
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Bulk schedule error:', error);
-      alert(error.message || t('variants.alerts.scheduleFailed'));
+      alert(error instanceof Error ? error.message : t('variants.alerts.scheduleFailed'));
     } finally {
       setBulkUpdating(false);
     }
@@ -546,9 +546,9 @@ export default function VariantList({ variants, onVariantsUpdated }: VariantList
       if (onVariantsUpdated) {
         await onVariantsUpdated();
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Bulk delete error:', error);
-      alert(error.message || 'Failed to delete variants');
+      alert(error instanceof Error ? error.message : 'Failed to delete variants');
     } finally {
       setBulkUpdating(false);
     }
@@ -577,7 +577,7 @@ export default function VariantList({ variants, onVariantsUpdated }: VariantList
           {t('variants.empty.description')}
         </p>
         <p className="text-xs text-muted-foreground bg-card px-3 py-1.5 rounded-lg inline-block border border-border">
-          💡 Tip: Use the "Generate Variants" button above to create platform-optimized content
+          💡 Tip: Use the &quot;Generate Variants&quot; button above to create platform-optimized content
         </p>
       </div>
     );

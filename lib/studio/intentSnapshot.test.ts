@@ -8,14 +8,13 @@
 // No execution logic should be tested here.
 // ============================================
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { createIntentSnapshot, type IntentSnapshot, type IntentMode, type ChatMessage } from '../../types/studio';
+import { describe, it, expect } from 'vitest';
+import { createIntentSnapshot, type IntentSnapshot, type ChatMessage } from '../../types/studio';
 import {
   createTransformSnapshot,
   createCreateSnapshot,
   getMessageSnapshot,
   hasIntentSnapshot,
-  getOriginSnapshotId,
   validateSnapshot,
   formatSnapshotForDebug,
 } from './intentSnapshot';
@@ -118,6 +117,7 @@ describe('Snapshot Immutability', () => {
 
     // Attempt to mutate should fail silently or throw in strict mode
     expect(() => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Testing Object.freeze immutability requires bypassing type safety
       (snapshot as any).userTypedText = 'mutated text';
     }).toThrow();
   });
@@ -440,6 +440,7 @@ describe('Snapshot does NOT affect execution', () => {
     // No functions on the snapshot
     const keys = Object.keys(snapshot);
     keys.forEach(key => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Dynamic key access for testing snapshot structure
       expect(typeof (snapshot as any)[key]).not.toBe('function');
     });
   });

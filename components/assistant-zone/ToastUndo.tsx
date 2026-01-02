@@ -23,6 +23,7 @@ export const ToastUndo: React.FC<ToastUndoProps> = ({
   // Auto-dismiss after 8 seconds
   useEffect(() => {
     if (!visible) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Reset progress when toast hidden
       setProgress(100);
       return;
     }

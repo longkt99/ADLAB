@@ -23,13 +23,13 @@ import {
   getActionLabel,
   getAssetLabel,
   getPriorityLabel,
-  getPriorityColor,
+  type RecommendedActionType,
+  type RecommendedAssetType,
+  type RecommendationPriority,
 } from '@/lib/adlab/ops/salesPlaybooks';
 import {
-  getTimelineEventLabel,
   getTimelineEventIcon,
-  getRiskLabel,
-  getRiskColor,
+  type TimelineEventType,
 } from '@/lib/adlab/ops/trustTimeline';
 import {
   getEngagementTierLabel,
@@ -37,8 +37,11 @@ import {
   getTimeToActionLabel,
   getEngagementTierColor,
   getOutcomeColor,
+  type EngagementTier,
+  type BundleOutcome,
+  type TimeToActionBucket,
 } from '@/lib/adlab/ops/trustROI';
-import { getDealStageLabel, getSignalLabel } from '@/lib/adlab/ops/salesSignals';
+import { getDealStageLabel, type DealStageIndicator } from '@/lib/adlab/ops/salesSignals';
 
 // ============================================
 // Types
@@ -165,7 +168,7 @@ export default function SalesActivationPage() {
       }
 
       setData(json.data);
-    } catch (e) {
+    } catch {
       setError('Failed to fetch activation data');
     } finally {
       setLoading(false);
@@ -400,7 +403,7 @@ function OverviewTab({
                   </p>
                   <p className="text-sm text-gray-500 mt-1">
                     {bundle.intelligence
-                      ? getDealStageLabel(bundle.intelligence.dealStageIndicator as any)
+                      ? getDealStageLabel(bundle.intelligence.dealStageIndicator as DealStageIndicator)
                       : 'No data'}
                   </p>
                 </div>
@@ -455,7 +458,7 @@ function OverviewTab({
                   {bundleDetail.timeline.entries.map((entry, i) => (
                     <div key={i} className="flex items-start gap-2 text-sm">
                       <span className="text-lg">
-                        {getTimelineEventIcon(entry.eventType as any)}
+                        {getTimelineEventIcon(entry.eventType as TimelineEventType)}
                       </span>
                       <div>
                         <p className="text-gray-900">
@@ -501,7 +504,7 @@ function OverviewTab({
                     >
                       <div className="flex justify-between items-start">
                         <p className="font-medium text-gray-900">
-                          {getActionLabel(rec.recommendedAction as any)}
+                          {getActionLabel(rec.recommendedAction as RecommendedActionType)}
                         </p>
                         <span
                           className={`text-xs px-2 py-0.5 rounded ${
@@ -512,7 +515,7 @@ function OverviewTab({
                               : 'bg-gray-100 text-gray-700'
                           }`}
                         >
-                          {getPriorityLabel(rec.priority as any)}
+                          {getPriorityLabel(rec.priority as RecommendationPriority)}
                         </span>
                       </div>
                       <p className="text-gray-600 mt-1">{rec.rationale}</p>
@@ -576,7 +579,7 @@ function PlaybooksTab({ data }: { data: DashboardData }) {
             {ps.topActions.map((item, i) => (
               <div key={i} className="flex justify-between items-center">
                 <span className="text-sm text-gray-700">
-                  {getActionLabel(item.action as any)}
+                  {getActionLabel(item.action as RecommendedActionType)}
                 </span>
                 <span className="text-sm font-medium text-gray-900">
                   {item.count}
@@ -595,7 +598,7 @@ function PlaybooksTab({ data }: { data: DashboardData }) {
             {ps.topAssets.map((item, i) => (
               <div key={i} className="flex justify-between items-center">
                 <span className="text-sm text-gray-700">
-                  {getAssetLabel(item.asset as any)}
+                  {getAssetLabel(item.asset as RecommendedAssetType)}
                 </span>
                 <span className="text-sm font-medium text-gray-900">
                   {item.count}
@@ -672,10 +675,10 @@ function ROITab({ data }: { data: DashboardData }) {
             {Object.entries(roi.engagementDistribution).map(([tier, count]) => (
               <DistributionBar
                 key={tier}
-                label={getEngagementTierLabel(tier as any)}
+                label={getEngagementTierLabel(tier as EngagementTier)}
                 count={count}
                 total={roi.bundleCount}
-                color={getEngagementTierColor(tier as any)}
+                color={getEngagementTierColor(tier as EngagementTier)}
               />
             ))}
           </div>
@@ -687,10 +690,10 @@ function ROITab({ data }: { data: DashboardData }) {
             {Object.entries(roi.outcomeDistribution).map(([outcome, count]) => (
               <DistributionBar
                 key={outcome}
-                label={getOutcomeLabel(outcome as any)}
+                label={getOutcomeLabel(outcome as BundleOutcome)}
                 count={count}
                 total={roi.bundleCount}
-                color={getOutcomeColor(outcome as any)}
+                color={getOutcomeColor(outcome as BundleOutcome)}
               />
             ))}
           </div>
@@ -731,7 +734,7 @@ function ROITab({ data }: { data: DashboardData }) {
           {Object.entries(roi.timeToFirstViewDistribution).map(([bucket, count]) => (
             <DistributionBar
               key={bucket}
-              label={getTimeToActionLabel(bucket as any)}
+              label={getTimeToActionLabel(bucket as TimeToActionBucket)}
               count={count}
               total={roi.bundleCount}
               color="blue"

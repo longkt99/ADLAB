@@ -34,7 +34,9 @@ export function useTranslation(): TranslationResult {
    */
   const t = (key: string): string => {
     const keys = key.split('.');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dictionary traversal requires any
     let value: any = dictionary;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dictionary traversal requires any
     let fallbackValue: any = fallbackDictionary;
 
     // Navigate nested object structure

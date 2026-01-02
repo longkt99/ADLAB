@@ -30,10 +30,10 @@ export async function POST(request: NextRequest) {
       { success: true, post },
       { status: 201 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Create post error:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to create post' },
+      { error: error instanceof Error ? error.message : 'Failed to create post' },
       { status: 500 }
     );
   }

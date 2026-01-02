@@ -501,7 +501,7 @@ export async function cleanupExpiredTokens(): Promise<{
   error?: string;
 }> {
   const supabase = createTrustClient();
-  const now = new Date().toISOString();
+  const _now = new Date().toISOString();
 
   // Delete tokens expired more than 30 days ago
   const cutoff = new Date();

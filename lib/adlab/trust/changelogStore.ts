@@ -22,7 +22,6 @@ import {
   type TrustChangelog,
   type ChangeType,
   validateChangelogEntry,
-  isValidVersion,
   compareVersions,
 } from './snapshotTypes';
 

@@ -446,8 +446,8 @@ export function buildStudioAIRequest(args: {
           );
           finalSystemMessage = getBaseSystemMessage();
         }
-      } catch (error: any) {
-        console.error(`[Studio AI] Error loading template: ${error.message}`);
+      } catch (error: unknown) {
+        console.error(`[Studio AI] Error loading template: ${error instanceof Error ? error.message : String(error)}`);
         finalSystemMessage = getBaseSystemMessage();
       }
     }
@@ -518,8 +518,8 @@ export async function callStudioAI(
       console.log(`[Studio AI] Mock completed in ${latency}ms`);
       return response;
     }
-  } catch (error: any) {
-    console.error('[Studio AI] Error:', error.message);
+  } catch (error: unknown) {
+    console.error('[Studio AI] Error:', error instanceof Error ? error.message : String(error));
     throw error;
   }
 }
@@ -557,15 +557,15 @@ async function generateRealStudioResponse(
   if (openaiKey) {
     try {
       return await callOpenAI(request, openaiKey);
-    } catch (error: any) {
-      console.error('[Studio AI] OpenAI failed:', error.message);
+    } catch (error: unknown) {
+      console.error('[Studio AI] OpenAI failed:', error instanceof Error ? error.message : String(error));
       // If Anthropic is available, fall back to it
       if (anthropicKey) {
         console.log('[Studio AI] Falling back to Anthropic...');
         try {
           return await callAnthropic(request, anthropicKey);
-        } catch (fallbackError: any) {
-          console.error('[Studio AI] Anthropic fallback failed:', fallbackError.message);
+        } catch (fallbackError: unknown) {
+          console.error('[Studio AI] Anthropic fallback failed:', fallbackError instanceof Error ? fallbackError.message : String(fallbackError));
         }
       }
     }
@@ -575,8 +575,8 @@ async function generateRealStudioResponse(
   if (anthropicKey && !openaiKey) {
     try {
       return await callAnthropic(request, anthropicKey);
-    } catch (error: any) {
-      console.error('[Studio AI] Anthropic failed:', error.message);
+    } catch (error: unknown) {
+      console.error('[Studio AI] Anthropic failed:', error instanceof Error ? error.message : String(error));
     }
   }
 

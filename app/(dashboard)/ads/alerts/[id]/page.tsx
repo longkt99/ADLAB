@@ -6,7 +6,7 @@
 
 import Link from 'next/link';
 import { AdLabPageShell, AdLabEmptyState, AdLabErrorBox } from '@/components/adlab';
-import { getAlertTrace, type AlertTrace } from '@/lib/adlab/queries';
+import { getAlertTrace } from '@/lib/adlab/queries';
 import { ReadToggle, ResolveToggle, InternalNoteEditor } from './AlertActions';
 
 export const dynamic = 'force-dynamic';

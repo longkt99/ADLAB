@@ -436,7 +436,7 @@ export function detectTaskType(
   const rawEditScore = editResult.score;
   const rawQaScore = qaResult.score;
   const rawRewriteUpgradeScore = rewriteUpgradeResult.score;
-  const rawCreateScore = createResult.score;
+  const _rawCreateScore = createResult.score;
 
   const scores = {
     QA: qaResult.score,

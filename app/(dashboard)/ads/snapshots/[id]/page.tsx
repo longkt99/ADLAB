@@ -12,13 +12,9 @@
 
 import Link from 'next/link';
 import { AdLabPageShell, AdLabErrorBox, RollbackPanel, AuditTrailPanel } from '@/components/adlab';
-import {
-  getSnapshotById,
-  getActiveSnapshot,
-  type ProductionSnapshot,
-} from '@/lib/adlab/ingestion/snapshots';
+import { getSnapshotById, getActiveSnapshot } from '@/lib/adlab/ingestion/snapshots';
 import { getIngestionLogById } from '@/lib/adlab/ingestion/queries';
-import { getDatasetLabel, getPlatformLabel } from '@/lib/adlab/ingestion';
+import { getDatasetLabel, getPlatformLabel, type PlatformType, type DatasetType } from '@/lib/adlab/ingestion';
 import { resolveWorkspace } from '@/lib/supabase/server';
 import { getSnapshotAuditTrail } from '@/lib/adlab/audit';
 
@@ -118,7 +114,7 @@ export default async function SnapshotDetailPage({ params }: PageProps) {
   return (
     <AdLabPageShell
       title="Snapshot Detail"
-      description={`${getPlatformLabel(snapshot.platform as any)} / ${getDatasetLabel(snapshot.dataset as any)}`}
+      description={`${getPlatformLabel(snapshot.platform as PlatformType)} / ${getDatasetLabel(snapshot.dataset as DatasetType)}`}
       badge={snapshot.is_active ? { label: 'Active', variant: 'success' } : undefined}
     >
       {/* Back link */}
@@ -146,7 +142,7 @@ export default async function SnapshotDetailPage({ params }: PageProps) {
                 Analytics is currently bound to this snapshot
               </p>
               <p className="text-[12px] text-green-600/80 dark:text-green-400/80">
-                This snapshot defines the production truth for {getPlatformLabel(snapshot.platform as any)} {getDatasetLabel(snapshot.dataset as any)}.
+                This snapshot defines the production truth for {getPlatformLabel(snapshot.platform as PlatformType)} {getDatasetLabel(snapshot.dataset as DatasetType)}.
               </p>
             </div>
           </div>
@@ -188,13 +184,13 @@ export default async function SnapshotDetailPage({ params }: PageProps) {
           <div>
             <div className="text-[11px] text-muted-foreground mb-1">Platform</div>
             <div className="text-[13px] font-medium text-foreground">
-              {getPlatformLabel(snapshot.platform as any)}
+              {getPlatformLabel(snapshot.platform as PlatformType)}
             </div>
           </div>
           <div>
             <div className="text-[11px] text-muted-foreground mb-1">Dataset</div>
             <div className="text-[13px] font-medium text-foreground">
-              {getDatasetLabel(snapshot.dataset as any)}
+              {getDatasetLabel(snapshot.dataset as DatasetType)}
             </div>
           </div>
           <div>

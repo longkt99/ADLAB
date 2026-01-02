@@ -17,7 +17,6 @@ import React from 'react';
 import { useTranslation } from '@/lib/i18n';
 import type {
   EditTarget,
-  EditScopeContract,
   ScopeGate,
 } from '@/lib/studio/editScopeContract';
 import { getEditTargetLabel } from '@/lib/studio/editScopeContract';
@@ -183,7 +182,7 @@ export function EditScopePickModal({
               {lang === 'vi' ? 'Lệnh của bạn:' : 'Your instruction:'}
             </div>
             <div className="text-xs text-gray-700 dark:text-gray-300 line-clamp-2">
-              "{instructionPreview}"
+              &quot;{instructionPreview}&quot;
             </div>
           </div>
         )}
@@ -215,7 +214,7 @@ export function EditScopePickModal({
             <div className="text-[10px] text-gray-400">
               {lang === 'vi'
                 ? 'Tip: Lệnh cụ thể như "đổi hook" sẽ không cần chọn'
-                : 'Tip: Specific commands like "edit hook" won\'t require picking'}
+                : "Tip: Specific commands like \"edit hook\" won't require picking"}
             </div>
           </div>
         </div>

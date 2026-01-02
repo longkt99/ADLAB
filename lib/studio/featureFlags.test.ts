@@ -5,7 +5,7 @@
 // These tests FAIL if behavior silently changes.
 // ============================================
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import {
   isRewriteUpgradeEnabled,
   getRewriteDisabledReason,

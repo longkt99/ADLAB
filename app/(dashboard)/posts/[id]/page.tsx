@@ -1,8 +1,9 @@
 'use client';
 
 // 1. Thêm import 'use'
-import { useEffect, useState, use } from 'react';
+import { useEffect, useState, use, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { getPlatformDisplayName } from '@/lib/platforms';
 import { useTranslation, formatDate } from '@/lib/i18n';
@@ -32,7 +33,7 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
   const [error, setError] = useState<string | null>(null);
 
   // Separate function to fetch variants - can be called independently
-  const fetchVariants = async () => {
+  const fetchVariants = useCallback(async () => {
     try {
       const variantsRes = await fetch(`/api/posts/${id}/variants`);
 
@@ -46,7 +47,7 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
     } catch (error) {
       console.error('Failed to refetch variants:', error);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     async function fetchData() {
@@ -55,7 +56,6 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
         setError(null);
 
         // Fetch post data
-        // 4. Dùng biến 'id' thay cho 'params.id'
         const postRes = await fetch(`/api/posts/${id}`);
 
         if (!postRes.ok) {
@@ -80,16 +80,16 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
         // Fetch variants data
         await fetchVariants();
 
-      } catch (error: any) {
+      } catch (error) {
         console.error('Failed to fetch post:', error);
-        setError(error.message || 'Failed to load post');
+        setError(error instanceof Error ? error.message : 'Failed to load post');
       } finally {
         setLoading(false);
       }
     }
 
     fetchData();
-  }, [id]);
+  }, [id, router, fetchVariants]);
 
   if (loading) {
     return (
@@ -113,7 +113,7 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
             {error || 'Post not found'}
           </h2>
           <p className="text-sm text-muted-foreground mb-6">
-            The post you're looking for doesn't exist or has been deleted.
+            The post you&apos;re looking for doesn&apos;t exist or has been deleted.
           </p>
           <Link
             href="/posts"
@@ -178,11 +178,15 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
             {/* Cover Image - cleaner presentation */}
             {post.cover_image_url && (
               <div className="px-6 py-5 border-b border-border">
-                <img
-                  src={post.cover_image_url}
-                  alt={post.title}
-                  className="w-full max-h-[400px] object-cover rounded-lg"
-                />
+                <div className="relative w-full h-[400px]">
+                  <Image
+                    src={post.cover_image_url}
+                    alt={post.title}
+                    fill
+                    className="object-cover rounded-lg"
+                    unoptimized
+                  />
+                </div>
               </div>
             )}
 
@@ -211,7 +215,7 @@ export default function PostDetailPage({ params }: PostDetailPageProps) {
                       key={platform}
                       className="px-2.5 py-1 bg-secondary/60 dark:bg-secondary/80 text-foreground/80 text-xs font-medium rounded-md"
                     >
-                      {getPlatformDisplayName(platform as any)}
+                      {getPlatformDisplayName(platform)}
                     </span>
                   ))}
                 </div>

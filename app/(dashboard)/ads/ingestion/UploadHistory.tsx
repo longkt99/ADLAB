@@ -114,7 +114,7 @@ function getPlatformLabel(platform: string): string {
 // ============================================
 
 export function UploadHistory({ initialData }: UploadHistoryProps) {
-  const router = useRouter();
+  const _router = useRouter();
   const [uploads, setUploads] = useState<Upload[]>(initialData || []);
   const [loading, setLoading] = useState(!initialData);
   const [error, setError] = useState<string | null>(null);

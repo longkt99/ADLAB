@@ -22,7 +22,6 @@ import {
   type ExportFormat,
   type EngagementMetadata,
 } from './trustEngagement';
-import { type DealStageIndicator } from './salesSignals';
 
 // ============================================
 // Types

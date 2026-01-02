@@ -22,7 +22,7 @@ function enforceCharacterLimit(text: string, maxChars: number): string {
 
 // Stub AI generation function
 // Replace this with real OpenAI/Claude API call when ready
-async function generateVariantsWithAI(
+async function _generateVariantsWithAI(
   baseContent: string,
   baseTitle: string,
   platforms: Platform[],
@@ -72,7 +72,7 @@ async function generateVariantsWithAIReal(
   baseContent: string,
   baseTitle: string,
   platforms: Platform[],
-  language: Language
+  _language: Language
 ): Promise<Array<{ platform: Platform; language: Language; content: string; approx_char_count: number }>> {
   const openaiApiKey = process.env.OPENAI_API_KEY;
 
@@ -335,11 +335,11 @@ export async function POST(
       variants: savedVariants,
       count: savedVariants.length,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Generate variants error:', error);
     return NextResponse.json(
       {
-        error: error.message || 'Failed to generate variants',
+        error: error instanceof Error ? error.message : 'Failed to generate variants',
       },
       { status: 500 }
     );

@@ -5,7 +5,7 @@
 // Enforces rule-scoped micro-edits only.
 // Protects writer voice and intent.
 
-import type { IntentId, RuleResult } from './intentQualityRules';
+import type { RuleResult } from './intentQualityRules';
 
 // ============================================
 // GUARDRAIL TYPES

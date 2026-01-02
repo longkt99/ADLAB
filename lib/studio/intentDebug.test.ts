@@ -266,7 +266,7 @@ describe('getDecisionPathLabel', () => {
     ['CONFIRMATION_SHOWN', 'Confirming...'],
   ];
 
-  it.each(cases)('should return "%s" for %s', (path, expected) => {
+  it.each(cases)('should return "%s" for %s', (path: DecisionPath, expected: string) => {
     expect(getDecisionPathLabel(path)).toBe(expected);
   });
 });

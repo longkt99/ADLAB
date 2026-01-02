@@ -19,7 +19,6 @@ import {
   tryResolveAnalyticsScope,
   assertProductionBound,
   type AnalyticsScope,
-  type ResolvedAnalyticsScope,
   NoActiveSnapshotError,
 } from './resolveAnalyticsScope';
 import type { DatasetType, PlatformType } from '../ingestion/validate';

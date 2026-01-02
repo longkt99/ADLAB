@@ -20,7 +20,6 @@ import {
   getTrustColorClasses,
   getControlDebugSummary,
   type RecoveryAction,
-  type TrustLevel,
 } from './intentControl';
 
 // ============================================

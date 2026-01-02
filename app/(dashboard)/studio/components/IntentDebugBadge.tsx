@@ -42,7 +42,6 @@ import {
   getPreferenceColorClasses,
 } from '@/lib/studio/userPreference';
 import {
-  type GovernanceContext,
   type GovernanceDecision,
   getRoleLabel,
   getRoleColorClasses,
@@ -448,6 +447,7 @@ export function useIntentDebug() {
   const [isEnabled, setIsEnabled] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Sync with URL query param on mount
     setIsEnabled(isIntentDebugEnabled());
 
     const checkDebug = () => setIsEnabled(isIntentDebugEnabled());

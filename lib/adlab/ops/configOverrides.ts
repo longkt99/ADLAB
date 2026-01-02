@@ -153,7 +153,7 @@ export async function getOverride(
       data: data ? transformRow(data as Record<string, unknown>) : null,
       error: null,
     };
-  } catch (err) {
+  } catch (_err) {
     // D29: Silent fail in demo mode - config overrides are optional
     return { data: null, error: null };
   }
@@ -225,7 +225,7 @@ export async function listOverrides(
       .map((row) => transformRow(row as Record<string, unknown>));
 
     return { data: activeOverrides, error: null };
-  } catch (err) {
+  } catch (_err) {
     // D29: Silent fail in demo mode - config overrides are optional
     return { data: [], error: null };
   }

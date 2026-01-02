@@ -8,10 +8,10 @@ import type { IntentId, RuleResult, QualityLockResult } from './intentQualityRul
 import {
   normalizeSections,
   validateStructure,
-  getSectionContent,
+  
   hasSection,
   debugSectionDetection,
-  type SectionType,
+  
 } from './sectionParser';
 
 /**

@@ -24,7 +24,7 @@ import {
   type AuditEntityType,
   type AuditLogEntry,
 } from '@/lib/adlab/audit';
-import { getPlatformLabel, getDatasetLabel } from '@/lib/adlab/ingestion';
+import { getPlatformLabel, getDatasetLabel, type PlatformType, type DatasetType } from '@/lib/adlab/ingestion';
 import { resolveWorkspace, getWorkspaceClients } from '@/lib/supabase/server';
 
 export const dynamic = 'force-dynamic';
@@ -321,10 +321,10 @@ export default async function AuditTimelinePage({ searchParams }: PageProps) {
                 {/* Scope */}
                 <div className="flex flex-wrap gap-2 mb-2 text-[11px]">
                   <span className="px-2 py-0.5 rounded bg-secondary text-secondary-foreground">
-                    {getPlatformLabel(entry.scope.platform as any)}
+                    {getPlatformLabel(entry.scope.platform as PlatformType)}
                   </span>
                   <span className="px-2 py-0.5 rounded bg-secondary text-secondary-foreground">
-                    {getDatasetLabel(entry.scope.dataset as any)}
+                    {getDatasetLabel(entry.scope.dataset as DatasetType)}
                   </span>
                 </div>
 

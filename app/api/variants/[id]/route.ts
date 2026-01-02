@@ -27,10 +27,10 @@ export async function DELETE(
       success: true,
       message: 'Variant deleted successfully',
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Delete variant error:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to delete variant' },
+      { error: error instanceof Error ? error.message : 'Failed to delete variant' },
       { status: 500 }
     );
   }

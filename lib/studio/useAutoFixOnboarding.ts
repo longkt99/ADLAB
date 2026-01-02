@@ -38,6 +38,7 @@ export function useAutoFixOnboarding() {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored) as Partial<AutoFixOnboardingState>;
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- Hydration from localStorage on mount
         setState({
           hintSeen: parsed.hintSeen ?? false,
           previewIntroSeen: parsed.previewIntroSeen ?? false,

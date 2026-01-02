@@ -7,7 +7,6 @@
 // ============================================
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import type { UtmLinkWithStats, UtmTemplate, UtmAnalyticsSummary } from '@/lib/utm/queries';
 
@@ -455,7 +454,7 @@ function UtmBuilder({
 
 function UtmLibrary({
   links,
-  filterOptions,
+  filterOptions: _filterOptions,
 }: {
   links: UtmLinkWithStats[];
   filterOptions: { sources: string[]; mediums: string[]; campaigns: string[] };

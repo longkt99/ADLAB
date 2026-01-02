@@ -19,7 +19,7 @@ import * as path from 'path';
 import {
   type TrustSnapshot,
   type TrustVersion,
-  type SnapshotStatus,
+  type SnapshotStatus as _SnapshotStatus,
   type TrustAuditEvent,
   type TrustAuditEventType,
   validateSnapshot,
@@ -43,7 +43,7 @@ const AUDIT_LOG_FILE = path.join(TRUST_BASE_DIR, 'audit', 'trust-audit.log');
 // In-Memory Cache (for serverless)
 // ============================================
 
-let snapshotCache: Map<TrustVersion, TrustSnapshot> = new Map();
+const snapshotCache: Map<TrustVersion, TrustSnapshot> = new Map();
 let activeVersionCache: TrustVersion | null = null;
 let cacheInitialized = false;
 

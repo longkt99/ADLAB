@@ -24,7 +24,7 @@ export async function PATCH(
     const supabase = getServiceSupabase();
 
     // Prepare update data
-    const updateData: any = { status };
+    const updateData: { status: VariantStatus; published_at?: string } = { status };
 
     // If status is being changed to 'published', set published_at timestamp
     if (status === 'published') {
@@ -58,10 +58,10 @@ export async function PATCH(
       success: true,
       variant,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Update variant status error:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to update variant status' },
+      { error: error instanceof Error ? error.message : String(error) || 'Failed to update variant status' },
       { status: 500 }
     );
   }

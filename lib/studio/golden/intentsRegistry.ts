@@ -162,11 +162,11 @@ export function validateGoldenIntents(): {
         manifestName: manifest.name,
         manifestVersion: manifest.version,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       return {
         intent,
         isValid: false,
-        error: error.message || 'Unknown validation error',
+        error: error instanceof Error ? error.message : 'Unknown validation error',
       };
     }
   });

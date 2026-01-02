@@ -23,17 +23,14 @@ import { createClient } from '@supabase/supabase-js';
 import {
   deriveSLASummary,
   getSLAEvidenceSources,
-  type SLASummary,
 } from '@/lib/adlab/ops/slaDerivation';
 import {
   generateAttestation,
   ATTESTATION_PROFILES,
   type AttestationProfile,
-  type AttestationResult,
 } from '@/lib/adlab/ops/attestationProfiles';
 import { checkProductionReadiness } from '@/lib/adlab/safety';
-import { checkWorkspaceCompliance, listOverrides, DEFAULT_FRESHNESS_POLICIES, ALL_DATASET_KEYS } from '@/lib/adlab/ops';
-import { getKillSwitchStatus } from '@/lib/adlab/safety/killSwitch';
+import { DEFAULT_FRESHNESS_POLICIES, ALL_DATASET_KEYS } from '@/lib/adlab/ops';
 import { appendAuditLog } from '@/lib/adlab/audit';
 import crypto from 'crypto';
 

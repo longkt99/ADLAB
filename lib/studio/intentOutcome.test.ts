@@ -2,7 +2,7 @@
 // STEP 9: Intent Outcome Tests
 // ============================================
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import {
   generateIntentId,
   createOutcome,
@@ -16,7 +16,6 @@ import {
   choiceToRoute,
   OUTCOME_TTL_MS,
   type IntentOutcome,
-  type RouteUsed,
 } from './intentOutcome';
 
 // ============================================

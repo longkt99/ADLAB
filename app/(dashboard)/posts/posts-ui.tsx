@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import { useTranslation, formatDate } from '@/lib/i18n';
-import { getPlatformDisplayName } from '@/lib/platforms';
-import type { Post } from '@/lib/types';
-import { typography, buttonGroups } from '@/lib/ui/responsive';
+import { getPlatformDisplayName, type Platform } from '@/lib/platforms';
+import type { Post, PostStatus } from '@/lib/types';
+import { buttonGroups } from '@/lib/ui/responsive';
 
 // ============================================
 // UI Components - Warm Professional Style
@@ -22,7 +22,7 @@ export function StatusBadge({ status }: { status: string }) {
   };
 
   // Use translation for status label
-  const statusLabel = t(`status.${status}` as any) || status;
+  const statusLabel = t(`status.${status}`) || status;
 
   return (
     <span
@@ -35,7 +35,7 @@ export function StatusBadge({ status }: { status: string }) {
   );
 }
 
-export function PlatformPills({ platforms }: { platforms: string[] | null }) {
+export function PlatformPills({ platforms }: { platforms: Platform[] | null }) {
   const { t } = useTranslation();
 
   if (!platforms || platforms.length === 0) {
@@ -52,7 +52,7 @@ export function PlatformPills({ platforms }: { platforms: string[] | null }) {
           key={platform}
           className="inline-flex items-center px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded"
         >
-          {getPlatformDisplayName(platform as any)}
+          {getPlatformDisplayName(platform)}
         </span>
       ))}
       {remaining > 0 && (
@@ -236,10 +236,10 @@ interface PostsFilterBarProps {
   totalPosts: number;
   searchQuery: string;
   onSearchChange: (query: string) => void;
-  statusFilter: string;
-  onStatusChange: (status: any) => void;
-  platformFilter: string;
-  onPlatformChange: (platform: any) => void;
+  statusFilter: PostStatus | 'all';
+  onStatusChange: (status: PostStatus | 'all') => void;
+  platformFilter: Platform | 'all';
+  onPlatformChange: (platform: Platform | 'all') => void;
 }
 
 export function PostsFilterBar({
@@ -311,13 +311,13 @@ export function PostsFilterBar({
           {/* Status Filter */}
           <select
             value={statusFilter}
-            onChange={(e) => onStatusChange(e.target.value)}
+            onChange={(e) => onStatusChange(e.target.value as PostStatus | 'all')}
             className="w-full sm:w-auto px-3 py-2.5 border border-border bg-card text-foreground rounded-lg text-sm focus:ring-2 focus:ring-ring/20 focus:border-border transition-all dark:bg-secondary"
           >
             <option value="all">{t('posts.filters.allStatuses')}</option>
             {statuses.map((status) => (
               <option key={status} value={status}>
-                {t(`status.${status}` as any)}
+                {t(`status.${status}`)}
               </option>
             ))}
           </select>
@@ -325,7 +325,7 @@ export function PostsFilterBar({
           {/* Platform Filter */}
           <select
             value={platformFilter}
-            onChange={(e) => onPlatformChange(e.target.value)}
+            onChange={(e) => onPlatformChange(e.target.value as Platform | 'all')}
             className="w-full sm:w-auto px-3 py-2.5 border border-border bg-card text-foreground rounded-lg text-sm focus:ring-2 focus:ring-ring/20 focus:border-border transition-all dark:bg-secondary"
           >
             <option value="all">{t('posts.filters.allPlatforms')}</option>

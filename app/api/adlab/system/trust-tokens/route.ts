@@ -29,7 +29,6 @@ import {
   getTrustToken,
 } from '@/lib/adlab/ops/trustTokens';
 import { isValidProfile, type AttestationProfile } from '@/lib/adlab/ops/attestationProfiles';
-import { appendAuditLog } from '@/lib/adlab/audit';
 
 // ============================================
 // GET: List Trust Tokens

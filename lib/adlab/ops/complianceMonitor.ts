@@ -23,12 +23,9 @@
 
 import { createClient } from '@supabase/supabase-js';
 import { appendAuditLog } from '@/lib/adlab/audit';
-import {
-  checkProductionReadiness,
-  isGlobalKillSwitchEnabled,
-} from '@/lib/adlab/safety';
+import { isGlobalKillSwitchEnabled } from '@/lib/adlab/safety';
 import { getWorkspaceFreshnessMap } from './freshnessStatus';
-import { type DatasetKey } from './freshnessPolicy';
+import { type DatasetKey as _DatasetKey } from './freshnessPolicy';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -148,11 +145,11 @@ async function checkSnapshotDrift(workspaceId: string): Promise<DriftItem[]> {
         });
       }
     }
-  } catch (e) {
+  } catch (_e) {
     driftItems.push({
       type: 'SNAPSHOT_MISSING',
       severity: 'CRITICAL',
-      message: `Snapshot check failed: ${e instanceof Error ? e.message : 'Unknown error'}`,
+      message: `Snapshot check failed: ${_e instanceof Error ? _e.message : 'Unknown error'}`,
       workspaceId,
     });
   }
@@ -198,7 +195,7 @@ async function checkFailureInjectionDrift(workspaceId: string): Promise<DriftIte
   const supabase = createComplianceClient();
 
   try {
-    const { data, error } = await supabase
+    const { data, error: _error } = await supabase
       .from('adlab_failure_injections')
       .select('action, failure_type, probability, enabled_at')
       .eq('workspace_id', workspaceId)

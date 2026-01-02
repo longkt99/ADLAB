@@ -329,7 +329,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   // Access Control
   {
     questionId: 'AC-001',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Yes. The system implements role-based access control with defined roles (owner, admin, member, viewer). Each role has explicit permission boundaries enforced at the API level. Role assignments are workspace-scoped and audited.',
       evidenceReferences: [
@@ -340,7 +340,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'AC-002',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'User permissions are managed through workspace membership with explicit role assignments. Permission changes are logged in the immutable audit trail. Workspace owners can review and modify member roles at any time.',
       evidenceReferences: [
@@ -351,7 +351,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'AC-003',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Multi-factor authentication is supported through the underlying authentication provider. MFA enforcement can be configured at the organization level.',
       evidenceReferences: [
@@ -361,7 +361,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'AC-004',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Administrative access is restricted to designated owner and admin roles. All administrative actions are logged in the immutable audit trail with actor identification, action type, and timestamp. A kill-switch exists to immediately disable all operations if needed.',
       evidenceReferences: [
@@ -374,7 +374,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   // Audit Logging
   {
     questionId: 'AL-001',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Yes. All security-relevant actions are logged including: authentication events, permission changes, data mutations, configuration changes, and administrative operations. Logs include actor ID, action type, entity affected, timestamp, and relevant metadata.',
       evidenceReferences: [
@@ -407,7 +407,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'AL-003',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Yes. Audit logs are append-only and immutable. The system enforces that no edits or deletes can be performed on audit records. All writes are server-side only with mandatory actor context.',
       evidenceReferences: [
@@ -418,7 +418,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'AL-004',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Yes. Audit logs can be exported in multiple formats (JSON, CSV) for compliance review. Exports are filtered by workspace and time range. Export actions are themselves logged.',
       evidenceReferences: [
@@ -444,7 +444,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'IR-002',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'The incident response process includes: (1) Detection via monitoring and alerting, (2) Triage and severity classification, (3) Containment including kill-switch if needed, (4) Investigation and root cause analysis, (5) Remediation and recovery, (6) Post-incident review and documentation.',
       evidenceReferences: [
@@ -454,7 +454,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'IR-003',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Security incidents affecting customer data or service availability are communicated through designated channels within documented timeframes. Communication includes incident description, impact assessment, remediation status, and preventive measures.',
       evidenceReferences: [
@@ -464,7 +464,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'IR-004',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Yes. A disaster recovery plan exists covering: data backup and restoration, service failover procedures, communication protocols, and recovery time objectives. The plan is tested periodically through drills.',
       evidenceReferences: [
@@ -520,7 +520,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'DP-003',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Yes. Data is encrypted at rest using AES-256 encryption. Data in transit is protected using TLS 1.2 or higher. Encryption keys are managed through secure key management services.',
       evidenceReferences: [
@@ -531,7 +531,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'DP-004',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Automated backups are performed according to the configured schedule. Backups are encrypted and stored in geographically separate locations. Recovery procedures are documented and tested through periodic drills.',
       evidenceReferences: [
@@ -565,7 +565,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'AV-002',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Yes. System health monitoring includes: application performance monitoring, infrastructure metrics, error rate tracking, and alerting for anomalies. Compliance drift is also monitored continuously.',
       evidenceReferences: [
@@ -576,7 +576,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'AV-003',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Capacity planning is managed through monitoring of resource utilization, traffic patterns, and growth projections. Infrastructure can be scaled to meet demand within configured limits.',
       evidenceReferences: [
@@ -586,7 +586,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'AV-004',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Redundancy measures include: database replication, multi-availability-zone deployment, automated failover, and load balancing. Critical components have no single point of failure.',
       evidenceReferences: [
@@ -638,7 +638,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'CO-003',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Compliance audits are conducted annually at minimum. Internal compliance checks run continuously via automated monitoring. Audit findings are tracked to remediation.',
       evidenceReferences: [
@@ -649,7 +649,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'CO-004',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Yes. Third-party penetration tests are performed at least annually. Results are reviewed and findings are tracked to remediation. Summary reports are available upon request.',
       evidenceReferences: [
@@ -661,7 +661,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   // Change Management
   {
     questionId: 'CM-001',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Yes. A formal change management process governs all production changes. Changes require documented justification, review, approval, and testing before deployment.',
       evidenceReferences: [
@@ -671,7 +671,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'CM-002',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Production changes are reviewed through code review and approval workflows. Critical changes require multiple approvals. All changes are logged in the audit trail with actor identification.',
       evidenceReferences: [
@@ -682,7 +682,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'CM-003',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Yes. Rollback capability is built into the deployment process. Production snapshots are maintained to enable rapid recovery. Rollback actions are logged and require documented justification.',
       evidenceReferences: [
@@ -693,7 +693,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'CM-004',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Configuration drift is detected through continuous compliance monitoring. Drift items are classified by severity and escalated according to defined SLAs. Remediation is tracked to completion.',
       evidenceReferences: [
@@ -706,7 +706,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   // Privacy
   {
     questionId: 'PR-001',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'For internal users: email addresses and names for authentication and attribution. For trust bundle viewers: NO PII is collected. The system explicitly does not collect IP addresses, device identifiers, or behavioral data from external viewers.',
       evidenceReferences: [
@@ -716,7 +716,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'PR-002',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'PII is minimized by design. External trust bundle access requires no login and collects no identifying information. Internal PII is access-controlled by role and encrypted at rest. Data minimization principles are applied throughout.',
       evidenceReferences: [
@@ -726,7 +726,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'PR-003',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'For internal users: consent is obtained during account creation. For external bundle viewers: no consent is required because no PII is collected. The system is designed to be privacy-preserving by default.',
       evidenceReferences: [
@@ -736,7 +736,7 @@ const ANSWER_TEMPLATES: AnswerTemplate[] = [
   },
   {
     questionId: 'PR-004',
-    resolver: (ctx) => ({
+    resolver: (_ctx) => ({
       status: 'ANSWERED',
       answer: 'Data deletion requests can be submitted through designated channels. Requests are processed according to documented procedures and applicable data retention requirements. Deletion is logged in the audit trail.',
       evidenceReferences: [

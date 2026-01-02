@@ -10,18 +10,18 @@
 // URL: /trust/versions/{version}
 // ============================================
 
-import { notFound } from 'next/navigation';
+
 import {
   getSnapshot,
   getActiveVersion,
   getDiffFromPrevious,
-  formatChangeList,
+
   getDiffSummary,
   getChangelogEntry,
   getChangeTypeLabel,
   hasChanges,
-  resolveTrustBadgeData,
-  formatLastUpdated,
+
+
   type TrustVersion,
   type TrustSection,
   type SectionDiff,
@@ -154,7 +154,7 @@ function VersionNotFound({ version }: { version: string }) {
           Version Not Found
         </h1>
         <p className="text-gray-600 mb-6">
-          The version "{version}" does not exist in our records.
+          The version &quot;{version}&quot; does not exist in our records.
         </p>
         <a
           href="/trust/changes"

@@ -13,7 +13,7 @@
 // ============================================
 
 import React, { useState, useMemo } from 'react';
-import type { IntentSnapshot, IntentSummary } from '@/types/studio';
+import type { IntentSnapshot } from '@/types/studio';
 import {
   deriveIntentSummary,
   formatSummaryForDisplay,

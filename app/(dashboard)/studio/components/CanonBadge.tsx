@@ -38,7 +38,7 @@ interface CanonBadgeProps {
  * Small lock indicator badge for each section
  */
 function LockIndicator({
-  section,
+  section: _section,
   locked,
   label,
   onToggle,

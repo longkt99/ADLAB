@@ -17,7 +17,6 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import {
-  runDeployGateChecks,
   getDeployGateResponse,
 } from '@/lib/adlab/trust';
 
@@ -25,7 +24,7 @@ import {
 // GET Handler - Run Gate Checks
 // ============================================
 
-export async function GET(request: NextRequest): Promise<NextResponse> {
+export async function GET(_request: NextRequest): Promise<NextResponse> {
   try {
     const { status, body } = getDeployGateResponse();
 

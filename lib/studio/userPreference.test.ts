@@ -19,7 +19,6 @@ import {
   getPreferenceStats,
   getPreferenceColorClasses,
   type PreferenceKey,
-  type PreferenceSignal,
 } from './userPreference';
 
 // ============================================

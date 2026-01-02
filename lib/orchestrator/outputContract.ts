@@ -62,7 +62,7 @@ const WORD_COUNT_PATTERNS_VI: Array<{
       min: 0, // Will be calculated relative to source
       max: Infinity,
       multiplier: parseFloat(match[1]),
-    } as any),
+    } as { min: number; max: number }),
   },
 ];
 
@@ -236,7 +236,7 @@ export function extractOutputContract(
   }
 
   // Detect source structure (for preservation)
-  const sourceStructure = detectStructure(sourceContent);
+  const _sourceStructure = detectStructure(sourceContent);
   // Only require structure preservation for PURE transforms (no new directives)
   // For now, we don't enforce structure unless explicitly requested
 

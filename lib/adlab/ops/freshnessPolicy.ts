@@ -54,7 +54,7 @@ export interface FreshnessStatus {
 // ============================================
 
 const MINUTES_IN_HOUR = 60;
-const MINUTES_IN_DAY = 24 * MINUTES_IN_HOUR;
+const _MINUTES_IN_DAY = 24 * MINUTES_IN_HOUR;
 
 /**
  * Default freshness policies per dataset.

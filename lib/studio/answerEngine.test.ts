@@ -10,9 +10,7 @@ import {
   formatAnswerEngineContract,
   parseAnswerEngineResponse,
   getAnswerEngineDebugSummary,
-  type TaskDetectionContext,
-  type AnswerTaskType,
-  type AnswerTarget,
+  type TaskDetectionContext,
 } from './answerEngine';
 
 // ============================================
@@ -539,7 +537,7 @@ describe('STEP 22: Real-world scenarios', () => {
   it('VN: "Tôi bảo bạn thêm thông tin chứ không phải viết bài mới" → EDIT_PATCH BODY HIGH', () => {
     const text = 'Tôi bảo bạn thêm thông tin chứ không phải viết bài mới';
     const taskResult = detectTaskType(text, ctx);
-    const targetResult = detectEditTarget(text, 'vi');
+    detectEditTarget(text, 'vi');
 
     expect(taskResult.taskType).toBe('EDIT_PATCH');
     expect(taskResult.confidence).toBe('HIGH');
