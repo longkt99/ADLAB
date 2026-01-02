@@ -1,5 +1,5 @@
 // Supabase client configuration for Content Machine
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from './database.types';
 import { log } from './log';
 
@@ -83,34 +83,66 @@ function verifySupabaseUrl(url: string): string {
 }
 
 // ============================================
-// Environment Variables (typed as string)
+// Lazy Environment Variable Access
 // ============================================
+// IMPORTANT: Do NOT read env vars at module scope.
+// This ensures the module can be imported during build without throwing.
 
-const supabaseUrl = verifySupabaseUrl(
-  requireString('NEXT_PUBLIC_SUPABASE_URL', process.env.NEXT_PUBLIC_SUPABASE_URL)
-);
+function getSupabaseUrl(): string {
+  return verifySupabaseUrl(
+    requireString('NEXT_PUBLIC_SUPABASE_URL', process.env.NEXT_PUBLIC_SUPABASE_URL)
+  );
+}
 
-const supabaseAnonKey = requireString(
-  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+function getSupabaseAnonKey(): string {
+  return requireString(
+    'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  );
+}
 
-// Client for use in client components and API routes
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
+// ============================================
+// Lazy Client Initialization
+// ============================================
+// Clients are created on first access, not at import time.
+
+let _supabaseClient: SupabaseClient<Database> | null = null;
+
+/**
+ * Get the Supabase client for use in client components and API routes.
+ * Lazily initialized on first call.
+ */
+export function getSupabase(): SupabaseClient<Database> {
+  if (!_supabaseClient) {
+    _supabaseClient = createClient<Database>(getSupabaseUrl(), getSupabaseAnonKey(), {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+      },
+    });
+  }
+  return _supabaseClient;
+}
+
+/**
+ * @deprecated Use getSupabase() instead for lazy initialization.
+ * This export is kept for backward compatibility but will throw at import time
+ * if env vars are missing. Migrate to getSupabase() for CI-safe builds.
+ */
+export const supabase = new Proxy({} as SupabaseClient<Database>, {
+  get(_target, prop) {
+    return Reflect.get(getSupabase(), prop);
   },
 });
 
 // Server-side client with service role key (for admin operations)
-export function getServiceSupabase() {
+export function getServiceSupabase(): SupabaseClient<Database> {
   const serviceRoleKey = requireString(
     'SUPABASE_SERVICE_ROLE_KEY',
     process.env.SUPABASE_SERVICE_ROLE_KEY
   );
 
-  return createClient<Database>(supabaseUrl, serviceRoleKey, {
+  return createClient<Database>(getSupabaseUrl(), serviceRoleKey, {
     auth: {
       persistSession: false,
       autoRefreshToken: false,
@@ -119,8 +151,8 @@ export function getServiceSupabase() {
 }
 
 // Helper to create a Supabase client for server components
-export function createServerClient() {
-  return createClient<Database>(supabaseUrl, supabaseAnonKey, {
+export function createServerClient(): SupabaseClient<Database> {
+  return createClient<Database>(getSupabaseUrl(), getSupabaseAnonKey(), {
     auth: {
       persistSession: false,
       autoRefreshToken: false,
