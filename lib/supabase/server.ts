@@ -3,6 +3,9 @@
 // ============================================
 // Provides workspace resolution and authenticated queries.
 // Uses cookies for auth context in server components.
+//
+// IMPORTANT: All env access is LAZY (inside functions, not at module scope)
+// to ensure this module can be imported during Next.js build without throwing.
 
 import 'server-only';
 import { createClient } from '@supabase/supabase-js';
@@ -81,16 +84,23 @@ function verifySupabaseUrl(url: string | undefined): string {
 }
 
 // ============================================
-// Environment Variables
+// Lazy Environment Variable Access
 // ============================================
+// IMPORTANT: Do NOT read env vars at module scope.
+// This ensures the module can be imported during build without throwing.
 
-const supabaseUrl = verifySupabaseUrl(process.env.NEXT_PUBLIC_SUPABASE_URL);
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+function getSupabaseUrl(): string {
+  return verifySupabaseUrl(process.env.NEXT_PUBLIC_SUPABASE_URL);
+}
 
-if (!supabaseAnonKey) {
-  throw new Error(
-    '[Supabase/Server] NEXT_PUBLIC_SUPABASE_ANON_KEY is not set. Check your .env.local file.'
-  );
+function getSupabaseAnonKey(): string {
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!key) {
+    throw new Error(
+      '[Supabase/Server] NEXT_PUBLIC_SUPABASE_ANON_KEY is not set. Check your .env.local file.'
+    );
+  }
+  return key;
 }
 
 // ============================================
@@ -114,12 +124,14 @@ export interface WorkspaceResult {
 /**
  * Creates a Supabase client for server components.
  * Attempts to extract auth from cookies for workspace resolution.
+ *
+ * LAZY: Env vars are read when this function is called, not at import time.
  */
 export function createServerSupabaseClient() {
   // Log config once per server process (mode + host, never keys)
   logSupabaseConfig();
 
-  return createClient(supabaseUrl, supabaseAnonKey, {
+  return createClient(getSupabaseUrl(), getSupabaseAnonKey(), {
     auth: {
       persistSession: false,
       autoRefreshToken: false,
